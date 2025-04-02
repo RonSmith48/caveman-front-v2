@@ -136,7 +136,28 @@ export const JWTProvider = ({ children }) => {
     return <Loader />;
   }
 
-  return <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>;
+  const devLogin = (department) => {
+    const fakeUser = {
+      id: 'mock-user-001',
+      name: 'Dev User',
+      email: 'dev@intranet.com',
+      department,
+      role: department.toLowerCase()
+    };
+    dispatch({
+      type: LOGIN,
+      payload: {
+        isLoggedIn: true,
+        user: fakeUser
+      }
+    });
+  };
+
+  return (
+    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile, devLogin }}>
+      {children}
+    </JWTContext.Provider>
+  );
 };
 
 export default JWTContext;
