@@ -9,15 +9,15 @@ import SimpleLayout from 'layout/Simple';
 import { SimpleLayoutType } from 'config';
 
 // pages routing
-const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
-const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500')));
-const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
-const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
+const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
+const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
+const GeologyDash = Loadable(lazy(() => import('pages/dashboard/GeologyDash')));
+const GeotechDash = Loadable(lazy(() => import('pages/dashboard/GeotechDash')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
 // render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
+const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -29,30 +29,24 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: 'sample-page',
-          element: <SamplePage />
-        }
-      ]
-    },
-    {
-      path: '/maintenance',
-      element: <PagesLayout />,
-      children: [
-        {
-          path: '404',
-          element: <MaintenanceError />
+          path: 'prod-eng',
+          element: <ProdEngDash />
         },
         {
-          path: '500',
-          element: <MaintenanceError500 />
+          path: 'prod-shiftboss',
+          element: <ProdShiftbossDash />
         },
         {
-          path: 'under-construction',
-          element: <MaintenanceUnderConstruction />
+          path: 'geology',
+          element: <GeologyDash />
         },
         {
-          path: 'coming-soon',
-          element: <MaintenanceComingSoon />
+          path: 'geotech',
+          element: <GeotechDash />
+        },
+        {
+          path: 'dashboard',
+          element: <DefaultDash />
         }
       ]
     },

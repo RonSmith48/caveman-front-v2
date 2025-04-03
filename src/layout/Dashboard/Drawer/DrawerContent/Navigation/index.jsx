@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 // project imports
 import NavItem from './NavItem';
 import NavGroup from './NavGroup';
-import menuItems from 'menu-items';
+import useMenuItems from 'menu-items';
 
 import useConfig from 'hooks/useConfig';
 import { HORIZONTAL_MAX_ITEM, MenuOrientation } from 'config';
@@ -30,6 +30,7 @@ export default function Navigation() {
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
 
   const lastItem = isHorizontal ? HORIZONTAL_MAX_ITEM : null;
+  const menuItems = useMenuItems(); // 🔄 get dynamic menu based on user
   let lastItemIndex = menuItems.items.length - 1;
   let remItems = [];
   let lastItemId;

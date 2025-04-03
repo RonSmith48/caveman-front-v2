@@ -5,24 +5,21 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // project imports
 import { APP_DEFAULT_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
+import getUserDashboardPath from 'utils/getUserDashboardPath';
 
 // ==============================|| GUEST GUARD ||============================== //
 
 export default function GuestGuard({ children }) {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate(location?.state?.from ? location?.state?.from : APP_DEFAULT_PATH, {
-        state: {
-          from: ''
-        },
-        replace: true
-      });
+      const defaultRoute = getUserDashboardPath(user);
+      navigate(location?.state?.from || defaultRoute);
     }
-  }, [isLoggedIn, navigate, location]);
+  }, [isLoggedIn, user, navigate, location]);
 
   return children;
 }

@@ -1,13 +1,9 @@
-// project imports
-import samplePage from './sample-page';
-import other from './other';
-import pages from './pages';
-//import production from './production';
+import useAuth from 'hooks/useAuth';
+import getMenuForUser from './menuSelector';
 
-// ==============================|| MENU ITEMS ||============================== //
-
-const menuItems = {
-  items: [samplePage, pages, other]
+const useMenuItems = () => {
+  const { user } = useAuth();
+  return getMenuForUser(user);
 };
 
-export default menuItems;
+export default useMenuItems;

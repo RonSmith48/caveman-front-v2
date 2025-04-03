@@ -137,12 +137,13 @@ export const JWTProvider = ({ children }) => {
   }
 
   const devLogin = (department) => {
+    const displayName = department.charAt(0).toUpperCase() + department.slice(1);
     const fakeUser = {
-      id: 'mock-user-001',
-      name: 'Dev User',
-      email: 'dev@intranet.com',
+      id: `mock-${department}`,
+      name: displayName,
+      email: `${department}@intranet.local`,
       department,
-      role: department.toLowerCase()
+      role: department
     };
     dispatch({
       type: LOGIN,
