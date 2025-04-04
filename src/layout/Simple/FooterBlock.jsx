@@ -57,23 +57,23 @@ export default function FooterBlock({ isFull }) {
   };
 
   const frameworks = [
-    { title: 'Pro Figma UI Kit', link: 'https://codedthemes.com/item/mantis-figma-ui-kit/' },
-    { title: 'CodeIgniter', link: 'https://codedthemes.com/item/mantis-codeigniter-admin-template/' },
+    { title: 'Pro Figma UI Kit', link: '#' },
+    { title: 'CodeIgniter', link: '#' },
     {
       title: 'Vue',
-      link: 'https://codedthemes.com/item/mantis-vue-admin-template/'
+      link: '#'
     },
     {
       title: 'Angular',
-      link: 'https://codedthemes.com/item/mantis-angular-admin-template/'
+      link: '#'
     },
     {
       title: 'Bootstrap 5',
-      link: 'https://codedthemes.com/item/mantis-bootstrap-admin-dashboard/'
+      link: '#'
     },
     {
       title: '.Net',
-      link: 'https://codedthemes.com/item/mantis-dotnet-bootstrap-dashboard-template/'
+      link: '#'
     }
   ];
 
@@ -143,14 +143,7 @@ export default function FooterBlock({ isFull }) {
                   <Grid sx={{ my: 2 }} size={12}>
                     <Box sx={{ display: 'inline-block' }}>
                       <AnimateButton>
-                        <Button
-                          size="large"
-                          variant="contained"
-                          endIcon={<SendOutlined />}
-                          component={Link}
-                          href="https://codedthemes.gitbook.io/mantis/roadmap"
-                          target="_blank"
-                        >
+                        <Button size="large" variant="contained" endIcon={<SendOutlined />} component={Link} href="#" target="_blank">
                           Roadmap
                         </Button>
                       </AnimateButton>
@@ -203,16 +196,16 @@ export default function FooterBlock({ isFull }) {
                       Help
                     </Typography>
                     <Stack sx={{ gap: { xs: 1.5, md: 2.5 } }}>
-                      <FooterLink href="https://blog.codedthemes.com/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Blog
                       </FooterLink>
-                      <FooterLink href="https://codedthemes.gitbook.io/mantis/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Documentation
                       </FooterLink>
-                      <FooterLink href="https://codedthemes.gitbook.io/mantis/changelog" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Change Log
                       </FooterLink>
-                      <FooterLink href="https://codedthemes.support-hub.io/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Support
                       </FooterLink>
                     </Stack>
@@ -282,16 +275,16 @@ export default function FooterBlock({ isFull }) {
                       More Products
                     </Typography>
                     <Stack sx={{ gap: { xs: 1.5, md: 2.5 } }}>
-                      <FooterLink href="https://codedthemes.com/item/mantis-free-figma-ui-kit/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Free Mantis Figma UI Kit
                       </FooterLink>
-                      <FooterLink href="http://mui.com/store/previews/berry-react-material-admin/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Berry React Material
                       </FooterLink>
-                      <FooterLink href="https://mui.com/store/previews/berry-react-material-admin-free/" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Free Berry React
                       </FooterLink>
-                      <FooterLink href="https://github.com/codedthemes/mantis-free-react-admin-template" target="_blank" underline="none">
+                      <FooterLink href="#" target="_blank" underline="none">
                         Free Mantis React
                       </FooterLink>
                     </Stack>
@@ -308,58 +301,51 @@ export default function FooterBlock({ isFull }) {
       >
         <Container>
           <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Typography variant="subtitle2" color="secondary" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                © Made with love by Team{' '}
-                <Link href="https://codedthemes.com/" target="_blank" underline="hover">
-                  CodedThemes
-                </Link>
-              </Typography>
-            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}></Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <Grid container spacing={{ xs: 2.25, md: 3 }} alignItems="center" sx={{ justifyContent: { xs: 'center', sm: 'flex-end' } }}>
                 <Grid>
-                  <Link href="https://github.com/codedthemes" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <GithubFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://www.instagram.com/codedthemes" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <InstagramFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://discord.com/invite/p2E2WhCb6s" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <DiscordFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://www.youtube.com/channel/UCiZG__BaRkT1OuZl5ifzO6A" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <YoutubeFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://x.com/codedthemes/" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <XOutlined />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://www.linkedin.com/company/codedthemes" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <LinkedinFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://www.facebook.com/codedthemes/" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <FacebookFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://dribbble.com/codedthemes" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <DribbbleSquareFilled />
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link href="https://www.figma.com/@codedthemes" underline="none" target="_blank" sx={linkSX}>
+                  <Link href="#" underline="none" target="_blank" sx={linkSX}>
                     <Box
                       sx={(theme) => ({
                         p: 0.05,
