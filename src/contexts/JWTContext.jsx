@@ -61,18 +61,25 @@ export const JWTProvider = ({ children }) => {
             type: LOGIN,
             payload: {
               isLoggedIn: true,
+              isInitialized: true,
               user
             }
           });
         } else {
           dispatch({
-            type: LOGOUT
+            type: LOGOUT,
+            payload: {
+              isInitialized: true
+            }
           });
         }
       } catch (err) {
         console.error(err);
         dispatch({
-          type: LOGOUT
+          type: LOGOUT,
+          payload: {
+            isInitialized: true
+          }
         });
       }
     };
