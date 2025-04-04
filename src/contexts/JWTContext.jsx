@@ -1,43 +1,34 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-
-// third-party
-import { Chance } from 'chance';
 import { jwtDecode } from 'jwt-decode';
 
-// reducer - state management
 import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
 import authReducer from 'contexts/auth-reducer/auth';
 
-// project imports
 import Loader from 'components/Loader';
 import axios from 'utils/axios';
 
-const chance = new Chance();
-
-// constant
 const initialState = {
   isLoggedIn: false,
   isInitialized: false,
   user: null
 };
 
-const verifyToken = (serviceToken) => {
-  if (!serviceToken) {
+const verifyToken = (token) => {
+  if (!token) return false;
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.exp > Date.now() / 1000;
+  } catch {
     return false;
   }
-  const decoded = jwtDecode(serviceToken);
-  /**
-   * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
-   */
-  return decoded.exp > Date.now() / 1000;
 };
 
-const setSession = (serviceToken) => {
-  if (serviceToken) {
-    localStorage.setItem('serviceToken', serviceToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
+const setSession = (token) => {
+  if (token) {
+    localStorage.setItem('accessToken', token);
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
-    localStorage.removeItem('serviceToken');
+    localStorage.removeItem('accessToken');
     delete axios.defaults.headers.common.Authorization;
   }
 };
@@ -52,11 +43,11 @@ export const JWTProvider = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       try {
-        const serviceToken = window.localStorage.getItem('serviceToken');
-        if (serviceToken && verifyToken(serviceToken)) {
-          setSession(serviceToken);
-          const response = await axios.get('/api/account/me');
-          const { user } = response.data;
+        const accessToken = localStorage.getItem('accessToken');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (accessToken && verifyToken(accessToken)) {
+          setSession(accessToken);
           dispatch({
             type: LOGIN,
             payload: {
@@ -66,21 +57,11 @@ export const JWTProvider = ({ children }) => {
             }
           });
         } else {
-          dispatch({
-            type: LOGOUT,
-            payload: {
-              isInitialized: true
-            }
-          });
+          dispatch({ type: LOGOUT, payload: { isInitialized: true } });
         }
       } catch (err) {
-        console.error(err);
-        dispatch({
-          type: LOGOUT,
-          payload: {
-            isInitialized: true
-          }
-        });
+        console.error('Auth init error:', err);
+        dispatch({ type: LOGOUT, payload: { isInitialized: true } });
       }
     };
 
@@ -88,83 +69,87 @@ export const JWTProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', { email, password });
-    const { serviceToken, user } = response.data;
-    setSession(serviceToken);
-    dispatch({
-      type: LOGIN,
-      payload: {
-        isLoggedIn: true,
-        user
+    try {
+      const response = await axios.post('/users/login/', { email, password });
+      const { user, tokens } = response.data;
+
+      if (tokens && tokens.access) {
+        localStorage.setItem('accessToken', tokens.access);
+        localStorage.setItem('refreshToken', tokens.refresh);
+        localStorage.setItem('user', JSON.stringify(user));
+        setSession(tokens.access);
+
+        dispatch({
+          type: LOGIN,
+          payload: {
+            isLoggedIn: true,
+            user
+          }
+        });
+
+        return { ok: true, user };
       }
-    });
-  };
 
-  const register = async (email, password, firstName, lastName) => {
-    // todo: this flow need to be recode as it not verified
-    const id = chance.bb_pin();
-    const response = await axios.post('/api/account/register', {
-      id,
-      email,
-      password,
-      firstName,
-      lastName
-    });
-    let users = response.data;
-
-    if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-      const localUsers = window.localStorage.getItem('users');
-      users = [
-        ...JSON.parse(localUsers),
-        {
-          id,
-          email,
-          password,
-          name: `${firstName} ${lastName}`
-        }
-      ];
+      return { ok: false, error: 'Login failed: no token received' };
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || 'Login failed';
+      return { ok: false, error: errorMessage };
     }
-
-    window.localStorage.setItem('users', JSON.stringify(users));
   };
 
   const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
     setSession(null);
     dispatch({ type: LOGOUT });
   };
 
+  const register = async (firstName, lastName, email, password) => {
+    try {
+      const response = await axios.post('/users/register/', {
+        firstName,
+        lastName,
+        email,
+        password
+      });
+
+      const { user, tokens } = response.data;
+
+      if (tokens && tokens.access) {
+        localStorage.setItem('accessToken', tokens.access);
+        localStorage.setItem('refreshToken', tokens.refresh);
+        localStorage.setItem('user', JSON.stringify(user));
+        setSession(tokens.access);
+
+        dispatch({
+          type: LOGIN,
+          payload: {
+            isLoggedIn: true,
+            user
+          }
+        });
+
+        return { ok: true, user };
+      }
+
+      return { ok: false, error: 'Registration failed' };
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || 'Registration failed';
+      return { ok: false, error: errorMessage };
+    }
+  };
+
   const resetPassword = async (email) => {
-    console.log('email - ', email);
+    console.log('reset password for:', email);
   };
 
   const updateProfile = () => {};
 
-  if (state.isInitialized !== undefined && !state.isInitialized) {
-    return <Loader />;
-  }
-
-  const devLogin = (department) => {
-    const displayName = department.charAt(0).toUpperCase() + department.slice(1);
-    const fakeUser = {
-      id: `mock-${department}`,
-      name: displayName,
-      email: `${department}@intranet.local`,
-      department,
-      role: department
-    };
-    dispatch({
-      type: LOGIN,
-      payload: {
-        isLoggedIn: true,
-        user: fakeUser
-      }
-    });
-  };
-
-  return (
-    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile, devLogin }}>
-      {children}
-    </JWTContext.Provider>
+  return state.isInitialized === false ? (
+    <Loader />
+  ) : (
+    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>
   );
 };
 

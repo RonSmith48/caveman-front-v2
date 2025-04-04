@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -23,7 +23,7 @@ import { preload } from 'swr';
 // project imports
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
-
+import { APP_DEFAULT_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
 import JWTContext from 'contexts/JWTContext';
 import { fetcher } from 'utils/axios';
@@ -35,210 +35,170 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 
 // ============================|| JWT - LOGIN ||============================ //
 
-export default function AuthLogin({ isDemo = false }) {
+export default function AuthLogin() {
   const [checked, setChecked] = useState(false);
+  const [capsWarning, setCapsWarning] = useState(false);
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = (event) => event.preventDefault();
-
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth');
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const { login, isLoggedIn, user } = useAuth();
-  const { devLogin } = useContext(JWTContext);
+  // This is your equivalent to router.query.callbackUrl
 
-  useEffect(() => {
-    if (isLoggedIn && user) {
-      const path = getUserDashboardPath(user);
-      navigate(path);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const onKeyDown = (keyEvent) => {
+    if (keyEvent.getModifierState('CapsLock')) {
+      setCapsWarning(true);
+    } else {
+      setCapsWarning(false);
     }
-  }, [isLoggedIn, user, navigate]);
+  };
 
   return (
     <>
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
-          submit: null,
-          devDept: ''
+          email: '',
+          password: '',
+          submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string()
-            .required('Password is required')
-            .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
-            .max(10, 'Password must be less than 10 characters')
+          password: Yup.string().max(255).required('Password is required')
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            const trimmedEmail = values.email.trim();
-            await login(trimmedEmail, values.password);
-            setStatus({ success: true });
-            setSubmitting(false);
-            preload('api/menu/dashboard', fetcher);
-          } catch (err) {
-            console.error(err);
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
-            setSubmitting(false);
-          }
+        onSubmit={(values, { setErrors, setSubmitting }) => {
+          login(values.email, values.password).then(
+            (res) => {
+              if (res?.error) {
+                setErrors({ submit: res.error });
+                setSubmitting(false);
+              } else {
+                const callbackUrl = sessionStorage.getItem('callbackUrl') || getUserDashboardPath(res.user);
+                navigate(callbackUrl);
+                sessionStorage.removeItem('callbackUrl');
+                setSubmitting(false);
+              }
+            },
+            (error) => {
+              setErrors({ submit: error.message });
+              setSubmitting(false);
+            }
+          );
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <>
-            <form noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
-                <Grid xs={12}>
-                  <Stack sx={{ gap: 1 }}>
-                    <InputLabel htmlFor="email-login">Email Address</InputLabel>
-                    <OutlinedInput
-                      id="email-login"
-                      type="email"
-                      value={values.email}
-                      name="email"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      placeholder="Enter email address"
-                      fullWidth
-                      error={Boolean(touched.email && errors.email)}
-                    />
-                  </Stack>
-                  {touched.email && errors.email && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errors.email}
-                    </FormHelperText>
-                  )}
-                </Grid>
-
-                <Grid xs={12}>
-                  <Stack sx={{ gap: 1 }}>
-                    <InputLabel htmlFor="password-login">Password</InputLabel>
-                    <OutlinedInput
-                      fullWidth
-                      error={Boolean(touched.password && errors.password)}
-                      id="password-login"
-                      type={showPassword ? 'text' : 'password'}
-                      value={values.password}
-                      name="password"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            color="secondary"
-                          >
-                            {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      placeholder="Enter password"
-                    />
-                  </Stack>
-                  {touched.password && errors.password && (
-                    <FormHelperText error id="standard-weight-helper-text-password-login">
-                      {errors.password}
-                    </FormHelperText>
-                  )}
-                </Grid>
-
-                <Grid xs={12} sx={{ mt: -1 }}>
-                  <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checked}
-                          onChange={(event) => setChecked(event.target.checked)}
-                          name="checked"
-                          color="primary"
-                          size="small"
-                        />
-                      }
-                      label={<Typography variant="h6">Keep me sign in</Typography>}
-                    />
-                    <Link
-                      variant="h6"
-                      component={RouterLink}
-                      to={isDemo ? '/auth/forgot-password' : auth ? `/${auth}/forgot-password?auth=jwt` : '/forgot-password'}
-                      color="text.primary"
-                    >
-                      Forgot Password?
-                    </Link>
-                  </Stack>
-                </Grid>
-
-                {errors.submit && (
-                  <Grid xs={12}>
-                    <FormHelperText error>{errors.submit}</FormHelperText>
-                  </Grid>
+          <form noValidate onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                  <OutlinedInput
+                    id="email-login"
+                    type="email"
+                    value={values.email}
+                    name="email"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="Enter email address"
+                    fullWidth
+                    error={Boolean(touched.email && errors.email)}
+                  />
+                </Stack>
+                {touched.email && errors.email && (
+                  <FormHelperText error id="standard-weight-helper-text-email-login">
+                    {errors.email}
+                  </FormHelperText>
                 )}
-
-                <Grid xs={12}>
-                  <AnimateButton>
-                    <Button
-                      disableElevation
-                      disabled={isSubmitting}
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                    >
-                      Login
-                    </Button>
-                  </AnimateButton>
-                </Grid>
-              </Grid>
-            </form>
-
-            {/* ✅ DEV ONLY: Quick Login for Testing */}
-            <Grid container spacing={2} sx={{ mt: 4 }}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1">Quick Login (Dev Only)</Typography>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel id="dev-dept-label">Select Department</InputLabel>
-                <select
-                  id="dev-dept-select"
-                  name="devDept"
-                  style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-                  value={values.devDept || ''}
-                  onChange={handleChange}
-                >
-                  <option value="" disabled>
-                    -- Choose a department --
-                  </option>
-                  <option value="prod-eng">Production Engineer</option>
-                  <option value="prod-shiftboss">Production Shiftboss</option>
-                  <option value="geology">Geology</option>
-                  <option value="geotech">Geotechnical</option>
-                </select>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  onClick={() => {
-                    if (values.devDept) {
-                      devLogin(values.devDept);
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="password-login">Password</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    color={capsWarning ? 'warning' : 'primary'}
+                    error={Boolean(touched.password && errors.password)}
+                    id="-password-login"
+                    type={showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    name="password"
+                    onBlur={(event) => {
+                      setCapsWarning(false);
+                      handleBlur(event);
+                    }}
+                    onKeyDown={onKeyDown}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          color="secondary"
+                        >
+                          {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                        </IconButton>
+                      </InputAdornment>
                     }
-                  }}
-                >
-                  Dev Login
-                </Button>
+                    placeholder="Enter password"
+                  />
+                  {capsWarning && (
+                    <Typography variant="caption" sx={{ color: 'warning.main' }} id="warning-helper-text-password-login">
+                      Caps lock on!
+                    </Typography>
+                  )}
+                </Stack>
+                {touched.password && errors.password && (
+                  <FormHelperText error id="standard-weight-helper-text-password-login">
+                    {errors.password}
+                  </FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sx={{ mt: -1 }}>
+                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={(event) => setChecked(event.target.checked)}
+                        name="checked"
+                        color="primary"
+                        size="small"
+                      />
+                    }
+                    label={<Typography variant="h6">Keep me sign in</Typography>}
+                  />
+                  <Link component={RouterLink} to="/forget-pass" variant="h6" color="text.primary">
+                    Forgot Password?
+                  </Link>
+                </Stack>
+              </Grid>
+              {errors.submit && (
+                <Grid item xs={12}>
+                  <FormHelperText error>{errors.submit}</FormHelperText>
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <AnimateButton>
+                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
+                    Login
+                  </Button>
+                </AnimateButton>
               </Grid>
             </Grid>
-          </>
+          </form>
         )}
       </Formik>
     </>
   );
 }
 
-AuthLogin.propTypes = { isDemo: PropTypes.bool };
+AuthLogin.propTypes = { providers: PropTypes.any, csrfToken: PropTypes.any };

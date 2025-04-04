@@ -14,12 +14,9 @@ export default function AuthGuard({ children }) {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('login', {
-        state: {
-          from: location.pathname
-        },
-        replace: true
-      });
+      const intendedPath = location.pathname;
+      sessionStorage.setItem('callbackUrl', intendedPath);
+      navigate('login', { replace: true });
     }
   }, [isLoggedIn, navigate, location]);
 
