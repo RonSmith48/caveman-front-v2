@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
 import List from '@mui/material/List';
@@ -8,67 +8,61 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-// assets
-import EditOutlined from '@ant-design/icons/EditOutlined';
-import ProfileOutlined from '@ant-design/icons/ProfileOutlined';
+// icons
+import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
-import WalletOutlined from '@ant-design/icons/WalletOutlined';
+import UnorderedListOutlined from '@ant-design/icons/UnorderedListOutlined';
 
-// ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
+// ==============================|| PROFILE TAB MENU ||============================== //
 
-export default function ProfileTab({ handleLogout }) {
+export default function ProfileTab({ handleLogout, handleClose }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  useEffect(() => {
+    const pathToIndex = {
+      '/profile/profile': 0,
+      '/profile/settings': 1,
+      '/profile/history': 2
+    };
+    setSelectedIndex(pathToIndex[location.pathname] ?? 0);
+  }, [location.pathname]);
+
   const handleListItemClick = (event, index, route = '') => {
     setSelectedIndex(index);
+    if (handleClose) handleClose(event);
 
-    if (route && route !== '') {
+    if (route) {
       navigate(route);
     }
   };
 
-  useEffect(() => {
-    const pathToIndex = {
-      '/apps/profiles/user/personal': 0,
-      '/apps/profiles/account/basic': 1,
-      '/apps/profiles/account/personal': 3,
-      '/apps/invoice/details/1': 4
-    };
-
-    setSelectedIndex(pathToIndex[location.pathname] ?? undefined);
-  }, [location.pathname]);
-
   return (
     <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }}>
-      <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0, '/apps/profiles/user/personal')}>
-        <ListItemIcon>
-          <EditOutlined />
-        </ListItemIcon>
-        <ListItemText primary="Edit Profile" />
-      </ListItemButton>
-      <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1, '/apps/profiles/account/basic')}>
+      <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0, '/profile/profile')}>
         <ListItemIcon>
           <UserOutlined />
         </ListItemIcon>
-        <ListItemText primary="View Profile" />
+        <ListItemText primary="Edit Profile" />
       </ListItemButton>
 
-      <ListItemButton selected={selectedIndex === 3} onClick={(event) => handleListItemClick(event, 3, '/apps/profiles/account/personal')}>
+      <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1, '/profile/settings')}>
         <ListItemIcon>
-          <ProfileOutlined />
+          <SettingOutlined />
         </ListItemIcon>
-        <ListItemText primary="Social Profile" />
+        <ListItemText primary="Preference Settings" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 4} onClick={(event) => handleListItemClick(event, 4, '/apps/invoice/details/1')}>
+
+      <ListItemButton selected={selectedIndex === 2} onClick={(event) => handleListItemClick(event, 2, '/profile/history')}>
         <ListItemIcon>
-          <WalletOutlined />
+          <UnorderedListOutlined />
         </ListItemIcon>
-        <ListItemText primary="Billing" />
+        <ListItemText primary="History" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
+
+      <ListItemButton selected={selectedIndex === 3} onClick={handleLogout}>
         <ListItemIcon>
           <LogoutOutlined />
         </ListItemIcon>
@@ -78,4 +72,7 @@ export default function ProfileTab({ handleLogout }) {
   );
 }
 
-ProfileTab.propTypes = { handleLogout: PropTypes.func };
+ProfileTab.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+  handleClose: PropTypes.func
+};

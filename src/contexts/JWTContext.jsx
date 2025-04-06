@@ -140,16 +140,47 @@ export const JWTProvider = ({ children }) => {
     }
   };
 
-  const resetPassword = async (email) => {
-    console.log('reset password for:', email);
-  };
+  const updateProfile = async (updatedUserData) => {
+    try {
+      const response = await fetcherPatch('users/update/', updatedUserData);
 
-  const updateProfile = () => {};
+      const msgType = response?.data?.msg?.type || 'info';
+      const msgBody = response?.data?.msg?.body;
+      const fallbackMessage = msgType === 'success' ? 'Profile updated successfully' : 'Something went wrong';
+
+      if (msgType === 'success') {
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        const updatedUser = {
+          ...currentUser,
+          ...updatedUserData
+        };
+
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        dispatch({
+          type: LOGIN,
+          payload: {
+            isLoggedIn: true,
+            user: updatedUser
+          }
+        });
+
+        enqueueSnackbar(typeof msgBody === 'string' ? msgBody : fallbackMessage, { variant: msgType });
+        return { ok: true, user: updatedUser };
+      } else {
+        enqueueSnackbar(typeof msgBody === 'string' ? msgBody : fallbackMessage, { variant: msgType });
+        return { ok: false, error: typeof msgBody === 'string' ? msgBody : fallbackMessage };
+      }
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || 'Failed to update user';
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+      return { ok: false, error: errorMessage };
+    }
+  };
 
   return state.isInitialized === false ? (
     <Loader />
   ) : (
-    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>
+    <JWTContext.Provider value={{ ...state, login, logout, register, updateProfile }}>{children}</JWTContext.Provider>
   );
 };
 

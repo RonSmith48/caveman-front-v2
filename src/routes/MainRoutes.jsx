@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 
 // project imports
 import Loadable from 'components/Loadable';
@@ -9,6 +10,8 @@ import SimpleLayout from 'layout/Simple';
 import { SimpleLayoutType } from 'config';
 
 // pages routing
+// pages - profile
+const Profile = Loadable(lazy(() => import('features/profile/Profile')));
 const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
 const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
 const GeologyDash = Loadable(lazy(() => import('pages/dashboard/GeologyDash')));
@@ -47,6 +50,14 @@ const MainRoutes = {
         {
           path: 'dashboard',
           element: <DefaultDash />
+        },
+        {
+          path: 'profile',
+          element: <Navigate to="/profile/profile" />
+        },
+        {
+          path: 'profile/:tab',
+          element: <Profile />
         }
       ]
     },

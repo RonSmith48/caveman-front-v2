@@ -44,6 +44,27 @@ export default function Breadcrumbs({
   const [main, setMain] = useState();
   const [item, setItem] = useState();
 
+  useEffect(() => {
+    navigation?.items?.map((menu) => {
+      if (menu.type && menu.type === 'group') {
+        if (menu?.url && menu.url === customLocation) {
+          setMain(menu);
+          setItem(menu);
+        } else {
+          getCollapse(menu);
+        }
+      }
+      return false;
+    });
+  });
+
+  if (custom && (!heading || typeof heading !== 'string' || heading.trim() === '')) {
+    if (import.meta.env.DEV) {
+      console.warn('[Breadcrumbs] Empty or invalid heading ID provided. Breadcrumbs will not render.');
+    }
+    return null;
+  }
+
   const iconSX = {
     marginRight: theme.direction === ThemeDirection.RTL ? 0 : theme.spacing(0.75),
     marginLeft: theme.direction === ThemeDirection.RTL ? theme.spacing(0.75) : 0,
@@ -58,20 +79,6 @@ export default function Breadcrumbs({
   if (customLocation.includes('/components-overview/breadcrumbs')) {
     customLocation = '/apps/customer/customer-card';
   }
-
-  useEffect(() => {
-    navigation?.items?.map((menu) => {
-      if (menu.type && menu.type === 'group') {
-        if (menu?.url && menu.url === customLocation) {
-          setMain(menu);
-          setItem(menu);
-        } else {
-          getCollapse(menu);
-        }
-      }
-      return false;
-    });
-  });
 
   // set active item state
   const getCollapse = (menu) => {

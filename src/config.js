@@ -8,6 +8,7 @@ export const APP_DEFAULT_PATH = '/dashboard';
 export const HORIZONTAL_MAX_ITEM = 7;
 export const DRAWER_WIDTH = 260;
 export const MINI_DRAWER_WIDTH = 60;
+export const DEFAULT_AVATAR_BGCOLOUR = '#F5F5F5';
 
 export let SimpleLayoutType;
 
