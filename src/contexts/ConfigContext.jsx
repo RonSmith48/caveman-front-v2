@@ -24,7 +24,7 @@ const initialState = {
 const ConfigContext = createContext(initialState);
 
 function ConfigProvider({ children }) {
-  const [config, setConfig] = useLocalStorage('mantis-react-ts-config', initialState);
+  const [config, setConfig] = useLocalStorage('caveman-config', initialState);
 
   const onChangeContainer = (container) => {
     setConfig({

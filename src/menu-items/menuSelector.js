@@ -5,16 +5,16 @@ import geotechMenu from './roles/geotech';
 import defaultMenu from './roles/default';
 
 export default function getMenuForUser(user) {
-  if (!user) return defaultMenu;
+  if (!user || !user.role) return defaultMenu;
 
-  switch (user.department) {
-    case 'prod-eng':
+  switch (user.role) {
+    case 'Production Engineer':
       return prodEngMenu;
-    case 'prod-shiftboss':
+    case 'Production Shiftboss':
       return prodShiftbossMenu;
-    case 'geology':
+    case 'Geologist':
       return geologyMenu;
-    case 'geotech':
+    case 'Geotechnical Engineer':
       return geotechMenu;
     default:
       return defaultMenu;

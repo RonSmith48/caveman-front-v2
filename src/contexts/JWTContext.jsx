@@ -3,9 +3,8 @@ import { jwtDecode } from 'jwt-decode';
 
 import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
 import authReducer from 'contexts/auth-reducer/auth';
-
 import Loader from 'components/Loader';
-import axios from 'utils/axios';
+import axiosServices, { fetcherPatch, fetcherPost } from 'utils/axios';
 
 const initialState = {
   isLoggedIn: false,
@@ -26,10 +25,10 @@ const verifyToken = (token) => {
 const setSession = (token) => {
   if (token) {
     localStorage.setItem('accessToken', token);
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    axiosServices.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
     localStorage.removeItem('accessToken');
-    delete axios.defaults.headers.common.Authorization;
+    delete axiosServices.defaults.headers.common.Authorization;
   }
 };
 
@@ -70,7 +69,7 @@ export const JWTProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/users/login/', { email, password });
+      const response = await fetcherPost('/users/login/', { email, password });
       const { user, tokens } = response.data;
 
       if (tokens && tokens.access) {
@@ -107,7 +106,7 @@ export const JWTProvider = ({ children }) => {
 
   const register = async (firstName, lastName, email, password) => {
     try {
-      const response = await axios.post('/users/register/', {
+      const response = await fetcherPost('/users/register/', {
         firstName,
         lastName,
         email,
@@ -141,9 +140,10 @@ export const JWTProvider = ({ children }) => {
   };
 
   const updateProfile = async (updatedUserData) => {
+    console.log(updatedUserData);
     try {
       const response = await fetcherPatch('users/update/', updatedUserData);
-
+      console.log(response);
       const msgType = response?.data?.msg?.type || 'info';
       const msgBody = response?.data?.msg?.body;
       const fallbackMessage = msgType === 'success' ? 'Profile updated successfully' : 'Something went wrong';
@@ -164,16 +164,13 @@ export const JWTProvider = ({ children }) => {
           }
         });
 
-        enqueueSnackbar(typeof msgBody === 'string' ? msgBody : fallbackMessage, { variant: msgType });
-        return { ok: true, user: updatedUser };
+        return { user: updatedUser };
       } else {
-        enqueueSnackbar(typeof msgBody === 'string' ? msgBody : fallbackMessage, { variant: msgType });
-        return { ok: false, error: typeof msgBody === 'string' ? msgBody : fallbackMessage };
+        return { msg: { body: msgBody, type: msgType } };
       }
     } catch (error) {
       const errorMessage = error?.response?.data?.message || 'Failed to update user';
-      enqueueSnackbar(errorMessage, { variant: 'error' });
-      return { ok: false, error: errorMessage };
+      return { msg: { type: error, body: errorMessage } };
     }
   };
 

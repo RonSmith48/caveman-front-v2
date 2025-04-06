@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import useUser from 'hooks/useUser';
 
 // material-ui
@@ -30,7 +30,7 @@ import { Formik } from 'formik';
 import MainCard from 'components/MainCard';
 import AvatarSelectionModal from 'features/profile/AvatarSelectionModal';
 import ProfileAvatar from 'components/ProfileAvatar';
-import updateProfile from 'contexts/JWTContext';
+import JWTContext from 'contexts/JWTContext';
 import { DEFAULT_AVATAR_BGCOLOUR } from 'config';
 import { enqueueSnackbar } from 'notistack';
 
@@ -53,14 +53,22 @@ const roles = [
 
 export default function TabProfile() {
   const { user } = useUser();
+  const { updateProfile } = useContext(JWTContext);
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(user?.avatar || 'default.svg');
   const AVATAR_SIZE = 150;
 
   const updateUserProfile = async (values) => {
     try {
-      await updateProfile(values);
-      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
+      const response = await updateProfile(values);
+
+      if (response?.user) {
+        enqueueSnackbar('Profile updated successfully', { variant: 'success' });
+      } else if (response?.msg?.body && response?.msg?.type) {
+        enqueueSnackbar(response.msg.body, { variant: response.msg.type });
+      } else {
+        enqueueSnackbar('Failed to update profile', { variant: 'error' });
+      }
     } catch (error) {
       console.error('Error updating profile:', error);
       enqueueSnackbar('Failed to update profile', { variant: 'error' });
