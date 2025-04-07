@@ -9,18 +9,18 @@ import SimpleLayout from 'layout/Simple';
 
 import { SimpleLayoutType } from 'config';
 
-// pages routing
-// pages - profile
+// profile
 const Profile = Loadable(lazy(() => import('features/profile/Profile')));
+// dashboards
 const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
 const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
 const GeologyDash = Loadable(lazy(() => import('pages/dashboard/GeologyDash')));
 const GeotechDash = Loadable(lazy(() => import('pages/dashboard/GeotechDash')));
+const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
+// BDCF
+const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
-
-// render - sample page
-const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -58,6 +58,14 @@ const MainRoutes = {
         {
           path: 'profile/:tab',
           element: <Profile />
+        },
+        {
+          path: 'prod-eng/bdcf',
+          element: <Navigate to="/prod-eng/bdcf/bog" />
+        },
+        {
+          path: 'prod-eng/bdcf/:tab',
+          element: <BDCFEntries />
         }
       ]
     },

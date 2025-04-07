@@ -20,21 +20,28 @@ const menuItems = {
 
     // 2. Role-specific tools
     {
-      id: 'prod-eng-tools',
+      id: 'prod-eng',
       title: 'Engineering',
       type: 'group',
       children: [
         {
-          id: 'tools',
-          title: 'Tools',
+          id: 'bdcf',
+          title: 'BDCF entries',
+          type: 'item',
+          url: '/prod-eng/bdcf',
+          icon: QuestionCircleOutlined
+        },
+        {
+          id: 'production',
+          title: 'Cave Management',
           type: 'collapse',
           icon: ToolOutlined,
           children: [
             {
-              id: 'blast-designer',
-              title: 'Blast Designer',
+              id: 'level-status',
+              title: 'Level Status',
               type: 'item',
-              url: '/prod-eng/tools/blast'
+              url: '/prod-eng/level-status'
             },
             {
               id: 'charge-calculator',
@@ -45,8 +52,8 @@ const menuItems = {
           ]
         },
         {
-          id: 'reports',
-          title: 'Reports',
+          id: 'drill-blast',
+          title: 'Drill & Blast',
           type: 'collapse',
           icon: ToolOutlined,
           children: [
