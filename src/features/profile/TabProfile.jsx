@@ -105,27 +105,19 @@ export default function TabProfile() {
               <Typography color="secondary">{user.role}</Typography>
             </Stack>
             <Divider flexItem sx={{ my: 1 }} />
-            <List sx={{ width: '100%', py: 0, '& .MuiListItem-root': { py: 1 } }}>
-              <ListItem>
-                <Typography variant="subtitle1">Email:</Typography>
-                <ListItemSecondaryAction>
+            <List sx={{ width: '100%', py: 0 }}>
+              <ListItem disableGutters>
+                <Stack spacing={0.5}>
+                  <Typography variant="subtitle1">Email</Typography>
                   <Typography>{user.email}</Typography>
-                </ListItemSecondaryAction>
+                </Stack>
               </ListItem>
-              <ListItem>
-                <Typography variant="subtitle1">Signup Date:</Typography>
-                <ListItemSecondaryAction>
+
+              <ListItem disableGutters>
+                <Stack spacing={0.5}>
+                  <Typography variant="subtitle1">Signup Date</Typography>
                   <Typography>{new Date(user.start_date).toLocaleDateString('en-GB')}</Typography>
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <Typography variant="subtitle1">Last Login:</Typography>
-                <ListItemSecondaryAction>
-                  <Typography>
-                    {new Date(user.last_login).toLocaleDateString('en-GB')}{' '}
-                    {new Date(user.last_login).toLocaleTimeString('en-US', { hour12: true })}
-                  </Typography>
-                </ListItemSecondaryAction>
+                </Stack>
               </ListItem>
             </List>
           </Stack>

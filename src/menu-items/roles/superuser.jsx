@@ -13,10 +13,16 @@ const superuserMenuGroup = {
       icon: SettingsOutlinedIcon,
       children: [
         {
-          id: 'dupe',
-          title: 'PMD Dupe',
+          id: 'pmd',
+          title: 'PMD',
           type: 'item',
-          url: '/settings/dupe'
+          url: '/sudo/settings/pmd'
+        },
+        {
+          id: 'manage-users',
+          title: 'Manage Users',
+          type: 'item',
+          url: '/sudo/users'
         }
       ]
     }

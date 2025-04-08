@@ -11,6 +11,8 @@ import { SimpleLayoutType } from 'config';
 
 // profile
 const Profile = Loadable(lazy(() => import('features/profile/Profile')));
+// superuser
+const SudoSettings = Loadable(lazy(() => import('features/superuser/Settings')));
 // dashboards
 const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
 const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
@@ -32,12 +34,8 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: 'prod-eng',
-          element: <ProdEngDash />
-        },
-        {
-          path: 'prod-shiftboss',
-          element: <ProdShiftbossDash />
+          path: 'dashboard',
+          element: <DefaultDash />
         },
         {
           path: 'geology',
@@ -48,8 +46,20 @@ const MainRoutes = {
           element: <GeotechDash />
         },
         {
-          path: 'dashboard',
-          element: <DefaultDash />
+          path: 'prod-eng',
+          element: <ProdEngDash />
+        },
+        {
+          path: 'prod-eng/bdcf',
+          element: <Navigate to="/prod-eng/bdcf/bog" />
+        },
+        {
+          path: 'prod-eng/bdcf/:tab',
+          element: <BDCFEntries />
+        },
+        {
+          path: 'prod-shiftboss',
+          element: <ProdShiftbossDash />
         },
         {
           path: 'profile',
@@ -60,12 +70,12 @@ const MainRoutes = {
           element: <Profile />
         },
         {
-          path: 'prod-eng/bdcf',
-          element: <Navigate to="/prod-eng/bdcf/bog" />
+          path: 'sudo',
+          element: <Navigate to="/sudo/settings/pmd" />
         },
         {
-          path: 'prod-eng/bdcf/:tab',
-          element: <BDCFEntries />
+          path: 'sudo/settings/:tab',
+          element: <SudoSettings />
         }
       ]
     },
