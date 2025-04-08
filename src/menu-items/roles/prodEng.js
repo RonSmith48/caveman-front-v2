@@ -1,4 +1,9 @@
 import { DashboardOutlined, ToolOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import FactoryOutlinedIcon from '@mui/icons-material/FactoryOutlined';
+import commonMenuGroup from './common';
+import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined';
+import ArchitectureOutlinedIcon from '@mui/icons-material/ArchitectureOutlined';
+import SquareFootOutlinedIcon from '@mui/icons-material/SquareFootOutlined';
 
 const menuItems = {
   items: [
@@ -29,13 +34,13 @@ const menuItems = {
           title: 'BDCF entries',
           type: 'item',
           url: '/prod-eng/bdcf',
-          icon: QuestionCircleOutlined
+          icon: FactoryOutlinedIcon
         },
         {
           id: 'production',
           title: 'Cave Management',
           type: 'collapse',
-          icon: ToolOutlined,
+          icon: ManageHistoryOutlinedIcon,
           children: [
             {
               id: 'level-status',
@@ -44,10 +49,10 @@ const menuItems = {
               url: '/prod-eng/level-status'
             },
             {
-              id: 'charge-calculator',
-              title: 'Charge Calculator',
+              id: 'daily-plan',
+              title: 'Daily Plan',
               type: 'item',
-              url: '/prod-eng/tools/charge'
+              url: '/prod-eng/daily-plan'
             }
           ]
         },
@@ -55,38 +60,15 @@ const menuItems = {
           id: 'drill-blast',
           title: 'Drill & Blast',
           type: 'collapse',
-          icon: ToolOutlined,
+          icon: SquareFootOutlinedIcon,
           children: [
             {
-              id: 'monthly-report',
-              title: 'Monthly Report',
+              id: 'ring-design',
+              title: 'Ring Design',
               type: 'item',
-              url: '/prod-eng/reports/monthly'
+              url: '/prod-eng/ring-design'
             }
           ]
-        }
-      ]
-    },
-
-    // 3. Common shared items
-    {
-      id: 'common',
-      title: 'Common',
-      type: 'group',
-      children: [
-        {
-          id: 'help',
-          title: 'Help & Support',
-          type: 'item',
-          url: '/common/help',
-          icon: QuestionCircleOutlined
-        },
-        {
-          id: 'contact',
-          title: 'Contact Admin',
-          type: 'item',
-          url: '/common/contact',
-          icon: QuestionCircleOutlined
         }
       ]
     }

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useRef } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
@@ -12,15 +12,7 @@ const initialState = {
   user: null
 };
 
-const verifyToken = (token) => {
-  if (!token) return false;
-  try {
-    const decoded = jwtDecode(token);
-    return decoded.exp > Date.now() / 1000;
-  } catch {
-    return false;
-  }
-};
+const JWTContext = createContext(null);
 
 const setSession = (token) => {
   if (token) {
@@ -32,21 +24,63 @@ const setSession = (token) => {
   }
 };
 
-// ==============================|| JWT CONTEXT & PROVIDER ||============================== //
-
-const JWTContext = createContext(null);
-
 export const JWTProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const refreshTimer = useRef(null);
+
+  const verifyToken = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.exp > Date.now() / 1000;
+    } catch {
+      return false;
+    }
+  };
+
+  const scheduleTokenRefresh = (token) => {
+    const decoded = jwtDecode(token);
+    const delay = decoded.exp * 1000 - Date.now() - 60000; // 1 minute before expiry
+
+    if (refreshTimer.current) clearTimeout(refreshTimer.current);
+
+    if (delay > 0) {
+      refreshTimer.current = setTimeout(refreshAccessToken, delay);
+    }
+  };
+
+  const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken) return;
+
+    try {
+      const res = await fetcherPost('/users/token-refresh/', { refresh: refreshToken });
+      const { access } = res.data;
+
+      if (access) {
+        setSession(access);
+        scheduleTokenRefresh(access);
+        localStorage.setItem('accessToken', access);
+      }
+    } catch (err) {
+      console.error('Token refresh failed:', err);
+      logout();
+    }
+  };
 
   useEffect(() => {
     const init = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
+        let accessToken = localStorage.getItem('accessToken');
         const user = JSON.parse(localStorage.getItem('user'));
+
+        if (!verifyToken(accessToken)) {
+          await refreshAccessToken();
+          accessToken = localStorage.getItem('accessToken');
+        }
 
         if (accessToken && verifyToken(accessToken)) {
           setSession(accessToken);
+          scheduleTokenRefresh(accessToken);
           dispatch({
             type: LOGIN,
             payload: {
@@ -65,6 +99,10 @@ export const JWTProvider = ({ children }) => {
     };
 
     init();
+
+    return () => {
+      if (refreshTimer.current) clearTimeout(refreshTimer.current);
+    };
   }, []);
 
   const login = async (email, password) => {
@@ -72,11 +110,12 @@ export const JWTProvider = ({ children }) => {
       const response = await fetcherPost('/users/login/', { email, password });
       const { user, tokens } = response.data;
 
-      if (tokens && tokens.access) {
+      if (tokens?.access) {
+        setSession(tokens.access);
+        scheduleTokenRefresh(tokens.access);
         localStorage.setItem('accessToken', tokens.access);
         localStorage.setItem('refreshToken', tokens.refresh);
         localStorage.setItem('user', JSON.stringify(user));
-        setSession(tokens.access);
 
         dispatch({
           type: LOGIN,
@@ -91,8 +130,7 @@ export const JWTProvider = ({ children }) => {
 
       return { ok: false, error: 'Login failed: no token received' };
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || 'Login failed';
-      return { ok: false, error: errorMessage };
+      return { ok: false, error: error?.response?.data?.message || 'Login failed' };
     }
   };
 
@@ -101,6 +139,7 @@ export const JWTProvider = ({ children }) => {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     setSession(null);
+    if (refreshTimer.current) clearTimeout(refreshTimer.current);
     dispatch({ type: LOGOUT });
   };
 
@@ -174,7 +213,7 @@ export const JWTProvider = ({ children }) => {
     }
   };
 
-  return state.isInitialized === false ? (
+  return !state.isInitialized ? (
     <Loader />
   ) : (
     <JWTContext.Provider value={{ ...state, login, logout, register, updateProfile }}>{children}</JWTContext.Provider>

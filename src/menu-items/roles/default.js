@@ -1,4 +1,5 @@
 import { DashboardOutlined, ToolOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
@@ -57,29 +58,6 @@ const menuItems = {
               url: '/prod-eng/reports/monthly'
             }
           ]
-        }
-      ]
-    },
-
-    // 3. Common shared items
-    {
-      id: 'common',
-      title: 'Other',
-      type: 'group',
-      children: [
-        {
-          id: 'help',
-          title: 'Help & Support',
-          type: 'item',
-          url: '/common/help',
-          icon: QuestionCircleOutlined
-        },
-        {
-          id: 'contact',
-          title: 'Contact Admin',
-          type: 'item',
-          url: '/common/contact',
-          icon: QuestionCircleOutlined
         }
       ]
     }
