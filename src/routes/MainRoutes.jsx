@@ -23,6 +23,9 @@ const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashbo
 const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
 // prod concept
 const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpload')));
+const ProdOrphans = Loadable(lazy(() => import('features/prod-concept/ProdOrphans')));
+// prod rings
+const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
@@ -62,6 +65,14 @@ const MainRoutes = {
         {
           path: 'prod-eng/prod-concept',
           element: <ProdConcept />
+        },
+        {
+          path: 'prod-eng/prod-orphans',
+          element: <ProdOrphans />
+        },
+        {
+          path: 'prod-eng/ring-design',
+          element: <RingDesign />
         },
         {
           path: 'prod-shiftboss',

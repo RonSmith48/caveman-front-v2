@@ -59,7 +59,7 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     fetchRun.current = true;
 
     try {
-      const data = await fetcher('/settings/fm_file_headers');
+      const data = await fetcher('/settings/concept_csv_headers');
       if (data && data.data.value) {
         // Set the values of the headers from the JSON object
         setExpectedHeaders(data.data.value);

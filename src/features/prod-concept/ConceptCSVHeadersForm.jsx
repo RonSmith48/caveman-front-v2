@@ -29,7 +29,7 @@ function ConceptCSVHeadersForm() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher('/settings/fm_file_headers'); // Using the fetcher function
+      const data = await fetcher('/settings/concept_csv_headers'); // Using the fetcher function
       if (data) {
         setHeaders(data.data.value); // Assuming the setting value is stored in `value`
       } else {
@@ -45,14 +45,14 @@ function ConceptCSVHeadersForm() {
 
   const saveSettings = async (values) => {
     const payload = {
-      key: 'fm_file_headers', // Unique key for the setting
+      key: 'concept_csv_headers', // Unique key for the setting
       value: values // Save all form fields as JSON
     };
 
     try {
       if (headers && Object.keys(headers).length > 0) {
         // Update setting if it exists
-        await fetcherPatch(`/settings/fm_file_headers/`, payload);
+        await fetcherPatch(`/settings/concept_csv_headers/`, payload);
         enqueueSnackbar('CSV file headers updated', { variant: 'success' });
       } else {
         // Create new setting if it does not exist
