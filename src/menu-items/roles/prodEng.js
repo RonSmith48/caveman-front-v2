@@ -67,6 +67,12 @@ const menuItems = {
               title: 'Ring Design',
               type: 'item',
               url: '/prod-eng/ring-design'
+            },
+            {
+              id: 'concept-rings',
+              title: 'Concept Rings',
+              type: 'item',
+              url: '/prod-eng/prod-concept'
             }
           ]
         }

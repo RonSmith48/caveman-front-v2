@@ -5934,6 +5934,7 @@ __metadata:
     knip: 5.43.5
     lodash-es: 4.17.21
     notistack: 3.0.2
+    papaparse: ^5.5.2
     prettier: 3.4.2
     prettier-eslint-cli: 8.0.1
     react: 18.3.1
@@ -6427,6 +6428,13 @@ __metadata:
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
   checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "papaparse@npm:5.5.2"
+  checksum: 59d5c6aca4fe1621cc12f66c024d0ea651bb4aad77d50c2d66a3e3c1ba60e992e2f52762f783fc2531348120c302ab272d8e448d853652232c9c742cdb666fb8
   languageName: node
   linkType: hard
 

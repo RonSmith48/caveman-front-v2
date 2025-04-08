@@ -21,6 +21,8 @@ const GeotechDash = Loadable(lazy(() => import('pages/dashboard/GeotechDash')));
 const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
 // BDCF
 const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
+// prod concept
+const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpload')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
@@ -58,6 +60,10 @@ const MainRoutes = {
           element: <BDCFEntries />
         },
         {
+          path: 'prod-eng/prod-concept',
+          element: <ProdConcept />
+        },
+        {
           path: 'prod-shiftboss',
           element: <ProdShiftbossDash />
         },
@@ -70,11 +76,7 @@ const MainRoutes = {
           element: <Profile />
         },
         {
-          path: 'sudo',
-          element: <Navigate to="/sudo/settings/pmd" />
-        },
-        {
-          path: 'sudo/settings/:tab',
+          path: 'sudo/settings',
           element: <SudoSettings />
         }
       ]

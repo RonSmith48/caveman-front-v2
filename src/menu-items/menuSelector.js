@@ -5,6 +5,7 @@ import prodEngMenu from 'menu-items/roles/prodEng';
 import prodShiftbossMenu from 'menu-items/roles/prodShiftboss';
 import geologyMenu from 'menu-items/roles/geology';
 import geotechMenu from 'menu-items/roles/geotech';
+import mtpMenu from 'menu-items/roles/medTermPlan';
 import defaultMenu from 'menu-items/roles/default';
 
 export default function getMenuForUser(user) {
@@ -14,18 +15,22 @@ export default function getMenuForUser(user) {
     menu = [...defaultMenu];
   } else {
     switch (user.role) {
-      case 'Production Engineer':
-        menu = [...prodEngMenu.items];
-        break;
-      case 'Production Shiftboss':
-        menu = [...prodShiftbossMenu.items];
-        break;
       case 'Geologist':
         menu = [...geologyMenu.items];
         break;
       case 'Geotechnical Engineer':
         menu = [...geotechMenu.items];
         break;
+      case 'Medium Term Planner':
+        menu = [...mtpMenu.items];
+        break;
+      case 'Production Engineer':
+        menu = [...prodEngMenu.items];
+        break;
+      case 'Production Shiftboss':
+        menu = [...prodShiftbossMenu.items];
+        break;
+
       default:
         menu = [...defaultMenu];
     }

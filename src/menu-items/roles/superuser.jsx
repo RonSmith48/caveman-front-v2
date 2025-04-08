@@ -16,7 +16,7 @@ const superuserMenuGroup = {
           id: 'pmd',
           title: 'PMD',
           type: 'item',
-          url: '/sudo/settings/pmd'
+          url: '/sudo/settings'
         },
         {
           id: 'manage-users',
