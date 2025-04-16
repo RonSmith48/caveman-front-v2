@@ -21,10 +21,16 @@ export default function getUserDashboardPath(user) {
   'Pitram Operator' */
 
   const roleRoutes = {
-    'Production Engineer': '/prod-eng',
-    'Production Shiftboss': '/prod-shiftboss',
-    Geologist: '/geology',
-    'Geotechnical Engineer': '/geotech'
+    'Electrical Engineer': '/electrical/dashboard',
+    Geologist: '/geology/dashboard',
+    'Geotechnical Engineer': '/geotech/dashboard',
+    'Mine Captain': '/capt/dashboard',
+    'Mobile Maint Planner': '/mob-maint/dashboard',
+    'Operations Shiftboss': '/ops/dashboard',
+    'Pitram Operator': '/pitram/dashboard',
+    'Production Engineer': '/prod-eng/dashboard',
+    'Production Shiftboss': '/prod-shiftboss/dashboard',
+    Surveyor: '/survey/dashboard'
   };
 
   const path = roleRoutes[user.role];

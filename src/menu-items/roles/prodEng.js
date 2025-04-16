@@ -7,28 +7,19 @@ import SquareFootOutlinedIcon from '@mui/icons-material/SquareFootOutlined';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
-    {
-      id: 'prod-eng-dashboard-group',
-      title: 'Dashboard',
-      type: 'group',
-      children: [
-        {
-          id: 'prod-eng-dashboard',
-          title: 'Dashboard',
-          type: 'item',
-          icon: DashboardOutlined,
-          url: '/prod-eng'
-        }
-      ]
-    },
-
     // 2. Role-specific tools
     {
-      id: 'prod-eng',
+      id: 'prod-eng-group',
       title: 'Engineering',
       type: 'group',
       children: [
+        {
+          id: 'dash',
+          title: 'dashboard',
+          type: 'item',
+          url: '/prod-eng/dashboard',
+          icon: DashboardOutlined
+        },
         {
           id: 'bdcf',
           title: 'BDCF entries',

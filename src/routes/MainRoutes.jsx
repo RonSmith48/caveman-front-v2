@@ -21,6 +21,7 @@ const GeotechDash = Loadable(lazy(() => import('pages/dashboard/GeotechDash')));
 const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
 // BDCF
 const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
+const ProdLevelStatus = Loadable(lazy(() => import('features/prod-reports/LevelStatusPage')));
 // prod concept
 const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpload')));
 const ProdOrphans = Loadable(lazy(() => import('features/prod-concept/ProdOrphans')));
@@ -38,69 +39,26 @@ const MainRoutes = {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        {
-          path: 'dashboard',
-          element: <DefaultDash />
-        },
-        {
-          path: 'geology',
-          element: <GeologyDash />
-        },
-        {
-          path: 'geotech',
-          element: <GeotechDash />
-        },
-        {
-          path: 'prod-eng',
-          element: <ProdEngDash />
-        },
-        {
-          path: 'prod-eng/bdcf',
-          element: <Navigate to="/prod-eng/bdcf/bog" />
-        },
-        {
-          path: 'prod-eng/bdcf/:tab',
-          element: <BDCFEntries />
-        },
-        {
-          path: 'prod-eng/prod-concept',
-          element: <ProdConcept />
-        },
-        {
-          path: 'prod-eng/prod-orphans',
-          element: <ProdOrphans />
-        },
-        {
-          path: 'prod-eng/ring-design',
-          element: <RingDesign />
-        },
-        {
-          path: 'prod-shiftboss',
-          element: <ProdShiftbossDash />
-        },
-        {
-          path: 'profile',
-          element: <Navigate to="/profile/profile" />
-        },
-        {
-          path: 'profile/:tab',
-          element: <Profile />
-        },
-        {
-          path: 'sudo/settings',
-          element: <SudoSettings />
-        }
+        { path: 'dashboard', element: <DefaultDash /> },
+        { path: 'geology/dashboard', element: <GeologyDash /> },
+        { path: 'geotech/dashboard', element: <GeotechDash /> },
+        { path: 'prod-eng/dashboard', element: <ProdEngDash /> },
+        { path: 'prod-eng/bdcf', element: <Navigate to="/prod-eng/bdcf/bog" /> },
+        { path: 'prod-eng/bdcf/:tab', element: <BDCFEntries /> },
+        { path: 'prod-eng/prod-concept', element: <ProdConcept /> },
+        { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
+        { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
+        { path: 'prod-eng/ring-design', element: <RingDesign /> },
+        { path: 'prod-shiftboss', element: <ProdShiftbossDash /> },
+        { path: 'profile', element: <Navigate to="/profile/profile" /> },
+        { path: 'profile/:tab', element: <Profile /> },
+        { path: 'sudo/settings', element: <SudoSettings /> }
       ]
     },
     {
       path: '/',
       element: <SimpleLayout layout={SimpleLayoutType.SIMPLE} />,
-      children: [
-        {
-          path: 'contact-us',
-          element: <AppContactUS />
-        }
-      ]
+      children: [{ path: 'contact-us', element: <AppContactUS /> }]
     }
   ]
 };
