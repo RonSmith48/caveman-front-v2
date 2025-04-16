@@ -56,8 +56,18 @@ function BDCFFireTab() {
   const audioRef = useRef(new Audio('/sounds/explosion_1.mp3'));
 
   useEffect(() => {
+    const currentHour = dayjs().hour();
+
     fetchData();
     fetchSettings();
+
+    if (currentHour < 12) {
+      formik.setFieldValue('pickerDate', dayjs().subtract(1, 'day')); // Yesterday's date
+      formik.setFieldValue('shift', 'Night');
+    } else {
+      formik.setFieldValue('pickerDate', dayjs()); // Today's date
+      formik.setFieldValue('shift', 'Day');
+    }
   }, []);
 
   const fetchData = async () => {
@@ -90,8 +100,8 @@ function BDCFFireTab() {
 
   const formik = useFormik({
     initialValues: {
-      pickerDate: dayjs().subtract(1, 'day'),
-      shift: 'Day',
+      pickerDate: null,
+      shift: '',
       selectLevel: '',
       selectRing: ''
     },

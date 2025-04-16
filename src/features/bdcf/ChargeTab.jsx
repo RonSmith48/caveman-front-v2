@@ -53,8 +53,18 @@ function BDCFChargeTab() {
   const audioRef = useRef(new Audio('/sounds/pump_action_1.mp3'));
 
   useEffect(() => {
+    const currentHour = dayjs().hour();
+
     fetchData();
     fetchSettings();
+
+    if (currentHour < 12) {
+      formik.setFieldValue('pickerDate', dayjs().subtract(1, 'day')); // Yesterday's date
+      formik.setFieldValue('shift', 'Night');
+    } else {
+      formik.setFieldValue('pickerDate', dayjs()); // Today's date
+      formik.setFieldValue('shift', 'Day');
+    }
   }, []);
 
   const fetchData = async () => {
@@ -100,8 +110,8 @@ function BDCFChargeTab() {
 
   const formik = useFormik({
     initialValues: {
-      pickerDate: dayjs().subtract(1, 'day'),
-      shift: 'Day',
+      pickerDate: null,
+      shift: '',
       selectOredrive: '',
       selectRing: '',
       comment: '',

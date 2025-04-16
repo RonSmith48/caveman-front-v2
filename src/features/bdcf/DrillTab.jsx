@@ -186,7 +186,12 @@ function BDCFDrillTab() {
   const isSubmitDisabled = () => {
     // Check required fields and conditionally disable button
     return !(
-      (formik.values.selectOredrive && formik.values.selectRing && (!formik.values.half_drilled || formik.values.drilled_mtrs)) // if half_drilled is checked, drilled_mtrs must be filled
+      (
+        formik.values.selectOredrive &&
+        formik.values.shift &&
+        formik.values.selectRing &&
+        (!formik.values.half_drilled || formik.values.drilled_mtrs)
+      ) // if half_drilled is checked, drilled_mtrs must be filled
     );
   };
 
