@@ -19,6 +19,7 @@ import {
   Menu,
   MenuItem
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import TableChartIcon from '@mui/icons-material/TableChart';
@@ -37,9 +38,10 @@ import { useDebouncedCallback } from 'use-debounce';
 
 function BogVerifyWidget() {
   const [loading, setLoading] = useState(false);
-  const [bogTonnes, setBogTonnes] = useState([]);
+  const [bogTonnes, setBogTonnes] = useState({ results: [], total: 0 });
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const theme = useTheme();
   const yesterday = dayjs().subtract(1, 'day');
 
   const formik = useFormik({
@@ -58,7 +60,11 @@ function BogVerifyWidget() {
         date: formattedDate,
         shift
       });
-      setBogTonnes(response.data || []);
+      setBogTonnes({
+        results: response.data.results || [],
+        total: response.data.total || 0
+      });
+
       if (response.data?.msg?.body) {
         enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
       }
@@ -84,7 +90,9 @@ function BogVerifyWidget() {
   }, []);
 
   const handlePDFDownload = () => {
-    const blob = pdf(<ReportPDF data={bogTonnes} date={formik.values.pickerDate} shift={formik.values.shift} />).toBlob();
+    const blob = pdf(
+      <ReportPDF data={bogTonnes.results} date={formik.values.pickerDate} shift={formik.values.shift} total={bogTonnes.total} />
+    ).toBlob();
     blob.then((b) => {
       const url = URL.createObjectURL(b);
       const link = document.createElement('a');
@@ -95,7 +103,9 @@ function BogVerifyWidget() {
   };
 
   const handlePrint = async () => {
-    const blob = await pdf(<ReportPDF data={bogTonnes} date={formik.values.pickerDate} shift={formik.values.shift} />).toBlob();
+    const blob = await pdf(
+      <ReportPDF data={bogTonnes.results} date={formik.values.pickerDate} shift={formik.values.shift} total={bogTonnes.total} />
+    ).toBlob();
     const blobUrl = URL.createObjectURL(blob);
     const printWindow = window.open(blobUrl);
     if (printWindow) {
@@ -107,7 +117,9 @@ function BogVerifyWidget() {
   };
 
   const handleCSVDownload = () => {
-    const csv = [['Ring', 'Shift', 'Quantity'], ...bogTonnes.map((r) => [r.alias, r.shift, r.quantity])];
+    const csv = [['Ring', 'Shift', 'Quantity'], ...bogTonnes.results.map((r) => [r.alias, r.shift, r.quantity])];
+    csv.push(['Total', '', bogTonnes.total]);
+
     const csvContent = `data:text/csv;charset=utf-8,${csv.map((e) => e.join(',')).join('\n')}`;
     const link = document.createElement('a');
     link.setAttribute('href', encodeURI(csvContent));
@@ -190,7 +202,7 @@ function BogVerifyWidget() {
       <CardContent sx={{ px: 0, pt: 1, pb: 0 }}>
         {loading ? (
           <Typography sx={{ pt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</Typography>
-        ) : bogTonnes.length ? (
+        ) : bogTonnes.results.length ? (
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
@@ -200,12 +212,32 @@ function BogVerifyWidget() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {bogTonnes.map((ring, idx) => (
+                {bogTonnes.results.map((ring, idx) => (
                   <TableRow key={idx}>
                     <TableCell>{ring.alias}</TableCell>
                     <TableCell>{ring.quantity}</TableCell>
                   </TableRow>
                 ))}
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      fontWeight: 'bold',
+                      borderTop: `2px solid ${theme.palette.divider}`,
+                      backgroundColor: theme.palette.action.hover
+                    }}
+                  >
+                    Total
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: 'bold',
+                      borderTop: `2px solid ${theme.palette.divider}`,
+                      backgroundColor: theme.palette.action.hover
+                    }}
+                  >
+                    {bogTonnes.total}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>

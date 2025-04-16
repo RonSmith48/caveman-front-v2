@@ -13,7 +13,7 @@ import pdfStyles from 'assets/PDFReportStyles';
 const formatDate = (date) => date.format('DD/MM/YYYY');
 const formatDateTime = (date) => date.format('DD/MM/YYYY h:mm A');
 
-const ReportPage = ({ data, reportDate, shift, generatedAt }) => (
+const ReportPage = ({ data, reportDate, shift, generatedAt, total }) => (
   <Page size="A4" orientation="portrait" style={pdfStyles.page}>
     <View style={pdfStyles.headerRow}>
       <View style={pdfStyles.titleContainer}>
@@ -37,6 +37,11 @@ const ReportPage = ({ data, reportDate, shift, generatedAt }) => (
       </View>
     ))}
 
+    <View style={[pdfStyles.totalsRow]}>
+      <Text style={[pdfStyles.cellRing, { fontWeight: 'bold' }]}>Total</Text>
+      <Text style={[pdfStyles.cell, { fontWeight: 'bold' }]}>{total}</Text>
+    </View>
+
     <View style={pdfStyles.footer} fixed>
       <Text>Report Produced: {formatDateTime(generatedAt)}</Text>
       <Text>Author: Auto-generated</Text>
@@ -45,11 +50,11 @@ const ReportPage = ({ data, reportDate, shift, generatedAt }) => (
   </Page>
 );
 
-export const ReportPDF = ({ data, date, shift }) => {
+export const ReportPDF = ({ data, date, shift, total }) => {
   const now = dayjs(); // Current timestamp
   return (
     <Document>
-      <ReportPage data={data} reportDate={date} shift={shift} generatedAt={now} />
+      <ReportPage data={data} reportDate={date} shift={shift} generatedAt={now} total={total} />
     </Document>
   );
 };
