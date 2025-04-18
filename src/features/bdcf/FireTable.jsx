@@ -149,6 +149,7 @@ export default function BDCFFireTable({ level, ringData, handleSelectLevel, isFi
     setData(ringData); // Update table data when ringData changes
     setFiring(isFiring);
     setLoading(false);
+    console.log(ringData);
   }, [ringData]);
 
   // Memoize columns outside of any conditional statement
@@ -203,7 +204,7 @@ export default function BDCFFireTable({ level, ringData, handleSelectLevel, isFi
         header: 'Contributor',
         accessorKey: 'contributor',
         cell: (info) => {
-          const contributor = info.contributor;
+          const contributor = info.getValue();
           return contributor ? (
             <Tooltip title={contributor.full_name}>
               <div
