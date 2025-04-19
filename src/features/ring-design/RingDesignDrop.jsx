@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useNotifier } from 'contexts/NotifierContext';
+
 import Papa from 'papaparse';
 import { Box, Button, Typography, Table, TableBody, TableCell, TableHead, TableRow, Paper, Alert } from '@mui/material';
 import { CheckCircleOutline, CancelOutlined } from '@mui/icons-material';
@@ -71,6 +73,7 @@ export default function RingDesignDrop() {
   const [startRing, setStartRing] = useState(null);
   const [isValid, setIsValid] = useState(false);
   const [namedFiles, setNamedFiles] = useState({ ringFile: null, holeFile: null });
+  const { notify } = useNotifier();
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length !== 2) {
@@ -182,6 +185,7 @@ export default function RingDesignDrop() {
     setHeaderChecklist({ survey: {}, holes: {} });
     setIsValid(false);
     setStartRing(null);
+    notify('orphans/refresh');
   };
 
   return (

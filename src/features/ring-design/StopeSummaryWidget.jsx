@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNotifier } from 'contexts/NotifierContext';
 import {
   Box,
   Dialog,
@@ -48,29 +49,33 @@ const WidgetStopeSummary = () => {
   const [levels, setLevels] = useState([]);
   const [oredrives, setOredrives] = useState([]);
   const [rings, setRings] = useState([]);
+  const { subscribe } = useNotifier();
 
   const open = Boolean(anchorEl);
   const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
 
+  const fetchDesignedDrives = async () => {
+    try {
+      const response = await fetcher('/prod-actual/drill-blast/designed-rings/');
+      const data = response.data;
+
+      setRingData(data);
+
+      // Extract unique levels
+      const levelSet = [...new Set(data.map((r) => r.level))];
+      setLevels(levelSet);
+    } catch (error) {
+      console.error('Error fetching active rings list:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDesignedDrives = async () => {
-      try {
-        const response = await fetcher('/prod-actual/drill-blast/designed-rings/');
-        const data = response.data;
-
-        setRingData(data);
-
-        // Extract unique levels
-        const levelSet = [...new Set(data.map((r) => r.level))];
-        setLevels(levelSet);
-      } catch (error) {
-        console.error('Error fetching active rings list:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDesignedDrives();
+    const unsub = subscribe('summary/refresh', fetchDesignedDrives);
+    return unsub;
   }, []);
 
   const handleDragEnd = (result) => {

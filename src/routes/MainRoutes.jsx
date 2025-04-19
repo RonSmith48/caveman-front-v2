@@ -24,7 +24,7 @@ const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
 const ProdLevelStatus = Loadable(lazy(() => import('features/prod-reports/LevelStatusPage')));
 // prod concept
 const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpload')));
-const ProdOrphans = Loadable(lazy(() => import('features/prod-concept/ProdOrphans')));
+const ProdOrphans = Loadable(lazy(() => import('features/ring-design/ProdOrphans')));
 // prod rings
 const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
 

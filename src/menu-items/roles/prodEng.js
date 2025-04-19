@@ -64,12 +64,6 @@ const menuItems = {
               title: 'Concept Rings',
               type: 'item',
               url: '/prod-eng/prod-concept'
-            },
-            {
-              id: 'prod-orphans',
-              title: 'Orphaned Rings',
-              type: 'item',
-              url: '/prod-eng/prod-orphans'
             }
           ]
         }

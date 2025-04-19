@@ -4,6 +4,7 @@ import MainCard from 'components/MainCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 import RingDesignDrop from 'features/ring-design/RingDesignDrop';
+import ProdOrphansWidget from './ProdOrphansWidget';
 import WidgetTonnesGrade from 'features/ring-design/StopeSummaryWidget';
 
 export default function RingDesign() {
@@ -34,6 +35,9 @@ export default function RingDesign() {
             </DialogContent>
           </Dialog>
         </MainCard>
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <ProdOrphansWidget />
       </Grid>
       <Grid item xs={12} lg={5}>
         <WidgetTonnesGrade />

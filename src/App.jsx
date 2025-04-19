@@ -10,6 +10,9 @@ import ScrollTop from 'components/ScrollTop';
 import Snackbar from 'components/@extended/Snackbar';
 import Notistack from 'components/third-party/Notistack';
 
+// custom notifications
+import { NotifierProvider } from 'contexts/NotifierContext';
+
 // auth-provider
 import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 // import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
@@ -28,10 +31,12 @@ export default function App() {
           <ScrollTop>
             <AuthProvider>
               <>
-                <Notistack>
-                  <RouterProvider router={router} />
-                  <Snackbar />
-                </Notistack>
+                <NotifierProvider>
+                  <Notistack>
+                    <RouterProvider router={router} />
+                    <Snackbar />
+                  </Notistack>
+                </NotifierProvider>
               </>
             </AuthProvider>
           </ScrollTop>

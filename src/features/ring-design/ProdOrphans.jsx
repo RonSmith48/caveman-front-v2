@@ -3,17 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Stack from '@mui/material/Stack';
+import { Box, Chip, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Stack } from '@mui/material';
 
 // third-party
 import { flexRender, useReactTable, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table';
@@ -189,28 +179,7 @@ function ReactTable({ columns, data }) {
 
 // ==============================|| REACT TABLE - VISIBILITY ||============================== //
 
-export default function ProdOrphans() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch data from the API when the component mounts
-  useEffect(() => {
-    const fetchOrphanedRings = async () => {
-      try {
-        const response = await fetcher('/prod-actual/orphaned-rings/');
-        if (response && response.data) {
-          setData(response.data); // assuming pagination with 'results' key
-        }
-      } catch (error) {
-        console.error('Error fetching orphaned rings:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrphanedRings();
-  }, []);
-
+export default function ProdOrphans({ data }) {
   const columns = useMemo(
     () => [
       {
@@ -468,8 +437,6 @@ export default function ProdOrphans() {
     ],
     []
   );
-
-  if (loading) return <div>Loading...</div>;
 
   return <ReactTable {...{ columns, data }} />;
 }
