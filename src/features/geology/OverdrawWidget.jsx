@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNotifier } from 'contexts/NotifierContext';
+import { notifyActivity } from 'utils/notifierHelpers';
 import {
   Box,
   MenuItem,
@@ -27,14 +29,7 @@ export default function OverdrawWidget() {
   const [reason, setReason] = useState('');
   const [status, setStatus] = useState('approved');
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (status === 'rejected') {
-      setReason('Waste');
-    } else if (status === 'approved') {
-      setReason('');
-    }
-  }, [status]);
+  const { notify } = useNotifier();
 
   useEffect(() => {
     fetchRings();
@@ -68,10 +63,14 @@ export default function OverdrawWidget() {
       status
     };
 
-    await fetcherPost('/prod-actual/geology/overdraw/', payload);
+    const response = await fetcherPost('/prod-actual/geology/overdraw/', payload);
     setQuantity('');
     setReason('');
     fetchRings();
+    notifyActivity(notify, selectedRingId, 'updated');
+    if (response?.data?.msg) {
+      enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
+    }
   };
 
   return (

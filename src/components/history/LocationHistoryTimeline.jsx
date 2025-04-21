@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import { fetcher } from 'utils/axios';
 import TimelineFilterMenu from './TimelineFilterMenu';
 import ProductionTimeline from './ProductionTimeline';
+import { useActivityListener } from 'utils/notifierHelpers';
 
 export default function LocationHistoryTimeline({ location_id, defaultSources = ['state', 'comments'], showMenu = true, filter = {} }) {
   const [timelineData, setTimelineData] = useState([]);
@@ -15,9 +16,7 @@ export default function LocationHistoryTimeline({ location_id, defaultSources = 
   const departmentLocked = !!filter.department;
   const showDeptDropdown = filter.showDepartmentDropdown && !departmentLocked;
 
-  useEffect(() => {
-    if (!location_id) return;
-
+  const loadTimeline = useCallback(() => {
     setLoading(true);
     fetcher(`/report/location-history/${location_id}/`).then((res) => {
       const timeline = res.data.timeline || [];
@@ -29,6 +28,15 @@ export default function LocationHistoryTimeline({ location_id, defaultSources = 
       setLoading(false);
     });
   }, [location_id]);
+
+  useEffect(() => {
+    if (!location_id) return;
+    loadTimeline();
+  }, [location_id, loadTimeline]);
+
+  useActivityListener(location_id, 'updated', () => {
+    loadTimeline();
+  });
 
   const toggleSource = (source) => {
     setVisibleSources((prev) => (prev.includes(source) ? prev.filter((s) => s !== source) : [...prev, source]));
