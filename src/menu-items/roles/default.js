@@ -3,28 +3,18 @@ import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
     {
-      id: 'default-dashboard-group',
+      id: 'common-group',
       title: 'Dashboard',
       type: 'group',
       children: [
         {
-          id: 'default-dashboard',
+          id: 'common-dashboard',
           title: 'Dashboard',
           type: 'item',
           icon: DashboardOutlined,
           url: '/dashboard'
-        }
-      ]
-    },
-
-    // 2. Role-specific tools
-    {
-      id: 'Default-tools',
-      title: 'Viewers',
-      type: 'group',
-      children: [
+        },
         {
           id: 'tools',
           title: 'Tools',

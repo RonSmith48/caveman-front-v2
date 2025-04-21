@@ -100,9 +100,12 @@ const StopeSummaryPDF = ({ rings }) => {
         {/* Data Rows */}
         {rings.map((r, i) => {
           const cu_pct = parseFloat(r.cu_pct || 0);
-          const tonnes = parseFloat(r.designed_tonnes || 0);
-          const cu_tonnes = ((cu_pct * tonnes) / 100).toFixed(1);
-          console.log(r);
+          const volume = parseFloat(r.blastsolids_volume || 0);
+          const density = parseFloat(r.density || 0);
+          const hasValidVolume = volume > 0 && !isNaN(volume);
+
+          const insitu_tonnes = hasValidVolume ? volume * density : 0;
+          const cu_tonnes = hasValidVolume ? ((insitu_tonnes * cu_pct) / 100).toFixed(1) : '0.0';
 
           return (
             <View key={i} style={styles.row}>
@@ -110,17 +113,17 @@ const StopeSummaryPDF = ({ rings }) => {
                 `${r.level}_${r.oredrive}_${r.ring_number_txt}`,
                 r.holes,
                 parseFloat(r.drill_meters || 0).toFixed(1),
-                r.azimuth ?? '',
+                parseInt(r.azimuth || 0),
                 r.dump ?? '',
                 r.burden ?? '',
                 r.diameters ?? '',
                 cu_pct.toFixed(2),
                 parseFloat(r.au_gram_per_tonne || 0).toFixed(2),
-                parseFloat(r.density || 0).toFixed(2),
-                parseFloat(r.blastsolids_volume || 0).toFixed(1),
-                tonnes.toFixed(1),
+                density.toFixed(2),
+                volume.toFixed(1),
+                insitu_tonnes.toFixed(1),
                 cu_tonnes,
-                parseFloat(r.draw_percentage || 0).toFixed(3)
+                (parseFloat(r.draw_percentage || 0) / 100).toFixed(3) // updated
               ].map((value, j) => (
                 <Text key={j} style={[styles.cell, { width: styles.widths[j] }]}>
                   {value}

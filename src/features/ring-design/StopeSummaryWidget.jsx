@@ -239,7 +239,7 @@ const WidgetStopeSummary = () => {
                   {({ loading }) => (
                     <>
                       <PictureAsPdfIcon fontSize="small" sx={{ mr: 1 }} />
-                      {loading ? 'Generating...' : 'PDF'}
+                      {loading ? 'Wait' : 'PDF'}
                     </>
                   )}
                 </PDFDownloadLink>

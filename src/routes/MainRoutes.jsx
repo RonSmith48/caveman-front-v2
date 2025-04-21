@@ -27,6 +27,11 @@ const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpl
 const ProdOrphans = Loadable(lazy(() => import('features/ring-design/ProdOrphans')));
 // prod rings
 const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
+const DailyPlanPage = Loadable(lazy(() => import('features/cave-manager/DailyPlanPage')));
+
+// geology
+const FiredRingsPage = Loadable(lazy(() => import('features/geology/FiredRings')));
+const OverdrawPage = Loadable(lazy(() => import('features/geology/Overdraw')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
@@ -41,15 +46,18 @@ const MainRoutes = {
       children: [
         { path: 'dashboard', element: <DefaultDash /> },
         { path: 'geology/dashboard', element: <GeologyDash /> },
+        { path: 'geology/fired-rings', element: <FiredRingsPage /> },
+        { path: 'geology/overdraw', element: <OverdrawPage /> },
         { path: 'geotech/dashboard', element: <GeotechDash /> },
+        { path: 'prod/dashboard', element: <ProdShiftbossDash /> },
         { path: 'prod-eng/dashboard', element: <ProdEngDash /> },
         { path: 'prod-eng/bdcf', element: <Navigate to="/prod-eng/bdcf/bog" /> },
         { path: 'prod-eng/bdcf/:tab', element: <BDCFEntries /> },
+        { path: 'prod-eng/daily-plan', element: <DailyPlanPage /> },
         { path: 'prod-eng/prod-concept', element: <ProdConcept /> },
         { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
         { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
         { path: 'prod-eng/ring-design', element: <RingDesign /> },
-        { path: 'prod-shiftboss', element: <ProdShiftbossDash /> },
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
         { path: 'profile/:tab', element: <Profile /> },
         { path: 'sudo/settings', element: <SudoSettings /> }

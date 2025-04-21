@@ -29,7 +29,7 @@ export default function getUserDashboardPath(user) {
     'Operations Shiftboss': '/ops/dashboard',
     'Pitram Operator': '/pitram/dashboard',
     'Production Engineer': '/prod-eng/dashboard',
-    'Production Shiftboss': '/prod-shiftboss/dashboard',
+    'Production Shiftboss': '/prod/dashboard',
     Surveyor: '/survey/dashboard'
   };
 

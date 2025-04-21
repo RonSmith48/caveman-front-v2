@@ -14,7 +14,7 @@ export function shkeyToShift(shkey) {
   const day = shkey.slice(6, 8);
   const finalDigit = shkey[9];
 
-  let formattedDate = `${day}-${month}-${year} `;
+  let formattedDate = `${day}/${month}/${year} `;
 
   if (finalDigit === '2') {
     formattedDate += 'NS'; // Night Shift
@@ -26,9 +26,9 @@ export function shkeyToShift(shkey) {
 }
 
 /**
- * Converts a YYYY-MM-DD or DD-MM-YYYY formatted date to DD-MM-YYYY format.
+ * Converts a YYYY-MM-DD or DD-MM-YYYY formatted date to DD/MM/YYYY format.
  * @param {string} dateStr - The date string in YYYY-MM-DD or DD-MM-YYYY format.
- * @returns {string} - The formatted date in DD-MM-YYYY.
+ * @returns {string} - The formatted date in DD/MM/YYYY.
  */
 export function formatDateToDDMMYYYY(dateStr) {
   if (!dateStr || dateStr.length !== 10) {
@@ -40,9 +40,10 @@ export function formatDateToDDMMYYYY(dateStr) {
 
   if (isISOFormat) {
     const [year, month, day] = dateStr.split('-');
-    return `${day}-${month}-${year}`;
+    return `${day}/${month}/${year}`;
   } else if (isEuropeanFormat) {
-    return dateStr; // Already in DD-MM-YYYY format
+    const [day, month, year] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
   } else {
     throw new Error('Invalid input: The date string is not in a recognized format.');
   }

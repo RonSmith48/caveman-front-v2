@@ -7,7 +7,6 @@ import SquareFootOutlinedIcon from '@mui/icons-material/SquareFootOutlined';
 
 const menuItems = {
   items: [
-    // 2. Role-specific tools
     {
       id: 'prod-eng-group',
       title: 'Engineering',

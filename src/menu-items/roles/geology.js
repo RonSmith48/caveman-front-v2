@@ -1,12 +1,12 @@
-import { DashboardOutlined, ToolOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { DashboardOutlined, ToolOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import FactoryOutlinedIcon from '@mui/icons-material/FactoryOutlined';
 import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
     {
-      id: 'geology-dashboard-group',
-      title: 'Dashboard',
+      id: 'geology-group',
+      title: 'Geology',
       type: 'group',
       children: [
         {
@@ -14,34 +14,25 @@ const menuItems = {
           title: 'Dashboard',
           type: 'item',
           icon: DashboardOutlined,
-          url: '/geology'
-        }
-      ]
-    },
-
-    // 2. Role-specific tools
-    {
-      id: 'geology-tools',
-      title: 'Geology',
-      type: 'group',
-      children: [
+          url: '/geology/dashboard'
+        },
         {
-          id: 'tools',
-          title: 'Tools',
+          id: 'prod-geo',
+          title: 'Production',
           type: 'collapse',
-          icon: ToolOutlined,
+          icon: FactoryOutlinedIcon,
           children: [
             {
-              id: 'blast-designer',
-              title: 'Blast Designer',
+              id: 'fired-rings',
+              title: 'Fired Rings',
               type: 'item',
-              url: '/prod-eng/tools/blast'
+              url: '/geology/fired-rings'
             },
             {
-              id: 'charge-calculator',
-              title: 'Charge Calculator',
+              id: 'overdraw',
+              title: 'Overdraw',
               type: 'item',
-              url: '/prod-eng/tools/charge'
+              url: '/geology/overdraw'
             }
           ]
         },

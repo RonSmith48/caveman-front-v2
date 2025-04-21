@@ -3,28 +3,18 @@ import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
     {
-      id: 'prod-shiftboss-dashboard-group',
-      title: 'Dashboard',
+      id: 'prodsb-group',
+      title: 'Production',
       type: 'group',
       children: [
         {
-          id: 'prod-shiftboss-dashboard',
+          id: 'prodsb-dashboard',
           title: 'Dashboard',
           type: 'item',
           icon: DashboardOutlined,
-          url: '/prod-shiftboss'
-        }
-      ]
-    },
-
-    // 2. Role-specific tools
-    {
-      id: 'prod-shiftboss-tools',
-      title: 'Shiftboss Toolbox',
-      type: 'group',
-      children: [
+          url: '/prod/dashboard'
+        },
         {
           id: 'tools',
           title: 'Tools',

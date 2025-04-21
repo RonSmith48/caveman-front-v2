@@ -3,28 +3,18 @@ import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
     {
-      id: 'mtp-dashboard-group',
-      title: 'Dashboard',
-      type: 'group',
-      children: [
-        {
-          id: 'mtp-dashboard',
-          title: 'Dashboard',
-          type: 'item',
-          icon: DashboardOutlined,
-          url: '/mtp'
-        }
-      ]
-    },
-
-    // 2. Role-specific tools
-    {
-      id: 'mtp-tools',
+      id: 'mplan-group',
       title: 'Planning',
       type: 'group',
       children: [
+        {
+          id: 'mplan-dashboard',
+          title: 'Dashboard',
+          type: 'item',
+          icon: DashboardOutlined,
+          url: '/mplan/dashboard'
+        },
         {
           id: 'tools',
           title: 'Tools',
@@ -35,13 +25,13 @@ const menuItems = {
               id: 'blast-designer',
               title: 'Blast Designer',
               type: 'item',
-              url: '/mtp/tools/blast'
+              url: '/prod-eng/tools/blast'
             },
             {
               id: 'charge-calculator',
               title: 'Charge Calculator',
               type: 'item',
-              url: '/mtp/tools/charge'
+              url: '/prod-eng/tools/charge'
             }
           ]
         },
@@ -55,7 +45,7 @@ const menuItems = {
               id: 'monthly-report',
               title: 'Monthly Report',
               type: 'item',
-              url: '/mtp/reports/monthly'
+              url: '/prod-eng/reports/monthly'
             }
           ]
         }

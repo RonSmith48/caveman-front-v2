@@ -3,14 +3,14 @@ export const exportAegisCsv = (rings) => {
 
   const rows = rings.map((r) => [
     `${r.level}_${r.oredrive}_${r.ring_number_txt}`,
-    r.holes ?? '',
+    r.holes ?? 0,
     parseFloat(r.drill_meters ?? 0).toFixed(1),
     parseFloat(r.x ?? 0).toFixed(2),
     parseFloat(r.y ?? 0).toFixed(2),
     parseFloat(r.z ?? 0).toFixed(2),
-    r.burden ?? '',
-    r.azimuth ?? '',
-    r.dump ?? ''
+    parseFloat(r.burden ?? 0).toFixed(2),
+    parseInt(r.azimuth ?? 0),
+    parseFloat(r.dump ?? 0).toFixed(1)
   ]);
 
   const csvContent = [headers, ...rows].map((row) => row.join(',')).join('\n');

@@ -3,10 +3,9 @@ import commonMenuGroup from './common';
 
 const menuItems = {
   items: [
-    // 1. Top-level dashboard link
     {
-      id: 'geotech-dashboard-group',
-      title: 'Dashboard',
+      id: 'geotech-group',
+      title: 'Geotechnical',
       type: 'group',
       children: [
         {
@@ -14,17 +13,8 @@ const menuItems = {
           title: 'Dashboard',
           type: 'item',
           icon: DashboardOutlined,
-          url: '/geotech'
-        }
-      ]
-    },
-
-    // 2. Role-specific tools
-    {
-      id: 'geotech-tools',
-      title: 'Geotechnical',
-      type: 'group',
-      children: [
+          url: '/geotech/dashboard'
+        },
         {
           id: 'tools',
           title: 'Tools',
