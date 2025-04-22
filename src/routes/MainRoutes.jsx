@@ -28,6 +28,8 @@ const ProdOrphans = Loadable(lazy(() => import('features/ring-design/ProdOrphans
 // prod rings
 const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
 const DailyPlanPage = Loadable(lazy(() => import('features/cave-manager/DailyPlanPage')));
+const RingEditorPage = Loadable(lazy(() => import('features/cave-manager/RingEditorPage')));
+const RingEditor = Loadable(lazy(() => import('features/cave-manager/RingEditor')));
 
 // geology
 const FiredRingsPage = Loadable(lazy(() => import('features/geology/FiredRings')));
@@ -58,6 +60,8 @@ const MainRoutes = {
         { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
         { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
         { path: 'prod-eng/ring-design', element: <RingDesign /> },
+        { path: 'prod-eng/ring-editor', element: <RingEditorPage /> },
+        { path: 'prod-eng/ring-editor/:loc', element: <RingEditor /> },
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
         { path: 'profile/:tab', element: <Profile /> },
         { path: 'sudo/settings', element: <SudoSettings /> }

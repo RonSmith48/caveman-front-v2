@@ -2742,6 +2742,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-reconciler@npm:^0.28.0, @types/react-reconciler@npm:^0.28.2":
+  version: 0.28.9
+  resolution: "@types/react-reconciler@npm:0.28.9"
+  peerDependencies:
+    "@types/react": "*"
+  checksum: 06257f693c7b148a4258c0d0a958288116100014e7b3c21ceaea2d55a668c71718f79b4105a9a0f35b480f3729e46960b40026d685719f9386b4ed63108dda09
+  languageName: node
+  linkType: hard
+
 "@types/react-redux@npm:^7.1.20":
   version: 7.1.34
   resolution: "@types/react-redux@npm:7.1.34"
@@ -5551,6 +5560,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"its-fine@npm:^1.1.1":
+  version: 1.2.5
+  resolution: "its-fine@npm:1.2.5"
+  dependencies:
+    "@types/react-reconciler": ^0.28.0
+  peerDependencies:
+    react: ">=18.0"
+  checksum: b801f101a618f0659566d1793efd2498719463a3f1a93c063c0745524fbfae1abc5e0bafdb4fd4d7d4382ac845755e86197f3c7cb5d0c07b56d380acb9b7c6d4
+  languageName: node
+  linkType: hard
+
 "jackspeak@npm:^3.1.2":
   version: 3.4.3
   resolution: "jackspeak@npm:3.4.3"
@@ -5735,6 +5755,13 @@ __metadata:
     knip: bin/knip.js
     knip-bun: bin/knip-bun.js
   checksum: 0cc3b316a4771808757196d06668953e186445dd15258c93b8abad65a4cf6a5e2df78066e19dae0624ad4bfb56d1927891ca424c208cf14c3080adb7f1a65714
+  languageName: node
+  linkType: hard
+
+"konva@npm:^9.3.20":
+  version: 9.3.20
+  resolution: "konva@npm:9.3.20"
+  checksum: 2b69ce9436195b3904bc4b67aea3ea702e78bfc9e1d1add7ddedc4f1bad0a45b10895dcbf402938ef61fad6991ad21288fc1a6f8d431ee0d4f42ce6412207e33
   languageName: node
   linkType: hard
 
@@ -5953,6 +5980,7 @@ __metadata:
     immutable: 4.3.7
     jwt-decode: 4.0.0
     knip: 5.43.5
+    konva: ^9.3.20
     lodash-es: 4.17.21
     notistack: 3.0.2
     papaparse: ^5.5.2
@@ -5965,6 +5993,7 @@ __metadata:
     react-dom: 18.3.1
     react-dropzone: ^14.3.8
     react-intl: 7.1.5
+    react-konva: 18
     react-otp-input: 3.1.1
     react-router: 7.1.3
     react-router-dom: 7.1.3
@@ -6918,6 +6947,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-konva@npm:18":
+  version: 18.2.10
+  resolution: "react-konva@npm:18.2.10"
+  dependencies:
+    "@types/react-reconciler": ^0.28.2
+    its-fine: ^1.1.1
+    react-reconciler: ~0.29.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    konva: ^8.0.1 || ^7.2.5 || ^9.0.0
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 6dfe7701c7b67efcb0279f1f7986995a033a1fad3891fe75faf3a91c8df8a9422febf2a21c80f31811869b272484a1a785047727b269c3b3d7a15b074c535071
+  languageName: node
+  linkType: hard
+
 "react-otp-input@npm:3.1.1":
   version: 3.1.1
   resolution: "react-otp-input@npm:3.1.1"
@@ -6925,6 +6970,18 @@ __metadata:
     react: ">=16.8.6 || ^17.0.0 || ^18.0.0"
     react-dom: ">=16.8.6 || ^17.0.0 || ^18.0.0"
   checksum: a442e3a0ee1ad429f698ceca322cdd5a3a6a4d8fa7da3abf3b8c193ce06edd629b148aafdb6c47d240a872e8f5827d8c9fb1b8ef3aa34ea81ba80cbef6b5ff6d
+  languageName: node
+  linkType: hard
+
+"react-reconciler@npm:~0.29.0":
+  version: 0.29.2
+  resolution: "react-reconciler@npm:0.29.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.2
+  peerDependencies:
+    react: ^18.3.1
+  checksum: e552727f97b5d61ef7a3e9b632056934055aba1592b09913f3395c3586a6bb47a368858bd8f76c359e58f6e9e44a6ee7eec4bd27dd6d931504b7da201d98b536
   languageName: node
   linkType: hard
 
@@ -7368,7 +7425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.2":
+"scheduler@npm:^0.23.0, scheduler@npm:^0.23.2":
   version: 0.23.2
   resolution: "scheduler@npm:0.23.2"
   dependencies:

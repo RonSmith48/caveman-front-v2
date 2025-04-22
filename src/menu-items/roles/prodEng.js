@@ -2,7 +2,7 @@ import { DashboardOutlined, ToolOutlined, FileSearchOutlined, QuestionCircleOutl
 import FactoryOutlinedIcon from '@mui/icons-material/FactoryOutlined';
 import commonMenuGroup from './common';
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined';
-import ArchitectureOutlinedIcon from '@mui/icons-material/ArchitectureOutlined';
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import SquareFootOutlinedIcon from '@mui/icons-material/SquareFootOutlined';
 
 const menuItems = {
@@ -25,6 +25,13 @@ const menuItems = {
           type: 'item',
           url: '/prod-eng/bdcf',
           icon: FactoryOutlinedIcon
+        },
+        {
+          id: 'ring-editor',
+          title: 'Ring editor',
+          type: 'item',
+          url: '/prod-eng/ring-editor',
+          icon: PrecisionManufacturingIcon
         },
         {
           id: 'production',

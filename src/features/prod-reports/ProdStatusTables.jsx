@@ -40,6 +40,7 @@ export default function LevelTables({ data }) {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ pl: 3 }}>Ore Drive</TableCell>
+                    <TableCell align="right">P</TableCell>
                     <TableCell align="right">Bogging</TableCell>
                     <TableCell align="right">Avail Tonnes</TableCell>
                     <TableCell align="center">Bogging Comments</TableCell>
@@ -53,6 +54,7 @@ export default function LevelTables({ data }) {
                       <TableCell sx={{ pl: 3 }} component="th" scope="row">
                         {oredrive.name}
                       </TableCell>
+                      <TableCell></TableCell>
                       <TableCell align="right">{oredrive.bogging.ring_txt}</TableCell>
                       <TableCell align="right" sx={oredrive.bogging.is_overbogged ? { fontWeight: 'bold', color: 'error.main' } : {}}>
                         {parseInt(oredrive.bogging.avail_tonnes, 10)}

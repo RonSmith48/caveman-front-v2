@@ -9,15 +9,18 @@ import Box from '@mui/material/Box';
 // styles
 import pdfStyles from 'assets/PDFReportStyles';
 
-const LevelPage = ({ levelData, reportDate, author, pageIndex, totalPages }) => (
+const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, totalPages }) => (
   <Page size="A4" orientation="landscape" style={pdfStyles.landscapePage} wrap>
     <View>
       <View style={pdfStyles.landscapeHeader}>
-        <Text style={pdfStyles.title}>Level {levelData.level}</Text>
-        <Image style={pdfStyles.logo} src="/assets/images/branding/evn-logo-grey.png" />
+        <Text style={pdfStyles.title}>
+          Level {levelData.level} - {shift.toUpperCase()} {date}
+        </Text>
+        <Image style={pdfStyles.logo} src="/public/images/branding/evn-logo-grey.png" />
       </View>
       <View style={pdfStyles.tableHeader}>
         <Text style={pdfStyles.cell}>Ore Drive</Text>
+        <Text style={pdfStyles.cellNarrow}>P</Text>
         <Text style={pdfStyles.cell}>Bogging</Text>
         <Text style={pdfStyles.cellNarrow}>Avail Tonnes</Text>
         <Text style={pdfStyles.cellWide}>Bogging Comments</Text>
@@ -27,6 +30,7 @@ const LevelPage = ({ levelData, reportDate, author, pageIndex, totalPages }) => 
       {levelData.ore_drives.map((od) => (
         <View key={od.name} style={pdfStyles.row}>
           <Text style={pdfStyles.cell}>{od.name}</Text>
+          <Text style={pdfStyles.cellNarrow}></Text>
           <Text style={pdfStyles.cell}>{od.bogging.ring_txt}</Text>
           <Text style={[pdfStyles.cellNarrow, parseFloat(od.bogging.avail_tonnes) < 0 ? pdfStyles.negative : null]}>
             {parseInt(od.bogging.avail_tonnes, 10)}
@@ -92,6 +96,7 @@ const LevelPage = ({ levelData, reportDate, author, pageIndex, totalPages }) => 
       ))}
       <View style={[pdfStyles.totalsRow]}>
         <Text style={pdfStyles.cell}>Totals</Text>
+        <Text style={pdfStyles.cellNarrow}></Text>
         <Text style={pdfStyles.cell}></Text>
         <Text style={pdfStyles.cellNarrow}></Text>
         <Text style={pdfStyles.cellWide} />
@@ -115,6 +120,7 @@ const LevelPage = ({ levelData, reportDate, author, pageIndex, totalPages }) => 
 export const ReportPDF = ({ data, author, date, shift }) => {
   const reportDate = `${date}  For: ${shift.toUpperCase()}`;
   const totalPages = data.length;
+  const dateOnly = date.split(' ')[0];
 
   return (
     <Document>
@@ -123,6 +129,8 @@ export const ReportPDF = ({ data, author, date, shift }) => {
           key={levelData.level}
           levelData={levelData}
           reportDate={reportDate}
+          date={dateOnly}
+          shift={shift}
           author={author}
           pageIndex={index}
           totalPages={totalPages}
