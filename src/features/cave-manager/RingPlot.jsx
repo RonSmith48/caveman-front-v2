@@ -7,7 +7,7 @@ export default function RingPlot({ holeData }) {
     return (
       <Box
         sx={{
-          height: 400,
+          height: 600,
           backgroundColor: '#f3f3f3',
           borderRadius: 2,
           display: 'flex',
