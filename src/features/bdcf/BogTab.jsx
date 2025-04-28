@@ -171,7 +171,7 @@ function BDCFBogTab() {
               value={formik.values.tonnes}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.tonnes && Boolean(formik.errors.tonnes)}
+              // error={formik.touched.tonnes && Boolean(formik.errors.tonnes)}
               helperText={formik.touched.tonnes && formik.errors.tonnes}
               fullWidth
             />

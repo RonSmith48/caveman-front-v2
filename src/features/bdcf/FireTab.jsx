@@ -131,7 +131,6 @@ function BDCFFireTab() {
         }
 
         // Optionally reset the form or refetch data
-        formik.resetForm();
         const currentLevel = values.selectLevel; // Get the current oredrive
         if (currentLevel) {
           await handleSelectLevel({ target: { value: currentLevel } }); // Refetch rings for the current oredrive

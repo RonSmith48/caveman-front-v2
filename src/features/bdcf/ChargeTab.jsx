@@ -154,7 +154,13 @@ function BDCFChargeTab() {
         enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
 
         // Optionally reset the form or refetch data
-        formik.resetForm();
+        formik.setFieldValue('blocked_holes', false);
+        formik.setFieldValue('comment', '');
+        formik.setFieldValue('recharged', false);
+        formik.setFieldValue('incomplete', false);
+        formik.setFieldValue('charged_short', false);
+        formik.setFieldValue('explosive', '');
+        formik.setFieldValue('selectRing', '');
         const currentOredrive = values.selectOredrive; // Get the current oredrive
         if (currentOredrive) {
           await handleSelectOredrive({ target: { value: currentOredrive } }); // Refetch rings for the current oredrive
