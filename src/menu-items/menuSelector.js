@@ -12,7 +12,7 @@ export default function getMenuForUser(user) {
   let menu;
 
   if (!user || !user.role) {
-    menu = [...defaultMenu];
+    menu = [...defaultMenu.items];
   } else {
     switch (user.role) {
       case 'Geologist':
@@ -32,7 +32,7 @@ export default function getMenuForUser(user) {
         break;
 
       default:
-        menu = [...defaultMenu];
+        menu = [...defaultMenu.items];
     }
   }
 
