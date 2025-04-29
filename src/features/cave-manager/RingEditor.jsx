@@ -247,7 +247,7 @@ export default function RingEditor() {
             </Grid>
             {/* === Right: RingPlot, outside the form === */}
             <Grid item xs={12} lg={5}>
-              <RingPlot holeData={values.hole_data} />
+              <RingPlot holeData={values.hole_data} azimuth={values.azimuth} />
             </Grid>
           </Grid>
         </>
