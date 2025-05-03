@@ -123,7 +123,7 @@ export default function LevelTables({ data }) {
                       <TableCell align="right">
                         {(oredrive.charged || []).length > 0 ? (
                           oredrive.charged.map((charge, index) => {
-                            const detonatorInitial = charge.detonator ? charge.detonator.charAt(0) : '';
+                            const detonatorInitial = charge.detonator ? charge.detonator.charAt(0).toLowerCase() : '';
                             const ringWithDetonator = `${charge.ring}${detonatorInitial}`;
 
                             const styles = charge.is_overslept ? { fontWeight: 'bold', color: 'error.main' } : {};
