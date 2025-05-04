@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 // project imports
 import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
-import FirebaseRegister from 'sections/auth/jwt/AuthRegister';
+import JWTRegister from 'sections/auth/jwt/AuthRegister';
 
 // ================================|| JWT - REGISTER ||================================ //
 
@@ -36,7 +36,7 @@ export default function Register() {
           </Stack>
         </Grid>
         <Grid size={12}>
-          <FirebaseRegister />
+          <JWTRegister />
         </Grid>
       </Grid>
     </AuthWrapper>

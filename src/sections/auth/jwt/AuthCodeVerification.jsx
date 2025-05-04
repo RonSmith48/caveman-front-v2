@@ -1,3 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+import { fetcherPost } from 'utils/axios';
+import { useEffect, useState } from 'react';
+
 // material-ui
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
@@ -5,6 +9,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { enqueueSnackbar } from 'notistack';
 
 // third-party
 import * as Yup from 'yup';
@@ -16,20 +21,45 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 // ============================|| JWT - CODE VERIFICATION ||============================ //
 
-export default function AuthCodeVerification() {
+export default function AuthCodeVerification({ user }) {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/register');
+    }
+  }, [navigate, user]);
+
   return (
     <Formik
       initialValues={{ otp: '' }}
       validationSchema={Yup.object({
         otp: Yup.string().length(4, 'OTP must be exactly 4 digits').required('OTP is required')
       })}
-      onSubmit={(values, { resetForm }) => {
-        resetForm();
-        console.log(values);
+      onSubmit={async (values, { setSubmitting, setErrors }) => {
+        try {
+          const email = user?.email;
 
-        // reset focus after submission
-        const activeElement = document.activeElement;
-        if (activeElement) activeElement.blur();
+          const res = await fetcherPost('/users/activate/', {
+            email,
+            otp: values.otp
+          });
+          console.log(res);
+          if (res?.data?.msg?.type === 'success') {
+            enqueueSnackbar(res.data.msg.body, { variant: res.data.msg.type });
+
+            sessionStorage.removeItem('pendingVerificationEmail');
+            navigate('/login');
+          } else {
+            setErrors({ otp: res.data.msg.body || 'Invalid code' });
+          }
+        } catch (err) {
+          console.error(err);
+          setErrors({ otp: 'Something went wrong. Please try again.' });
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
       {({ errors, handleSubmit, touched, values, setFieldValue }) => (

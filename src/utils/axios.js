@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
 const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL });
 
@@ -83,6 +84,7 @@ export const fetcherPost = async (url, data) => {
     return response;
   } catch (error) {
     console.error('Error in POST request:', error);
+    enqueueSnackbar('Error in POST request', { variant: 'error' });
     throw error;
   }
 };
@@ -94,6 +96,7 @@ export const fetcherPut = async (url, data) => {
     return response;
   } catch (error) {
     console.error('Error in PUT request:', error);
+    enqueueSnackbar('Error in PUT request', { variant: 'error' });
     throw error;
   }
 };
@@ -105,6 +108,7 @@ export const fetcherDelete = async (url) => {
     return response;
   } catch (error) {
     console.error('Error in DELETE request:', error);
+    enqueueSnackbar('Error in DELETE request', { variant: 'error' });
     throw error;
   }
 };
@@ -116,6 +120,7 @@ export const fetcherPatch = async (url, data) => {
     return response;
   } catch (error) {
     console.error('Error in PATCH request:', error);
+    enqueueSnackbar('Error in PATCH request', { variant: 'error' });
     throw error;
   }
 };

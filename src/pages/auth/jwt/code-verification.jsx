@@ -10,15 +10,15 @@ import AuthCodeVerification from 'sections/auth/jwt/AuthCodeVerification';
 // ================================|| JWT - CODE VERIFICATION ||================================ //
 
 export default function CodeVerification() {
-  let email = window.localStorage.getItem('email');
-  let finalArr = [];
+  const storedUser = sessionStorage.getItem('pendingVerificationUser');
+  let displayName = '';
+  let email = '';
+  let user = null;
 
-  if (email) {
-    let emailSplit = email.split('');
-    let len = emailSplit.indexOf('@');
-    emailSplit.forEach((item, pos) => {
-      pos >= 1 && pos <= len - 2 ? finalArr.push('*') : finalArr.push(emailSplit[pos]);
-    });
+  if (storedUser) {
+    user = JSON.parse(storedUser);
+    displayName = user.first_name;
+    email = user.email || '';
   }
 
   return (
@@ -27,14 +27,14 @@ export default function CodeVerification() {
         <Grid size={12}>
           <Stack sx={{ gap: 1 }}>
             <Typography variant="h3">Enter Verification Code</Typography>
-            <Typography color="secondary">We send you on mail.</Typography>
+            <Typography color="secondary">
+              {user?.first_name && `Hi ${user.first_name}, `}
+              please enter the code we emailed to <strong>{user?.email}</strong>
+            </Typography>
           </Stack>
         </Grid>
         <Grid size={12}>
-          <Typography>We`ve send you code on jone. {email && finalArr.length > 0 ? finalArr.join('') : '****@company.com'}</Typography>
-        </Grid>
-        <Grid size={12}>
-          <AuthCodeVerification />
+          <AuthCodeVerification user={user} />
         </Grid>
       </Grid>
     </AuthWrapper>

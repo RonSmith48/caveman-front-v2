@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
 import authReducer from 'contexts/auth-reducer/auth';
 import Loader from 'components/Loader';
+import { enqueueSnackbar } from 'notistack';
 import axiosServices, { fetcherPatch, fetcherPost } from 'utils/axios';
 
 const initialState = {
@@ -54,6 +55,9 @@ export const JWTProvider = ({ children }) => {
 
     try {
       const res = await fetcherPost('/users/token-refresh/', { refresh: refreshToken });
+      if (res.data?.msg?.body) {
+        enqueueSnackbar(res.data.msg.body, { variant: res.data.msg.type });
+      }
       const { access } = res.data;
 
       if (access) {
@@ -108,6 +112,9 @@ export const JWTProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await fetcherPost('/users/login/', { email, password });
+      if (response.data?.msg?.body) {
+        enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
+      }
       const { user, tokens } = response.data;
 
       if (tokens?.access) {
@@ -143,35 +150,24 @@ export const JWTProvider = ({ children }) => {
     dispatch({ type: LOGOUT });
   };
 
-  const register = async (firstName, lastName, email, password) => {
+  const register = async (email, password, first_name, last_name) => {
     try {
       const response = await fetcherPost('/users/register/', {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         password
       });
 
-      const { user, tokens } = response.data;
-
-      if (tokens && tokens.access) {
-        localStorage.setItem('accessToken', tokens.access);
-        localStorage.setItem('refreshToken', tokens.refresh);
-        localStorage.setItem('user', JSON.stringify(user));
-        setSession(tokens.access);
-
-        dispatch({
-          type: LOGIN,
-          payload: {
-            isLoggedIn: true,
-            user
-          }
-        });
-
-        return { ok: true, user };
+      // If backend returns 201 and a `data` field, consider it success
+      if (response.status === 201 && response.data?.data) {
+        return { ok: true, user: response.data.data };
       }
-
-      return { ok: false, error: 'Registration failed' };
+      if (response.data?.msg?.body) {
+        return { ok: false, error: response.data.msg.body };
+      }
+      // fallback in case structure changes again
+      return { ok: false, error: 'Registration failed: unexpected response format' };
     } catch (error) {
       const errorMessage = error?.response?.data?.message || 'Registration failed';
       return { ok: false, error: errorMessage };
@@ -182,7 +178,9 @@ export const JWTProvider = ({ children }) => {
     console.log(updatedUserData);
     try {
       const response = await fetcherPatch('users/update/', updatedUserData);
-      console.log(response);
+      if (response.data?.msg?.body) {
+        enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
+      }
       const msgType = response?.data?.msg?.type || 'info';
       const msgBody = response?.data?.msg?.body;
       const fallbackMessage = msgType === 'success' ? 'Profile updated successfully' : 'Something went wrong';

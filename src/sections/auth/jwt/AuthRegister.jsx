@@ -24,7 +24,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
-import { openSnackbar } from 'api/snackbar';
+import { enqueueSnackbar } from 'notistack';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
@@ -78,28 +78,34 @@ export default function AuthRegister() {
           password: Yup.string()
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
-            .max(10, 'Password must be less than 10 characters')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const trimmedEmail = values.email.trim();
-            await register(trimmedEmail, values.password, values.firstname, values.lastname);
-            if (scriptedRef.current) {
+            const result = await register(trimmedEmail, values.password, values.firstname, values.lastname);
+
+            if (result.ok) {
+              const user = result.user;
               setStatus({ success: true });
               setSubmitting(false);
-              openSnackbar({
-                open: true,
-                message: 'Your registration has been successfully completed.',
-                variant: 'alert',
-
-                alert: {
-                  color: 'success'
-                }
+              enqueueSnackbar('Registration successful. Check your email for a verification code.', {
+                variant: 'success'
               });
 
-              setTimeout(() => {
-                navigate(auth ? `/${auth}/login?auth=jwt` : '/login', { replace: true });
-              }, 1500);
+              // Save email for OTP verification and redirect
+              sessionStorage.setItem(
+                'pendingVerificationUser',
+                JSON.stringify({
+                  email: trimmedEmail,
+                  first_name: values.firstname,
+                  last_name: values.lastname
+                })
+              );
+              navigate('/code-verification', { replace: true });
+            } else {
+              setStatus({ success: false });
+              setErrors({ submit: result.error });
+              setSubmitting(false);
             }
           } catch (err) {
             console.error(err);
@@ -122,7 +128,7 @@ export default function AuthRegister() {
                     name="firstname"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="John"
+                    placeholder="Max"
                     fullWidth
                     error={Boolean(touched.firstname && errors.firstname)}
                   />
@@ -145,34 +151,13 @@ export default function AuthRegister() {
                     name="lastname"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Doe"
+                    placeholder="Power"
                     inputProps={{}}
                   />
                 </Stack>
                 {touched.lastname && errors.lastname && (
                   <FormHelperText error id="helper-text-lastname-signup">
                     {errors.lastname}
-                  </FormHelperText>
-                )}
-              </Grid>
-              <Grid size={12}>
-                <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="company-signup">Company</InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    error={Boolean(touched.company && errors.company)}
-                    id="company-signup"
-                    value={values.company}
-                    name="company"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Demo Inc."
-                    inputProps={{}}
-                  />
-                </Stack>
-                {touched.company && errors.company && (
-                  <FormHelperText error id="helper-text-company-signup">
-                    {errors.company}
                   </FormHelperText>
                 )}
               </Grid>
@@ -188,7 +173,7 @@ export default function AuthRegister() {
                     name="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="demo@company.com"
+                    placeholder="example@evolutionmining.com"
                     inputProps={{}}
                   />
                 </Stack>
@@ -248,7 +233,7 @@ export default function AuthRegister() {
                   </Grid>
                 </FormControl>
               </Grid>
-              <Grid size={12}>
+              {/*               <Grid size={12}>
                 <Typography variant="body2">
                   By Signing up, you agree to our &nbsp;
                   <Link variant="subtitle2" component={RouterLink} to="#">
@@ -259,7 +244,7 @@ export default function AuthRegister() {
                     Privacy Policy
                   </Link>
                 </Typography>
-              </Grid>
+              </Grid> */}
               {errors.submit && (
                 <Grid size={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
