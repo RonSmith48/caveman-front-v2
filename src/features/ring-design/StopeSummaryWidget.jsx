@@ -32,7 +32,7 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import { Formik, Form } from 'formik';
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 
-import StopeSummaryPDF from 'features/ring-design/StopeSummaryPDF';
+import StopeSummaryPDF from 'features/ring-design/StopeSummaryPdf';
 import { exportAegisCsv } from 'features/ring-design/ExportAegisFile';
 import MainCard from 'components/MainCard';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
