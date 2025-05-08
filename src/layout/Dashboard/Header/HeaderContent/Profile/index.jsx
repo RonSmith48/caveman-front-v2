@@ -120,7 +120,7 @@ export default function Profile() {
               style={{
                 width: SM_AVATAR_SIZE,
                 height: SM_AVATAR_SIZE,
-                backgroundColor: user?.bg_colour ? user.bg_colour : DEFAULT_AVATAR_BGCOLOUR,
+                backgroundColor: user?.avatar?.bg_colour ? user.avatar.bg_colour : DEFAULT_AVATAR_BGCOLOUR,
                 borderRadius: '50%', // Makes the background a circle
                 display: 'flex',
                 justifyContent: 'center',

@@ -61,14 +61,6 @@ export default function TabProfile() {
   const updateUserProfile = async (values) => {
     try {
       const response = await updateProfile(values);
-
-      if (response?.user) {
-        enqueueSnackbar('Profile updated successfully', { variant: 'success' });
-      } else if (response?.msg?.body && response?.msg?.type) {
-        enqueueSnackbar(response.msg.body, { variant: response.msg.type });
-      } else {
-        enqueueSnackbar('Failed to update profile', { variant: 'error' });
-      }
     } catch (error) {
       console.error('Error updating profile:', error);
       enqueueSnackbar('Failed to update profile', { variant: 'error' });
@@ -86,7 +78,6 @@ export default function TabProfile() {
               style={{
                 width: AVATAR_SIZE,
                 height: AVATAR_SIZE,
-                backgroundColor: user.bg_colour || DEFAULT_AVATAR_BGCOLOUR,
                 borderRadius: '50%',
                 display: 'flex',
                 justifyContent: 'center',
@@ -95,9 +86,16 @@ export default function TabProfile() {
               }}
             >
               <Tooltip title="Choose avatar" arrow>
-                <IconButton onClick={() => setAvatarModalOpen(true)} sx={{ padding: 10 }}>
-                  <ProfileAvatar user={{ ...user, avatar: selectedAvatar }} size={AVATAR_SIZE} />
-                </IconButton>
+                {/* <IconButton
+                  onClick={() => setAvatarModalOpen(true)}
+                  sx={{
+                    width: AVATAR_SIZE,
+                    height: AVATAR_SIZE,
+                    padding: 0
+                  }}
+                > */}
+                <ProfileAvatar user={{ ...user, avatar: selectedAvatar }} size={AVATAR_SIZE} />
+                {/* </IconButton> */}
               </Tooltip>
             </div>
             <Stack spacing={0.5} alignItems="center">

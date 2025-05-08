@@ -175,7 +175,6 @@ export const JWTProvider = ({ children }) => {
   };
 
   const updateProfile = async (updatedUserData) => {
-    console.log(updatedUserData);
     try {
       const response = await fetcherPatch('users/update/', updatedUserData);
       if (response.data?.msg?.body) {
