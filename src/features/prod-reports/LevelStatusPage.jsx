@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import LevelTables from 'features/prod-reports/ProdStatusTables';
-import { DownloadReportButton } from 'features/prod-reports/pdf/LevelStatusPDF';
+import LevelStatusMenu from 'features/prod-reports/LevelStatusMenu';
 import { fetcher } from 'utils/axios';
 import { enqueueSnackbar } from 'notistack';
 
@@ -52,7 +52,7 @@ export default function ProdLevelStatus() {
           </Typography>
           <Typography variant="subtitle2">Author: {author.author.full_name}</Typography>
         </Box>
-        <DownloadReportButton data={data} author={author.author.full_name} date={author.report_date} shift={author.shift} />
+        <LevelStatusMenu data={data} author={author.author.full_name} date={author.report_date} shift={author.shift} />
       </Paper>
 
       <LevelTables data={data} />
