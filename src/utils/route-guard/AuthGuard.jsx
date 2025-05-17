@@ -16,11 +16,11 @@ export default function AuthGuard({ children }) {
     if (!isLoggedIn) {
       const intendedPath = location.pathname;
       sessionStorage.setItem('callbackUrl', intendedPath);
-      navigate('login', { replace: true });
+      navigate('/login', { replace: true });
     }
-  }, [isLoggedIn, navigate, location]);
+  }, [isLoggedIn, navigate, location.pathname]);
 
-  return children;
+  return isLoggedIn ? children : null;
 }
 
 AuthGuard.propTypes = { children: PropTypes.any };

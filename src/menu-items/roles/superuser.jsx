@@ -1,30 +1,38 @@
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 
 const superuserMenuGroup = {
   id: 'super',
-  title: 'Administration',
+  title: 'administration',
   type: 'group',
   children: [
     {
       id: 'settings',
-      title: 'Settings',
+      title: 'settings',
       type: 'collapse',
       icon: SettingsOutlinedIcon,
       children: [
         {
           id: 'pmd',
-          title: 'PMD',
+          title: 'pmd',
           type: 'item',
           url: '/sudo/settings'
         },
         {
           id: 'manage-users',
-          title: 'Manage Users',
+          title: 'manage-users',
           type: 'item',
           url: '/sudo/users'
         }
       ]
+    },
+    {
+      id: 'import-export',
+      title: 'import-export',
+      type: 'item',
+      icon: SyncAltOutlinedIcon,
+      url: '/sudo/import-export'
     }
   ]
 };

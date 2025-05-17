@@ -15,11 +15,15 @@ export default function GuestGuard({ children }) {
   const location = useLocation();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const defaultRoute = getUserDashboardPath(user);
-      navigate(location?.state?.from || defaultRoute);
+    console.log('logs', isLoggedIn, location.pathname, sessionStorage.getItem('callbackUrl'));
+    // Only redirect if logged in and on a guest route
+    if (isLoggedIn && (location.pathname === '/login' || location.pathname === '/register')) {
+      const callbackUrl = sessionStorage.getItem('callbackUrl') || getUserDashboardPath(user);
+      console.log('callback', callbackUrl);
+      sessionStorage.setItem('callbackUrl', getUserDashboardPath(user));
+      navigate(callbackUrl, { replace: true });
     }
-  }, [isLoggedIn, user, navigate, location]);
+  }, [isLoggedIn, user, navigate, location.pathname]);
 
   return children;
 }
