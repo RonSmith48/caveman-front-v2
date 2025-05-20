@@ -104,7 +104,7 @@ export default function AuthLogin() {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid item xs={12} minWidth={300}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="email-login">Email Address</InputLabel>
                   <OutlinedInput
@@ -125,7 +125,7 @@ export default function AuthLogin() {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} minWidth={300}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="password-login">Password</InputLabel>
                   <OutlinedInput
