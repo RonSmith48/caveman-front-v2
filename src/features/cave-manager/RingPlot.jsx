@@ -18,7 +18,7 @@ function RingPlot({ holeData, azimuth }) {
   const centerX = holeData.reduce((sum, h) => sum + parseFloat(h.CollarX), 0) / holeData.length;
   const centerY = holeData.reduce((sum, h) => sum + parseFloat(h.CollarY), 0) / holeData.length;
 
-  const rotated = holeData.map(hole => {
+  const rotated = holeData.map((hole) => {
     const collarX = parseFloat(hole.CollarX);
     const collarY = parseFloat(hole.CollarY);
     const collarZ = parseFloat(hole.CollarZ);
@@ -40,7 +40,7 @@ function RingPlot({ holeData, azimuth }) {
     const unitVector = {
       x: dx / lengthCollarToToe,
       y: dy / lengthCollarToToe,
-      z: dz / lengthCollarToToe,
+      z: dz / lengthCollarToToe
     };
 
     const pivotX = collarX - unitVector.x * stepBack;
@@ -54,12 +54,12 @@ function RingPlot({ holeData, azimuth }) {
       pivot: { x: pivotRot.x, y: pivotRot.y },
       collarOffsetVertical: parseFloat(hole['CollarOffset Vertical']),
       leftWallDist: parseFloat(hole['Distance from left wall to pivot']),
-      rightWallDist: parseFloat(hole['Distance from right wall to pivot']),
+      rightWallDist: parseFloat(hole['Distance from right wall to pivot'])
     };
   });
 
   const pivotX = rotated[0].pivot.x;
-  const floorZ = Math.min(...rotated.map(h => h.collar.y - h.collarOffsetVertical));
+  const floorZ = Math.min(...rotated.map((h) => h.collar.y - h.collarOffsetVertical));
 
   const leftWallX = pivotX - rotated[0].leftWallDist;
   const rightWallX = pivotX + rotated[0].rightWallDist;
@@ -70,8 +70,8 @@ function RingPlot({ holeData, azimuth }) {
   const leftWallZ = firstCollar.collar.y - wallOffset;
   const rightWallZ = lastCollar.collar.y - wallOffset;
 
-  const allX = rotated.flatMap(h => [h.collar.x, h.toe.x, leftWallX, rightWallX]);
-  const allY = rotated.flatMap(h => [h.collar.y, h.toe.y, floorZ, leftWallZ, rightWallZ]);
+  const allX = rotated.flatMap((h) => [h.collar.x, h.toe.x, leftWallX, rightWallX]);
+  const allY = rotated.flatMap((h) => [h.collar.y, h.toe.y, floorZ, leftWallZ, rightWallZ]);
 
   const minX = Math.min(...allX);
   const maxX = Math.max(...allX);
@@ -85,8 +85,8 @@ function RingPlot({ holeData, azimuth }) {
   const scaleY = (canvasHeight - padding * 2) / (maxY - minY || 1);
   const scale = Math.min(scaleX, scaleY);
 
-  const transformX = x => padding + (x - minX) * scale;
-  const transformY = y => canvasHeight - padding - (y - minY) * scale;
+  const transformX = (x) => padding + (x - minX) * scale;
+  const transformY = (y) => canvasHeight - padding - (y - minY) * scale;
 
   return (
     <Stage width={canvasWidth} height={canvasHeight}>
@@ -94,9 +94,12 @@ function RingPlot({ holeData, azimuth }) {
         {/* Left Wall to Collar */}
         <Line
           points={[
-            transformX(leftWallX), transformY(floorZ),
-            transformX(leftWallX), transformY(leftWallZ),
-            transformX(firstCollar.collar.x), transformY(firstCollar.collar.y)
+            transformX(leftWallX),
+            transformY(floorZ),
+            transformX(leftWallX),
+            transformY(leftWallZ),
+            transformX(firstCollar.collar.x),
+            transformY(firstCollar.collar.y)
           ]}
           stroke="green"
           strokeWidth={1}
@@ -106,9 +109,12 @@ function RingPlot({ holeData, azimuth }) {
         {/* Right Wall to Collar */}
         <Line
           points={[
-            transformX(rightWallX), transformY(floorZ),
-            transformX(rightWallX), transformY(rightWallZ),
-            transformX(lastCollar.collar.x), transformY(lastCollar.collar.y)
+            transformX(rightWallX),
+            transformY(floorZ),
+            transformX(rightWallX),
+            transformY(rightWallZ),
+            transformX(lastCollar.collar.x),
+            transformY(lastCollar.collar.y)
           ]}
           stroke="green"
           strokeWidth={1}
@@ -117,21 +123,14 @@ function RingPlot({ holeData, azimuth }) {
 
         {/* Floor Line */}
         <Line
-          points={[
-            transformX(leftWallX), transformY(floorZ),
-            transformX(rightWallX), transformY(floorZ)
-          ]}
+          points={[transformX(leftWallX), transformY(floorZ), transformX(rightWallX), transformY(floorZ)]}
           stroke="green"
           strokeWidth={1}
           dash={[2, 3]}
         />
 
         {/* Connect collars */}
-        <Line
-          points={rotated.map(h => [transformX(h.collar.x), transformY(h.collar.y)]).flat()}
-          stroke="green"
-          strokeWidth={0.5}
-        />
+        <Line points={rotated.map((h) => [transformX(h.collar.x), transformY(h.collar.y)]).flat()} stroke="green" strokeWidth={0.5} />
 
         {/* Holes and labels */}
         {rotated.map((hole, idx) => (
@@ -141,19 +140,8 @@ function RingPlot({ holeData, azimuth }) {
               stroke="black"
               strokeWidth={1}
             />
-            <Circle
-              x={transformX(hole.collar.x)}
-              y={transformY(hole.collar.y)}
-              radius={2}
-              fill="black"
-            />
-            <Text
-              text={hole.holeId}
-              x={transformX(hole.toe.x) + 4}
-              y={transformY(hole.toe.y) - 6}
-              fontSize={12}
-              fill="black"
-            />
+            <Circle x={transformX(hole.collar.x)} y={transformY(hole.collar.y)} radius={2} fill="black" />
+            <Text text={hole.holeId} x={transformX(hole.toe.x) + 4} y={transformY(hole.toe.y) - 6} fontSize={12} fill="black" />
           </React.Fragment>
         ))}
       </Layer>

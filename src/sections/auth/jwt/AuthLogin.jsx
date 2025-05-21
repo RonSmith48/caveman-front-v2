@@ -38,12 +38,22 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 export default function AuthLogin() {
   const [checked, setChecked] = useState(false);
   const [capsWarning, setCapsWarning] = useState(false);
-  const { login } = useAuth();
+  const { login, isLoggedIn, user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [pendingRedirect, setPendingRedirect] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   // This is your equivalent to router.query.callbackUrl
+
+  useEffect(() => {
+    // This effect will run after the user has been set as logged in
+    if (pendingRedirect && isLoggedIn) {
+      const dash = getUserDashboardPath(user);
+      navigate(dash, { replace: true });
+      setPendingRedirect(false);
+    }
+  }, [pendingRedirect, isLoggedIn, navigate, user]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -80,9 +90,7 @@ export default function AuthLogin() {
                 setErrors({ submit: res.error });
                 setSubmitting(false);
               } else {
-                const callbackUrl = sessionStorage.getItem('callbackUrl') || getUserDashboardPath(res.user);
-                navigate(callbackUrl);
-                sessionStorage.removeItem('callbackUrl');
+                setPendingRedirect(true); // <-- Don't navigate yet
                 setSubmitting(false);
               }
             },
@@ -96,7 +104,7 @@ export default function AuthLogin() {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid item xs={12} minWidth={300}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="email-login">Email Address</InputLabel>
                   <OutlinedInput
@@ -117,7 +125,7 @@ export default function AuthLogin() {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} minWidth={300}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="password-login">Password</InputLabel>
                   <OutlinedInput
