@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 
-const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL });
+const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:8000/api/' });
 
 // Intercept request to inject token from localStorage
 axiosServices.interceptors.request.use(

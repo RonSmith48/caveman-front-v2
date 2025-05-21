@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import axiosServices from 'utils/axios';
+import { isUTF8 } from 'utils/isUTF8';
 
 // material-ui
 import { styled } from '@mui/material/styles';
@@ -84,12 +85,20 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     setAlertOpen(false);
   };
 
-  const onDrop = (acceptedFiles) => {
+  const onDrop = async (acceptedFiles) => {
     if (!expectedHeaders || Object.keys(expectedHeaders).length === 0) {
       enqueueSnackbar('Upload not allowed: No CSV headers found in settings', { variant: 'error' });
-      return; // Prevent upload if settings are empty
+      return;
     }
+
     const fileToUpload = acceptedFiles[0];
+
+    const encodingValid = await isUTF8(fileToUpload);
+    if (!encodingValid) {
+      enqueueSnackbar('File is not UTF-8 encoded. Please re-save as "CSV UTF-8" and try again.', { variant: 'error' });
+      return;
+    }
+
     setSelectedFile(fileToUpload);
 
     Papa.parse(fileToUpload, {
