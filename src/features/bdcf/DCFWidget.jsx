@@ -185,7 +185,7 @@ function DCFWidget() {
         {loading ? (
           <Typography sx={{ px: 2 }}>Loading...</Typography>
         ) : DCFRings.length ? (
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>

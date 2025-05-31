@@ -9,8 +9,9 @@ import Box from '@mui/material/Box';
 // styles
 import pdfStyles from 'assets/PDFReportStyles';
 
-const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, totalPages }) => (
+const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, totalPages, isDraft }) => (
   <Page size="A4" orientation="landscape" style={pdfStyles.landscapePage} wrap>
+    {isDraft && <Text style={pdfStyles.watermarkText}>DRAFT</Text>}
     <View>
       <View style={pdfStyles.landscapeHeader}>
         <Text style={pdfStyles.title}>
@@ -117,7 +118,7 @@ const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, tota
   </Page>
 );
 
-export const ReportPDF = ({ data, author, date, shift }) => {
+export const ReportPDF = ({ data, author, date, shift, isDraft }) => {
   const reportDate = `${date}  For: ${shift.toUpperCase()}`;
   const totalPages = data.length;
   const dateOnly = date.split(' ')[0];
@@ -134,15 +135,16 @@ export const ReportPDF = ({ data, author, date, shift }) => {
           author={author}
           pageIndex={index}
           totalPages={totalPages}
+          isDraft={isDraft}
         />
       ))}
     </Document>
   );
 };
 
-export const DownloadReportButton = ({ data, author, date, shift }) => {
+export const DownloadReportButton = ({ data, author, date, shift, isDraft }) => {
   const handlePrint = async () => {
-    const blob = await pdf(<ReportPDF data={data} author={author} date={date} shift={shift} />).toBlob();
+    const blob = await pdf(<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />).toBlob();
     const blobUrl = URL.createObjectURL(blob);
     const printWindow = window.open(blobUrl);
     if (printWindow) {
@@ -155,7 +157,10 @@ export const DownloadReportButton = ({ data, author, date, shift }) => {
 
   return (
     <Box sx={{ display: 'flex', gap: 1 }}>
-      <PDFDownloadLink document={<ReportPDF data={data} author={author} date={date} shift={shift} />} fileName="Level Status Report.pdf">
+      <PDFDownloadLink
+        document={<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />}
+        fileName="Level Status Report.pdf"
+      >
         {({ loading }) => (
           <IconButton title={loading ? 'Generating PDF...' : 'Download PDF'}>
             <PictureAsPdfIcon color="primary" sx={{ fontSize: 28 }} />

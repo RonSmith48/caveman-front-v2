@@ -49,10 +49,21 @@ export default function ProdLevelStatus() {
         <Box>
           <Typography variant="subtitle1">
             Report Date: {author.report_date} For: {author.shift}
+            {author.isDraft && (
+              <Box component="span" sx={{ color: 'error.main', fontWeight: 'bold', ml: 1 }}>
+                – DRAFT
+              </Box>
+            )}
           </Typography>
           <Typography variant="subtitle2">Author: {author.author.full_name}</Typography>
         </Box>
-        <LevelStatusMenu data={data} author={author.author.full_name} date={author.report_date} shift={author.shift} />
+        <LevelStatusMenu
+          data={data}
+          author={author.author.full_name}
+          date={author.report_date}
+          shift={author.shift}
+          isDraft={author.isDraft}
+        />
       </Paper>
 
       <LevelTables data={data} />

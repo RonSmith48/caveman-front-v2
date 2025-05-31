@@ -9,14 +9,14 @@ import { ReportPDF } from 'features/prod-reports/pdf/LevelStatusPDF';
 import { fetcher } from 'utils/axios';
 import dayjs from 'dayjs';
 
-export default function LevelStatusMenu({ data, author, date, shift }) {
+export default function LevelStatusMenu({ data, author, date, shift, isDraft }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   const handlePrint = async () => {
-    const blob = await pdf(<ReportPDF data={data} author={author} date={date} shift={shift} />).toBlob();
+    const blob = await pdf(<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />).toBlob();
     const blobUrl = URL.createObjectURL(blob);
     const printWindow = window.open(blobUrl);
     if (printWindow) {
@@ -77,7 +77,7 @@ export default function LevelStatusMenu({ data, author, date, shift }) {
         <MenuItem>
           <Box component="span" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
             <PDFDownloadLink
-              document={<ReportPDF data={data} author={author} date={date} shift={shift} />}
+              document={<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />}
               fileName={`Level Status Report ${dayjs(date).format('YYYYMMDD')}${shift[0].toUpperCase()}.pdf`}
               style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
             >

@@ -203,7 +203,7 @@ function BogVerifyWidget() {
         {loading ? (
           <Typography sx={{ pt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</Typography>
         ) : bogTonnes.results.length ? (
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>
