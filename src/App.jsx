@@ -14,7 +14,8 @@ import Notistack from 'components/third-party/Notistack';
 import { NotifierProvider } from 'contexts/NotifierContext';
 
 // auth-provider
-import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
+import { AuthProvider as AuthProvider } from 'contexts/SessionAuthContext';
+// import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 // import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
 // import { Auth0Provider as AuthProvider } from 'contexts/Auth0Context';
 // import { AWSCognitoProvider as AuthProvider } from 'contexts/AWSCognitoContext';

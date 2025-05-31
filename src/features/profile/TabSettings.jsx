@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import {
@@ -34,7 +34,7 @@ export default function TabSettings() {
   });
   const [loading, setLoading] = useState(true);
   const [isNew, setIsNew] = useState(false);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user?.id) return;

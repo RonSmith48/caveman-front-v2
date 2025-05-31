@@ -62,6 +62,7 @@ export let DropzoneType;
 export let AuthProvider;
 
 (function (AuthProvider) {
+  AuthProvider['SESSION'] = 'session';
   AuthProvider['JWT'] = 'jwt';
   AuthProvider['FIREBASE'] = 'firebase';
   AuthProvider['AUTH0'] = 'auth0';
@@ -69,7 +70,7 @@ export let AuthProvider;
   AuthProvider['SUPABASE'] = 'supabase';
 })(AuthProvider || (AuthProvider = {}));
 
-export const APP_AUTH = AuthProvider.JWT;
+export const APP_AUTH = AuthProvider.SESSION;
 
 // ==============================|| THEME CONFIG ||============================== //
 

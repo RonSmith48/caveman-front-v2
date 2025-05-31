@@ -5,6 +5,14 @@ import AuthLayout from 'layout/Auth';
 import Loadable from 'components/Loadable';
 import { APP_AUTH, AuthProvider } from 'config';
 
+// session auth
+const SessionAuthLogin = Loadable(lazy(() => import('pages/auth/session/login')));
+const SessionAuthRegister = Loadable(lazy(() => import('pages/auth/session/register')));
+const SessionAuthForgotPassword = Loadable(lazy(() => import('pages/auth/session/forgot-password')));
+const SessionAuthResetPassword = Loadable(lazy(() => import('pages/auth/session/reset-password')));
+const SessionAuthCodeVerification = Loadable(lazy(() => import('pages/auth/session/code-verification')));
+const SessionAuthCheckMail = Loadable(lazy(() => import('pages/auth/session/check-mail')));
+
 // jwt auth
 const JwtAuthLogin = Loadable(lazy(() => import('pages/auth/jwt/login')));
 const JwtAuthRegister = Loadable(lazy(() => import('pages/auth/jwt/register')));
@@ -55,9 +63,20 @@ const LoginRoutes = {
       element: <AuthLayout />,
       children: [
         {
+          path: APP_AUTH === AuthProvider.SESSION ? '/' : 'session',
+          children: [
+            { path: '/', element: <SessionAuthLogin /> },
+            { path: 'login', element: <SessionAuthLogin /> },
+            { path: 'register', element: <SessionAuthRegister /> },
+            { path: 'forgot-password', element: <SessionAuthForgotPassword /> },
+            { path: 'check-mail', element: <SessionAuthCheckMail /> },
+            { path: 'reset-password', element: <SessionAuthResetPassword /> },
+            { path: 'code-verification', element: <SessionAuthCodeVerification /> }
+          ]
+        },
+        {
           path: APP_AUTH === AuthProvider.JWT ? '/' : 'jwt',
           children: [
-            { path: '/', element: <JwtAuthLogin /> },
             { path: 'login', element: <JwtAuthLogin /> },
             { path: 'register', element: <JwtAuthRegister /> },
             { path: 'forgot-password', element: <JwtAuthForgotPassword /> },
