@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, CircularProgress } from '@mui/material';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import TimelineFilterMenu from './TimelineFilterMenu';
 import ProductionTimeline from './ProductionTimeline';
 import { useActivityListener } from 'utils/notifierHelpers';

@@ -36,7 +36,7 @@ import StopeSummaryPDF from 'features/ring-design/StopeSummaryPdf';
 import { exportAegisCsv } from 'features/ring-design/ExportAegisFile';
 import MainCard from 'components/MainCard';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 const WidgetStopeSummary = () => {
   const [selectedRings, setSelectedRings] = useState([]);

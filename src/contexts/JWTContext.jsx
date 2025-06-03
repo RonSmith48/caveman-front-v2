@@ -5,7 +5,7 @@ import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
 import authReducer from 'contexts/auth-reducer/auth';
 import Loader from 'components/Loader';
 import { enqueueSnackbar } from 'notistack';
-import axiosServices, { fetcherPatch, fetcherPost } from 'utils/axios';
+import axiosServices, { fetcherPatch, fetcherPost } from 'utils/axiosAuth';
 
 const initialState = {
   isLoggedIn: false,
@@ -116,6 +116,7 @@ export const JWTProvider = ({ children }) => {
         enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
       }
       const { user, tokens } = response.data;
+      console.log('Login response:', response.data);
 
       if (tokens?.access) {
         setSession(tokens.access);

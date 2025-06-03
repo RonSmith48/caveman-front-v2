@@ -29,7 +29,7 @@ import MainCard from 'components/MainCard';
 import IconButton from 'components/@extended/IconButton';
 import CSVExport from 'components/third-party/react-table/CSVExport';
 import RowEditable from './bog-RowEditable';
-import { fetcher, fetcherPut, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPut, fetcherPost } from 'utils/axiosBack';
 import SvgAvatar from 'components/SvgAvatar';
 
 // assets

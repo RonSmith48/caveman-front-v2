@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
-import axiosServices from 'utils/axios';
+import axiosServices from 'utils/axiosBack';
 import { isUTF8 } from 'utils/isUTF8';
 
 // material-ui
@@ -29,7 +29,7 @@ import RejectionFiles from 'components/third-party/dropzone/RejectionFiles';
 import PlaceholderContent from 'components/third-party/dropzone/PlaceholderContent';
 import { enqueueSnackbar } from 'notistack';
 import LinearWithLabel from 'components/@extended/progress/LinearWithLabel';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 const DropzoneWrapper = styled('div')(({ theme }) => ({
   outline: 'none',

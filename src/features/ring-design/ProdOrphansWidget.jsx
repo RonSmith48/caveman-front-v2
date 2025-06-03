@@ -17,7 +17,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import HoverSocialCard from 'components/cards/HoverSocialCard';
 import MainCard from 'components/MainCard';
-import { fetcher } from 'utils/axios'; // Assuming fetcher is configured for axios
+import { fetcher } from 'utils/axiosBack'; // Assuming fetcher is configured for axios
 import { ColumnWidthOutlined } from '@ant-design/icons';
 import { enqueueSnackbar } from 'notistack';
 import ProdOrphans from 'features/ring-design/ProdOrphans';

@@ -28,7 +28,7 @@ import MainCard from 'components/MainCard';
 import IconButton from 'components/@extended/IconButton';
 import CSVExport from 'components/third-party/react-table/CSVExport';
 import RowEditable from 'features/bdcf/BogTableRowEditable';
-import { fetcher, fetcherPut, fetcherDelete } from 'utils/axios';
+import { fetcher, fetcherPut, fetcherDelete } from 'utils/axiosBack';
 import ProfileAvatar from 'components/ProfileAvatar';
 
 // assets

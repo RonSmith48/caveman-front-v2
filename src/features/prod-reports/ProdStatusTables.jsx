@@ -16,7 +16,7 @@ import Box from '@mui/material/Box';
 // project imports
 import MainCard from 'components/MainCard';
 import CSVExport from 'components/third-party/react-table/CSVExport';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 export const header = [
   { label: 'Ore Drive', key: 'name' },

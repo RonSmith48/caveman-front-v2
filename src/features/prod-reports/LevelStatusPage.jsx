@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import LevelTables from 'features/prod-reports/ProdStatusTables';
 import LevelStatusMenu from 'features/prod-reports/LevelStatusMenu';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 export default function ProdLevelStatus() {

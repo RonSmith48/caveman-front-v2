@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Card, CardContent, Typography, Button, Checkbox, FormControlLabel } from '@mui/material';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 function GenerateLSRCard() {

@@ -6,7 +6,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import { ReportPDF } from 'features/prod-reports/pdf/LevelStatusPDF';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import dayjs from 'dayjs';
 
 export default function LevelStatusMenu({ data, author, date, shift, isDraft }) {
