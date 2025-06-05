@@ -16,6 +16,7 @@ import {
 import MainCard from 'components/MainCard';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import fetcher from 'utils/axios';
 
 const ImportExportPage = () => {
   const [openHelp, setOpenHelp] = useState(false);
@@ -28,7 +29,7 @@ const ImportExportPage = () => {
   useEffect(() => {
     // Fetch exportable tables from backend
     // Example API response: [{ id: 'prod_ring', label: 'Production Ring', requiresLevel: true }, ...]
-    fetch('/common/exportable-tables/')
+    fetcher('/common/export/tables/')
       .then((res) => res.json())
       .then(setTables);
   }, []);
