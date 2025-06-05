@@ -26,6 +26,7 @@ import MainCard from 'components/MainCard';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import DeviceHubOutlinedIcon from '@mui/icons-material/DeviceHubOutlined';
+import EditStatusModal from './EditStatusModal';
 
 const validationSchema = Yup.object().shape({});
 
@@ -103,9 +104,7 @@ export default function RingEditor() {
                               </Typography>
                             </Grid>
                             <Grid item xs={4}>
-                              <Button variant={'contained'} disabled={!values.is_active} startIcon={<EditOutlinedIcon />}>
-                                Edit
-                              </Button>
+                              <EditStatusModal values={values} />
                             </Grid>
                           </Grid>
                           <Typography variant="h6" sx={{ mt: 1 }}>
