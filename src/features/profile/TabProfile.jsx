@@ -58,7 +58,6 @@ export default function TabProfile() {
   const updateUserProfile = async (values) => {
     try {
       const response = await updateProfile(values);
-      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
     } catch (error) {
       console.error('Error updating profile:', error);
       enqueueSnackbar('Failed to update profile', { variant: 'error' });
