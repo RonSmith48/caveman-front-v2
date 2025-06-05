@@ -14,6 +14,7 @@ const Profile = Loadable(lazy(() => import('features/profile/Profile')));
 // superuser
 const SudoSettings = Loadable(lazy(() => import('features/superuser/Settings')));
 const SudoImportExport = Loadable(lazy(() => import('features/superuser/ImportExport')));
+const SudoSiteAdmin = Loadable(lazy(() => import('features/superuser/SiteAdmin')));
 // dashboards
 const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
 const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
@@ -66,7 +67,8 @@ const MainRoutes = {
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
         { path: 'profile/:tab', element: <Profile /> },
         { path: 'sudo/settings', element: <SudoSettings /> },
-        { path: 'sudo/import-export', element: <SudoImportExport /> }
+        { path: 'sudo/import-export', element: <SudoImportExport /> },
+        { path: 'sudo/site-admin', element: <SudoSiteAdmin /> },
       ]
     },
     {
