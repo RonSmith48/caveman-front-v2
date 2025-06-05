@@ -29,7 +29,7 @@ import { enqueueSnackbar } from 'notistack';
 
 // Project imports
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 
 function RingConditionList() {
   const [states, setStates] = useState([]); // Store all ring states

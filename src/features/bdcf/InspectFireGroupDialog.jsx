@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'components/MainCard';
 import { Delete as DeleteIcon, HelpOutline as HelpIcon, ArrowForward } from '@mui/icons-material';
 import GroupHelp from 'features/bdcf/GroupHelp';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 const InspectionDialog = ({ open, onClose, selectedRow = {}, refresh }) => {

@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import * as Yup from 'yup';
 
-import { fetcher, fetcherPut } from 'utils/axios';
+import { fetcher, fetcherPut } from 'utils/axiosBack';
 import RingPlot from './RingPlot';
 import MainCard from 'components/MainCard';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';

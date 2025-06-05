@@ -6,31 +6,31 @@ const menuItems = {
   items: [
     {
       id: 'geology-group',
-      title: 'Geology',
+      title: 'geology',
       type: 'group',
       children: [
         {
           id: 'geology-dashboard',
-          title: 'Dashboard',
+          title: 'dashboard',
           type: 'item',
           icon: DashboardOutlined,
           url: '/geology/dashboard'
         },
         {
           id: 'prod-geo',
-          title: 'Production',
+          title: 'production',
           type: 'collapse',
           icon: FactoryOutlinedIcon,
           children: [
             {
               id: 'fired-rings',
-              title: 'Fired Rings',
+              title: 'fired-rings',
               type: 'item',
               url: '/geology/fired-rings'
             },
             {
               id: 'overdraw',
-              title: 'Overdraw',
+              title: 'overdraw',
               type: 'item',
               url: '/geology/overdraw'
             }
@@ -38,13 +38,13 @@ const menuItems = {
         },
         {
           id: 'reports',
-          title: 'Reports',
+          title: 'reports',
           type: 'collapse',
           icon: ToolOutlined,
           children: [
             {
               id: 'monthly-report',
-              title: 'Monthly Report',
+              title: 'monthly-report',
               type: 'item',
               url: '/prod-eng/reports/monthly'
             }

@@ -31,7 +31,7 @@ import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // project
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 
 // third party
 import dayjs from 'dayjs';
@@ -185,7 +185,7 @@ function DCFWidget() {
         {loading ? (
           <Typography sx={{ px: 2 }}>Loading...</Typography>
         ) : DCFRings.length ? (
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>

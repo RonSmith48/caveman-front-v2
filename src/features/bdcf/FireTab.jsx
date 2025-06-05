@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
@@ -39,7 +39,7 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 
 // project imports
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import BDCFFireTable from 'features/bdcf/FireTable';
 
 function BDCFFireTab() {
@@ -51,7 +51,7 @@ function BDCFFireTab() {
   const [loadingRings, setLoadingRings] = useState(false);
   const [isFiring, setIsFiring] = useState(false);
 
-  const { user } = useUser();
+  const { user } = useAuth();
   const [settings, setSettings] = useState({ 'equipment-sounds': false });
   const audioRef = useRef(new Audio('/sounds/explosion_1.mp3'));
 

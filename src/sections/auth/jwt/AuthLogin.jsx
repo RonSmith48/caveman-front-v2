@@ -26,7 +26,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 import { APP_DEFAULT_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
 import JWTContext from 'contexts/JWTContext';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import getUserDashboardPath from 'utils/getUserDashboardPath';
 
 // assets

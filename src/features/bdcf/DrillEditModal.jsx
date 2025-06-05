@@ -27,7 +27,7 @@ import {
 import Autocomplete from '@mui/material/Autocomplete';
 import ProfileAvatar from 'components/ProfileAvatar';
 import { Formik, Form, Field } from 'formik';
-import { fetcher, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPatch } from 'utils/axiosBack';
 import RingDetailModal from 'features/bdcf/RingDetailModal';
 
 const formatDate = (isoString) => {

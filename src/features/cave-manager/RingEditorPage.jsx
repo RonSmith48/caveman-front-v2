@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormControlLabel, Grid2, InputLabel, MenuItem, Select, Switch, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 import MainCard from 'components/MainCard';
 
 export default function RingEditorPage() {

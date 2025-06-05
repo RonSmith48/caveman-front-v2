@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
@@ -34,7 +34,7 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 
 // project imports
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import BDCFDrillTable from 'features/bdcf/DrillTable';
 
 function BDCFDrillTab() {
@@ -46,7 +46,7 @@ function BDCFDrillTab() {
   const [loading, setLoading] = useState(true);
   const [loadingRings, setLoadingRings] = useState(false);
 
-  const { user } = useUser();
+  const { user } = useAuth();
   const [settings, setSettings] = useState({ 'equipment-sounds': false });
   const audioRef = useRef(new Audio('/assets/sounds/hammer_drill_1.mp3'));
 

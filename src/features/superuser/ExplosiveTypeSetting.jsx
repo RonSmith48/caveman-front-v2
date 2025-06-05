@@ -30,7 +30,7 @@ import { enqueueSnackbar } from 'notistack';
 
 // Project imports
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPost, fetcherPatch } from 'utils/axiosBack';
 
 function ExplosiveTypes() {
   const [settings, setSettings] = useState([]);

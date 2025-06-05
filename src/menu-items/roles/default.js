@@ -5,45 +5,25 @@ const menuItems = {
   items: [
     {
       id: 'common-group',
-      title: 'Dashboard',
+      title: 'dashboard',
       type: 'group',
       children: [
         {
           id: 'common-dashboard',
-          title: 'Dashboard',
+          title: 'dashboard',
           type: 'item',
           icon: DashboardOutlined,
           url: '/dashboard'
         },
         {
-          id: 'tools',
-          title: 'Tools',
-          type: 'collapse',
-          icon: ToolOutlined,
-          children: [
-            {
-              id: 'blast-designer',
-              title: 'Blast Designer',
-              type: 'item',
-              url: '/prod-eng/tools/blast'
-            },
-            {
-              id: 'charge-calculator',
-              title: 'Charge Calculator',
-              type: 'item',
-              url: '/prod-eng/tools/charge'
-            }
-          ]
-        },
-        {
           id: 'reports',
-          title: 'Reports',
+          title: 'reports',
           type: 'collapse',
           icon: ToolOutlined,
           children: [
             {
               id: 'monthly-report',
-              title: 'Monthly Report',
+              title: 'monthly-report',
               type: 'item',
               url: '/prod-eng/reports/monthly'
             }

@@ -84,6 +84,20 @@ const pdfStyles = StyleSheet.create({
     paddingTop: 2,
     color: '#666', // medium gray text
     fontSize: 10
+  },
+  // Watermark style: absolute, centered, rotated, low opacity
+  watermarkText: {
+    position: 'absolute',
+    top: '250',
+    //left: '40',
+    transform: 'rotate(-45deg)',
+    //originX: '10',
+    //originY: '10',
+    opacity: 0.1,
+    fontSize: 120,
+    color: 'grey',
+    textAlign: 'center',
+    width: '100%'
   }
 });
 
