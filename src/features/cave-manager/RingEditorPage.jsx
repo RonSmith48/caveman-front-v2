@@ -19,7 +19,7 @@ export default function RingEditorPage() {
   const [includeCompleted, setIncludeCompleted] = useState(false);
 
   useEffect(() => {
-    fetcherPost('/prod-actual/ring-editor/levels/', {
+    fetcherPost('/api/prod-actual/ring-editor/levels/', {
       include_inactive: includeInactive,
       include_completed: includeCompleted
     })
@@ -34,7 +34,7 @@ export default function RingEditorPage() {
   useEffect(() => {
     if (!level) return;
 
-    fetcherPost('/prod-actual/ring-editor/oredrives/', {
+    fetcherPost('/api/prod-actual/ring-editor/oredrives/', {
       level,
       include_inactive: includeInactive,
       include_completed: includeCompleted
@@ -49,7 +49,7 @@ export default function RingEditorPage() {
   useEffect(() => {
     if (!oredrive) return;
 
-    fetcherPost('/prod-actual/ring-editor/rings/', {
+    fetcherPost('/api/prod-actual/ring-editor/rings/', {
       level,
       oredrive,
       include_inactive: includeInactive,

@@ -14,7 +14,7 @@ export default function ProdLevelStatus() {
   useEffect(() => {
     const fetchLevelStatus = async () => {
       try {
-        const response = await fetcher('/report/prod/level-status/');
+        const response = await fetcher('/api/report/prod/level-status/');
         if (response?.data?.msg) {
           enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
         }

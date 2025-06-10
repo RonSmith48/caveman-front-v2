@@ -41,7 +41,7 @@ export default function TabSettings() {
 
     const fetchSettings = async () => {
       try {
-        const data = await fetcher(`/settings/user-${user.id}/`);
+        const data = await fetcher(`/api/settings/user-${user.id}/`);
         if (data?.data?.value) {
           setSettings(data.data.value);
         } else {
@@ -73,10 +73,10 @@ export default function TabSettings() {
 
     try {
       if (isNew) {
-        await fetcherPost('/settings/', payload);
+        await fetcherPost('/api/settings/', payload);
         enqueueSnackbar('Personal preferences created', { variant: 'success' });
       } else {
-        await fetcherPatch(`/settings/user-${user.id}/`, payload);
+        await fetcherPatch(`/api/settings/user-${user.id}/`, payload);
         enqueueSnackbar('Personal preferences updated', { variant: 'success' });
       }
       setSettings(values);

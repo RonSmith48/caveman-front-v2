@@ -57,7 +57,7 @@ const WidgetStopeSummary = () => {
 
   const fetchDesignedDrives = async () => {
     try {
-      const response = await fetcher('/prod-actual/drill-blast/designed-rings/');
+      const response = await fetcher('/api/prod-actual/drill-blast/designed-rings/');
       const data = response.data;
 
       setRingData(data);

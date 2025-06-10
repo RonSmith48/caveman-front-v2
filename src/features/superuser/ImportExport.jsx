@@ -29,7 +29,7 @@ const ImportExportPage = () => {
   useEffect(() => {
     // Fetch exportable tables from backend
     // Example API response: [{ id: 'prod_ring', label: 'Production Ring', requiresLevel: true }, ...]
-    fetcher('/common/export/tables/')
+    fetcher('/api/common/export/tables/')
       .then((res) => res.json())
       .then(setTables);
   }, []);

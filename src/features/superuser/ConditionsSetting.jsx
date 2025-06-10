@@ -42,7 +42,7 @@ function RingConditionList() {
   // Fetch states data from API
   const fetchStatesList = async () => {
     try {
-      const response = await fetcher('/prod-actual/ring-states/');
+      const response = await fetcher('/api/prod-actual/ring-states/');
       if (response) {
         setStates(response.data);
       }
@@ -82,7 +82,7 @@ function RingConditionList() {
     };
 
     try {
-      const addState = await fetcherPost('/prod-actual/ring-states/', payload);
+      const addState = await fetcherPost('/api/prod-actual/ring-states/', payload);
       setNewItem('');
       fetchStatesList(); // Refresh table after adding
       if (addState?.data?.msg) {
@@ -101,7 +101,7 @@ function RingConditionList() {
   // Remove item
   const removeItem = async (secState) => {
     try {
-      const deleteState = await fetcherPost('/prod-actual/ring-states/delete/', { pri_state: selectedPriState, sec_state: secState });
+      const deleteState = await fetcherPost('/api/prod-actual/ring-states/delete/', { pri_state: selectedPriState, sec_state: secState });
       fetchStatesList(); // Refresh table after deletion
       if (deleteState?.data?.msg) {
         enqueueSnackbar(deleteState.data.msg.body, { variant: deleteState.data.msg.type });

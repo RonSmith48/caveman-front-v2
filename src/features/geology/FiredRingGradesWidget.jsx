@@ -60,7 +60,7 @@ function FiredRingGradesWidget() {
     try {
       setLoading(true);
       const formattedDate = date.format('YYYY-MM-DD');
-      const response = await fetcherPost('report/geo/fired-ring-grade/', {
+      const response = await fetcherPost('api/report/geo/fired-ring-grade/', {
         date: formattedDate
       });
       setFiredRings(response.data || []);

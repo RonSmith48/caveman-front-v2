@@ -63,7 +63,7 @@ function DCFWidget() {
     try {
       setLoading(true);
       const formattedDate = date.format('YYYY-MM-DD');
-      const response = await fetcherPost('report/prod/dcf/', {
+      const response = await fetcherPost('api/report/prod/dcf/', {
         date: formattedDate
       });
       setDCFRings(response.data || []);

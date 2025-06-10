@@ -18,7 +18,7 @@ const InspectionDialog = ({ open, onClose, selectedRow = {}, refresh }) => {
     if (!selectedRow) return;
     setIsDeleting(true);
     try {
-      await fetcher(`/prod-actual/bdcf/groups/remove/${selectedRow.id}/`);
+      await fetcher(`/api/prod-actual/bdcf/groups/remove/${selectedRow.id}/`);
       enqueueSnackbar('Group removed successfully', { variant: 'success' });
       refresh;
       onClose(); // Close dialog after successful deletion

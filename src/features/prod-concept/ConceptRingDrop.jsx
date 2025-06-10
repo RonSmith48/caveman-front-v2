@@ -60,7 +60,7 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     fetchRun.current = true;
 
     try {
-      const data = await fetcher('/settings/concept_csv_headers');
+      const data = await fetcher('/api/settings/concept_csv_headers');
       if (data && data.data.value) {
         // Set the values of the headers from the JSON object
         setExpectedHeaders(data.data.value);
@@ -225,7 +225,7 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     formData.append('file', file);
 
     try {
-      const response = await axiosServices.post('/prod-concept/upload/concept/', formData, {
+      const response = await axiosServices.post('/api/prod-concept/upload/concept/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },

@@ -30,7 +30,7 @@ export default function LevelStatusMenu({ data, author, date, shift, isDraft }) 
 
   const handleDownloadCSV = async () => {
     try {
-      const response = await fetcher('/report/prod/dupe/');
+      const response = await fetcher('/api/report/prod/dupe/');
       const data = response.data;
 
       if (!Array.isArray(data) || data.length === 0) {

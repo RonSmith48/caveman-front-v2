@@ -70,8 +70,8 @@ function BDCFChargeTab() {
   const fetchData = async () => {
     try {
       const [chargeResponse, detTypes] = await Promise.all([
-        fetcher('/prod-actual/bdcf/charge/'),
-        fetcher('/settings/explosive-types-list/')
+        fetcher('/api/prod-actual/bdcf/charge/'),
+        fetcher('/api/settings/explosive-types-list/')
       ]);
 
       setData(chargeResponse.data);
@@ -89,7 +89,7 @@ function BDCFChargeTab() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher(`/settings/user-${user.id}/`);
+      const data = await fetcher(`/api/settings/user-${user.id}/`);
       if (data?.data?.value) {
         setSettings(data.data.value);
       }
@@ -143,7 +143,7 @@ function BDCFChargeTab() {
           explosive: values.explosive
         };
 
-        const response = await fetcherPost('/prod-actual/bdcf/charge/', payload);
+        const response = await fetcherPost('/api/prod-actual/bdcf/charge/', payload);
 
         // play a sound if enabled
         if (settings['equipment-sounds'] == true) {
@@ -242,7 +242,7 @@ function BDCFChargeTab() {
     setLoadingRings(true);
 
     try {
-      const response = await fetcher(`/prod-actual/bdcf/charge/${lvl_od}/`);
+      const response = await fetcher(`/api/prod-actual/bdcf/charge/${lvl_od}/`);
       const rings = isRecharge ? response.data.charged : response.data.drilled;
       setChargedRings(response.data.charged_rings);
       setRingNumDrop(rings);

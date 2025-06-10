@@ -52,7 +52,7 @@ const DupeUpload = ({ error, file, sx }) => {
         formData.append('file', fileToUpload);
         formData.append('date', pickValue);
 
-        const response = await axiosServices.post('prod-actual/upload/dupe/', formData, {
+        const response = await axiosServices.post('api/prod-actual/upload/dupe/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },

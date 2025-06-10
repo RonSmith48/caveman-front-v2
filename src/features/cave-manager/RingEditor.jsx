@@ -38,7 +38,7 @@ export default function RingEditor() {
   const nullValue = 'No Value';
 
   useEffect(() => {
-    fetcher(`/prod-actual/prod-rings/${location_id}/`)
+    fetcher(`/api/prod-actual/prod-rings/${location_id}/`)
       .then((res) => {
         setInitialValues(res.data);
         setLoading(false);
@@ -57,7 +57,7 @@ export default function RingEditor() {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await fetcherPut(`/prod-actual/prod-rings/${location_id}/`, values);
+      await fetcherPut(`/api/prod-actual/prod-rings/${location_id}/`, values);
       setSubmitting(false);
     } catch (err) {
       console.error('Submission failed:', err);

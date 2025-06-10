@@ -1,5 +1,5 @@
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import TerminalOutlinedIcon from '@mui/icons-material/TerminalOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 
@@ -38,9 +38,23 @@ const superuserMenuGroup = {
     {
       id: 'site-admin',
       title: 'site-admin',
-      type: 'item',
+      type: 'collapse',
       icon: EngineeringOutlinedIcon,
-      url: '/sudo/site-admin'
+      children: [
+        {
+          id: 'manage-cms',
+          title: 'manage-cms',
+          type: 'item',
+          url: '/sudo/manage-cms'
+        }
+      ]
+    },
+    {
+      id: 'logs',
+      title: 'logs',
+      type: 'item',
+      icon: TerminalOutlinedIcon,
+      url: '/sudo/logs'
     }
   ]
 };

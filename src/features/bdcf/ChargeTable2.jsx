@@ -63,7 +63,7 @@ function EditAction({ row, table }) {
       status: 'Designed'
     };
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/drill/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/drill/', payload);
       if (response.status === 200) {
         enqueueSnackbar('Ring un-drilled successfully', { variant: 'success' });
         if (meta?.handleSelectOredrive) {
@@ -103,7 +103,7 @@ function EditAction({ row, table }) {
     };
 
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/drill/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/drill/', payload);
 
       if (response.status === 200) {
         enqueueSnackbar('Row updated successfully', { variant: 'success' });

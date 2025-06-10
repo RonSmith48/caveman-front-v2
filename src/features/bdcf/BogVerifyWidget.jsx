@@ -56,7 +56,7 @@ function BogVerifyWidget() {
     try {
       setLoading(true);
       const formattedDate = date.format('YYYY-MM-DD');
-      const response = await fetcherPost('report/prod/bog-verify/', {
+      const response = await fetcherPost('api/report/prod/bog-verify/', {
         date: formattedDate,
         shift
       });

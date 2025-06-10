@@ -20,7 +20,7 @@ function GenerateLSRCard() {
       setLoading(true);
       // Transmit draft status: if not confirmed, draft=true; if confirmed, draft=false
       const draftParam = !confirmed;
-      const endpoint = `report/prod/level-status/create/?draft=${draftParam}`;
+      const endpoint = `api/report/prod/level-status/create/?draft=${draftParam}`;
       const response = await fetcher(endpoint);
 
       if (response?.data?.msg) {

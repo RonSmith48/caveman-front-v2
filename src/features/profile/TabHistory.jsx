@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 
 // project import
 import MainCard from 'components/MainCard';
+import Profile from 'features/wagtail-cms/Profile';
 
 // ==============================|| ACCOUNT PROFILE - SETTINGS ||============================== //
 
@@ -32,7 +33,9 @@ export default function TabHistory() {
         </MainCard>
       </Grid>
       <Grid item xs={12}>
-        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}></Stack>
+        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+          <Profile />
+        </Stack>
       </Grid>
     </Grid>
   );

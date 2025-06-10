@@ -6,6 +6,7 @@ import authReducer from 'contexts/auth-reducer/auth';
 import Loader from 'components/Loader';
 import { enqueueSnackbar } from 'notistack';
 import axiosServices, { fetcherPatch, fetcherPost } from 'utils/axiosAuth';
+import { bridgeLoginToConnectedAPIs } from 'utils/bridgeLogin';
 
 const initialState = {
   isLoggedIn: false,
@@ -124,6 +125,8 @@ export const JWTProvider = ({ children }) => {
         localStorage.setItem('accessToken', tokens.access);
         localStorage.setItem('refreshToken', tokens.refresh);
         localStorage.setItem('user', JSON.stringify(user));
+
+        await bridgeLoginToConnectedAPIs(tokens.access);
 
         dispatch({
           type: LOGIN,

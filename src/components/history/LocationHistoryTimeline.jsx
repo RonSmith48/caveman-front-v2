@@ -18,7 +18,7 @@ export default function LocationHistoryTimeline({ location_id, defaultSources = 
 
   const loadTimeline = useCallback(() => {
     setLoading(true);
-    fetcher(`/report/location-history/${location_id}/`).then((res) => {
+    fetcher(`/api/report/location-history/${location_id}/`).then((res) => {
       const timeline = res.data.timeline || [];
       setTimelineData(timeline);
       setProdDevCode(res.data.prod_dev_code || null);

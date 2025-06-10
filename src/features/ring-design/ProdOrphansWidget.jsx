@@ -32,7 +32,7 @@ export default function ProdOrphansWidget() {
 
   const fetchOrphanCount = async () => {
     try {
-      const response = await fetcher('prod-actual/orphaned-rings/');
+      const response = await fetcher('api/prod-actual/orphaned-rings/');
       if (response && Array.isArray(response.data)) {
         setOrphanCount(response.data.length);
         setOrphansData(response.data);
@@ -53,7 +53,7 @@ export default function ProdOrphansWidget() {
   const handleProcessClick = async () => {
     try {
       setLoading(true);
-      const response = await fetcher('prod-actual/orphaned-rings/process/');
+      const response = await fetcher('api/prod-actual/orphaned-rings/process/');
       if (response?.data?.msg?.body) {
         enqueueSnackbar(response.data.msg.body, { variant: 'success' });
         notify('summary/refresh');

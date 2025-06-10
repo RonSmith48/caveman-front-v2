@@ -37,7 +37,7 @@ export default function OverdrawWidget() {
 
   const fetchRings = async () => {
     setLoading(true);
-    const res = await fetcher('/prod-actual/geology/overdraw/');
+    const res = await fetcher('/api/prod-actual/geology/overdraw/');
     setRings(res.data);
     setLoading(false);
     if (res.data?.msg?.body) {
@@ -63,7 +63,7 @@ export default function OverdrawWidget() {
       status
     };
 
-    const response = await fetcherPost('/prod-actual/geology/overdraw/', payload);
+    const response = await fetcherPost('/api/prod-actual/geology/overdraw/', payload);
     setQuantity('');
     setReason('');
     fetchRings();

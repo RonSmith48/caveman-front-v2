@@ -46,7 +46,7 @@ const BDCFGroupTab1 = () => {
     const drill_charge = event.target.value;
 
     try {
-      const response = await fetcher(`/prod-actual/bdcf/groups/levels/${drill_charge}/`);
+      const response = await fetcher(`/api/prod-actual/bdcf/groups/levels/${drill_charge}/`);
       setLevels(response.data);
       setFieldValue('createFrom', drill_charge);
     } catch (error) {
@@ -74,7 +74,7 @@ const BDCFGroupTab1 = () => {
     };
 
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/groups/rings-select/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/groups/rings-select/', payload);
       setRings(response.data);
       setFieldValue('level', lvl);
     } catch (error) {
@@ -127,7 +127,7 @@ const BDCFGroupTab1 = () => {
               };
 
               try {
-                const ag_response = await fetcherPost('/prod-actual/bdcf/groups/rings-aggregate/', payload);
+                const ag_response = await fetcherPost('/api/prod-actual/bdcf/groups/rings-aggregate/', payload);
                 if (ag_response && ag_response.data.msg) {
                   enqueueSnackbar(ag_response.data.msg.body, { variant: ag_response.data.msg.type });
                 }

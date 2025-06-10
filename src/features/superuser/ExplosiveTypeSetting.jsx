@@ -40,7 +40,7 @@ function ExplosiveTypes() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher('/settings/explosive-types-list/');
+      const data = await fetcher('/api/settings/explosive-types-list/');
       if (data) {
         setSettings(data.data.value || []);
       } else {
@@ -64,10 +64,10 @@ function ExplosiveTypes() {
 
     try {
       if (isNew) {
-        await fetcherPost('/settings/', payload);
+        await fetcherPost('/api/settings/', payload);
         enqueueSnackbar('Explosives list created', { variant: 'success' });
       } else {
-        await fetcherPatch('/settings/explosive-types-list/', payload);
+        await fetcherPatch('/api/settings/explosive-types-list/', payload);
         enqueueSnackbar('Explosives list settings updated', { variant: 'success' });
       }
     } catch (error) {

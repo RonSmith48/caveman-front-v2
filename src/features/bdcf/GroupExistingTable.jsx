@@ -49,7 +49,7 @@ const BDCFExistingGroups = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetcher('/prod-actual/bdcf/groups/existing/');
+      const response = await fetcher('/api/prod-actual/bdcf/groups/existing/');
       setGroups(response.data);
     } catch (error) {
       console.error('Error fetching designed rings list:', error);

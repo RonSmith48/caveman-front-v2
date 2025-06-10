@@ -169,7 +169,7 @@ export default function RingDesignDrop() {
     formData.append('hole_file', namedFiles.holeFile);
 
     try {
-      const response = await fetcherPost('/prod-actual/drill-blast/design-upload/', formData, {
+      const response = await fetcherPost('/api/prod-actual/drill-blast/design-upload/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

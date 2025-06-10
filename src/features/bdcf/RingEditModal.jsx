@@ -13,7 +13,7 @@ const RingEditModal = ({ open, onClose, location_id, handleSelectOredrive }) => 
     if (location_id) {
       const fetchRingDetails = async () => {
         try {
-          const response = await fetcher(`/prod-actual/history/${location_id}`);
+          const response = await fetcher(`/api/prod-actual/history/${location_id}`);
           setRingDetails(response.data);
           console.log(response);
         } catch (error) {

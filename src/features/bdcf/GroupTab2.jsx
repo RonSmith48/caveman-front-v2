@@ -99,7 +99,7 @@ const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
     };
 
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/groups/custom-rings/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/groups/custom-rings/', payload);
       console.log('Submission successful:', response);
       enqueueSnackbar('Submission successful!', { variant: 'success' });
 
