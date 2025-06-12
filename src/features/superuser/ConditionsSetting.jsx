@@ -30,6 +30,7 @@ import { enqueueSnackbar } from 'notistack';
 // Project imports
 import MainCard from 'components/MainCard';
 import { fetcher, fetcherPost } from 'utils/axiosBack';
+import HelpDialog from 'components/HelpDialog';
 
 function RingConditionList() {
   const [states, setStates] = useState([]); // Store all ring states
@@ -119,7 +120,7 @@ function RingConditionList() {
   }, []);
 
   return (
-    <MainCard title="Ring Conditions" secondary="Help">
+    <MainCard title="Ring Conditions" secondary={<HelpDialog id={13} />}>
       {!loading ? (
         <Box>
           <Grid container spacing={3}>

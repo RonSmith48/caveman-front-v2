@@ -19,7 +19,7 @@ import {
   Stack,
   Tooltip
 } from '@mui/material';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpDialog from 'components/HelpDialog';
 import { fetcher, fetcherPost } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 import MainCard from 'components/MainCard';
@@ -30,7 +30,6 @@ import * as Yup from 'yup';
 const BDCFGroupTab1 = () => {
   const [levels, setLevels] = useState([]);
   const [rings, setRings] = useState([]);
-  const [openHelp, setOpenHelp] = useState(false);
   const [agResponseData, setAgResponseData] = useState(null);
   const formikRef = useRef(null);
 
@@ -104,7 +103,7 @@ const BDCFGroupTab1 = () => {
           secondary={
             <Tooltip title="Help">
               <IconButton onClick={() => setOpenHelp(true)} size="small">
-                <HelpOutlineOutlinedIcon fontSize="small" />
+                <HelpDialog id={6} />
               </IconButton>
             </Tooltip>
           }
@@ -211,14 +210,6 @@ const BDCFGroupTab1 = () => {
               </Form>
             )}
           </Formik>
-
-          {/* Dialog */}
-          <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-            <DialogTitle>How it Works</DialogTitle>
-            <DialogContent>
-              <p>How it works goes here</p>
-            </DialogContent>
-          </Dialog>
         </MainCard>
       </Grid>
       <Grid item xs={12} md={8}>

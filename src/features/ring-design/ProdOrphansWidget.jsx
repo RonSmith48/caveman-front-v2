@@ -14,6 +14,7 @@ import {
   Link,
   Toolbar
 } from '@mui/material';
+import HelpDialog from 'components/HelpDialog';
 import CloseIcon from '@mui/icons-material/Close';
 import HoverSocialCard from 'components/cards/HoverSocialCard';
 import MainCard from 'components/MainCard';
@@ -111,9 +112,7 @@ export default function ProdOrphansWidget() {
           <Grid item sx={{ ml: 1 }}>
             <Typography>Match designed and concept rings</Typography>
             <Box display="flex" justifyContent="flex-end">
-              <Link component="button" variant="body2" onClick={handleDialogOpen}>
-                Learn more
-              </Link>
+              <HelpDialog id={10} text="Learn more" />
             </Box>
           </Grid>
         </Grid>
@@ -134,19 +133,6 @@ export default function ProdOrphansWidget() {
         <DialogContent>
           <ProdOrphans data={orphansData} />
         </DialogContent>
-      </Dialog>
-
-      {/* Help */}
-      <Dialog open={open} onClose={handleDialogClose}>
-        <DialogTitle>More Information</DialogTitle>
-        <DialogContent>
-          <Typography>This section contains more details about how the designed rings are matched with concept rings.</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );

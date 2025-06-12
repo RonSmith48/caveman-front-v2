@@ -9,12 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,6 +26,7 @@ import { enqueueSnackbar } from 'notistack';
 // Project imports
 import MainCard from 'components/MainCard';
 import { fetcher, fetcherPost, fetcherPatch } from 'utils/axiosBack';
+import HelpDialog from 'components/HelpDialog';
 
 function ExplosiveTypes() {
   const [settings, setSettings] = useState([]);
@@ -92,7 +88,7 @@ function ExplosiveTypes() {
   }, []);
 
   return (
-    <MainCard title="Detonator & Explosive Types" secondary="Help">
+    <MainCard title="Detonator & Explosive Types" secondary={<HelpDialog id={14} />}>
       {!loading ? (
         <Formik
           enableReinitialize

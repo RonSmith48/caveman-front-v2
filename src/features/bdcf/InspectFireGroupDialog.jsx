@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { Box, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Button, CardContent, Chip, Tooltip } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { useState } from 'react';
+import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Button, CardContent, Chip } from '@mui/material';
 import MainCard from 'components/MainCard';
-import { Delete as DeleteIcon, HelpOutline as HelpIcon, ArrowForward } from '@mui/icons-material';
-import GroupHelp from 'features/bdcf/GroupHelp';
+import { Delete as DeleteIcon, ArrowForward } from '@mui/icons-material';
+import HelpDialog from 'components/HelpDialog';
 import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 const InspectionDialog = ({ open, onClose, selectedRow = {}, refresh }) => {
   const { pooled_rings = {}, group_rings = [], touched = false, id: group } = selectedRow;
   const pooledStatus = pooled_rings.status || 'Unknown';
-  const [helpOpen, setHelpOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false); // Track delete status
 
   // Handle Delete Group Request
@@ -34,9 +32,7 @@ const InspectionDialog = ({ open, onClose, selectedRow = {}, refresh }) => {
       <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth PaperProps={{ sx: { overflowX: 'hidden', minHeight: '80vh' } }}>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           Inspection Details
-          <IconButton edge="end" color="inherit" onClick={() => setHelpOpen(true)} aria-label="help">
-            <HelpIcon />
-          </IconButton>
+          <HelpDialog id={9} />
         </DialogTitle>
 
         <DialogContent sx={{ overflowX: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -101,9 +97,6 @@ const InspectionDialog = ({ open, onClose, selectedRow = {}, refresh }) => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Help Dialog */}
-      <GroupHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
     </>
   );
 };

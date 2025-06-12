@@ -1,30 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Stack,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Box,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Stack, FormControl, InputLabel, Select, MenuItem, Button, Box, IconButton } from '@mui/material';
 import MainCard from 'components/MainCard';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpDialog from 'components/HelpDialog';
 import fetcher from 'utils/axios';
 
 const ImportExportPage = () => {
-  const [openHelp, setOpenHelp] = useState(false);
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState('');
-  const [extraFields, setExtraFields] = useState([]);
-
-  // Optionally store additional state for dynamic selections
 
   useEffect(() => {
     // Fetch exportable tables from backend
@@ -57,11 +40,7 @@ const ImportExportPage = () => {
           <IconButton onClick={handleExport} disabled={!selectedTable} size="small">
             <FileDownloadOutlinedIcon fontSize="small" />
           </IconButton>
-          <Tooltip title="Help">
-            <IconButton onClick={() => setOpenHelp(true)} size="small">
-              <HelpOutlineOutlinedIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+          <HelpDialog id={15} />
         </Stack>
       }
       sx={{ '& .MuiCardHeader-root': { padding: '16px 16px' } }}
@@ -89,13 +68,6 @@ const ImportExportPage = () => {
           </Button>
         </Box>
       </Stack>
-      {/* Help Dialog */}
-      <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-        <DialogTitle>How it Works</DialogTitle>
-        <DialogContent>
-          <p>How it works goes here</p>
-        </DialogContent>
-      </Dialog>
     </MainCard>
   );
 };
