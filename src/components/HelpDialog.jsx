@@ -4,6 +4,7 @@ import { Dialog, DialogTitle, DialogContent, CircularProgress, IconButton, Typog
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import UnderConstruction from 'pages/maintenance/under-construction';
 import CloseIcon from '@mui/icons-material/Close';
+import { fetcher } from 'utils/axiosCms';
 
 export default function HelpDialog({ id, text }) {
   const [open, setOpen] = useState(false);
@@ -22,14 +23,17 @@ export default function HelpDialog({ id, text }) {
     if (!open) return;
     setLoading(true);
 
-    fetch(`/api/v2/help/${id}/`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Not found');
-        return res.json();
-      })
-      .then((data) => setPage(data))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+    (async () => {
+      try {
+        const { data } = await fetcher(`helpdocs/help/${id}/`);
+        setPage(data);
+      } catch (err) {
+        console.error('Help page load failed:', err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [open, id]);
 
   return (
