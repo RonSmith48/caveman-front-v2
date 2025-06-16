@@ -6185,6 +6185,7 @@ __metadata:
     stylis-plugin-rtl: 2.1.1
     swr: 2.3.0
     use-debounce: ^10.0.4
+    use-image: ^1.1.4
     vite: 6.0.11
     vite-jsconfig-paths: 2.0.1
     web-vitals: 4.2.4
@@ -8528,6 +8529,16 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 59d7e014e9ac6ba57a5b1c411cf1c088b44987b898dd64a4dc73a02da66a5ecacbc3521e261d042e7d388445b69c820b43837a1533fe9def7f85adcaaec472d0
+  languageName: node
+  linkType: hard
+
+"use-image@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "use-image@npm:1.1.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: a5aba10a4d7014151b44fb516bf6b7be08c027f178ac96bd31fcb254dba727f8c00e7724b283ca006ebe79e1a059ba83ae87588a10f3e9f21d3947a0cb17889e
   languageName: node
   linkType: hard
 
