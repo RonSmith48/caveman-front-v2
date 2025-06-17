@@ -109,6 +109,8 @@ export default function ParentChooserModal({ orphanLocationId, onPair, disabled 
                         {Object.entries(hoveredData).map(([key, value]) => {
                           let display = String(value);
                           if (key === 'dist') display = `${value.toFixed(2)} m`;
+                          if (key === 'cu') display = `${value} %`;
+                          if (key === 'au') display = `${value} g/t`;
                           return (
                             <Box component="tr" key={key}>
                               <Box component="td" sx={{ pr: 1, verticalAlign: 'top', fontWeight: 'bold' }}>

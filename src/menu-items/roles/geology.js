@@ -33,6 +33,12 @@ const menuItems = {
               title: 'overdraw',
               type: 'item',
               url: '/geology/overdraw'
+            },
+            {
+              id: 'parent-checker',
+              title: 'parent-checker',
+              type: 'item',
+              url: '/geology/parent-checker'
             }
           ]
         },

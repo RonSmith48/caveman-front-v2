@@ -42,7 +42,6 @@ export default function RingEditor() {
       .then((res) => {
         setInitialValues(res.data);
         setLoading(false);
-        console.log('Initial values:', res.data);
       })
       .catch((e) => {
         console.log('the error', e);

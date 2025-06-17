@@ -22,6 +22,7 @@ const ParentChooser = ({
   const [canvasSize, setCanvasSize] = useState(0);
 
   useEffect(() => {
+    console.log('Fetching rings data for orphanLocationId:', orphanLocationId);
     if (!orphanLocationId) return;
     (async () => {
       try {
