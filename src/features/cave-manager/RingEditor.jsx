@@ -65,6 +65,9 @@ export default function RingEditor() {
     }
   };
 
+  const hideChargingCard = ['Designed', 'Drilled', 'Abandoned'].includes(initialValues.status);
+  const hideFireBogCard = ['Designed', 'Drilled', 'Charged', 'Abandoned'].includes(initialValues.status);
+
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize>
       {({ isSubmitting, values, setFieldValue }) => (
@@ -105,7 +108,7 @@ export default function RingEditor() {
                                   {values.status}
                                 </Typography>
                               </Grid>
-                              <Grid item xs={4}>
+                              <Grid item xs={8}>
                                 <EditStatusModal values={values} />
                               </Grid>
                             </Grid>
@@ -195,18 +198,15 @@ export default function RingEditor() {
                                     >
                                       {values.concept_ring || 'Orphaned Ring'}
                                     </Typography>
-                                    <Tooltip title="Choose Parent" arrow>
-                                      <span>
-                                        <ParentChooserModal
-                                          orphanLocationId={values.location_id}
-                                          disabled={!values.is_active}
-                                          onPair={(pickedRing) => {
-                                            // write only the slug into the form
-                                            setFieldValue('concept_ring', pickedRing.blastsolids_id);
-                                          }}
-                                        />
-                                      </span>
-                                    </Tooltip>
+
+                                    <ParentChooserModal
+                                      orphanLocationId={values.location_id}
+                                      disabled={!values.is_active}
+                                      onPair={(ring) => {
+                                        // write only the slug into the form
+                                        setFieldValue('concept_ring', ring.name);
+                                      }}
+                                    />
                                   </Stack>
                                 </Box>
                               </Grid>
@@ -298,83 +298,93 @@ export default function RingEditor() {
                                   label="Drilling Complete Date"
                                   as={TextField}
                                   fullWidth
-                                  disabled={!values.is_active}
+                                  disabled={!values.is_active || values.status === 'Designed'}
                                 />
                               </Grid>
                             </Grid>
                           </CardContent>
                         </Card>
                       </Grid>
-                      <Grid item xs={6}>
-                        <Card>
-                          <CardContent>
-                            <Typography variant="h5">Charging</Typography>
-                            <Divider sx={{ mb: 1, borderColor: 'success.main' }} />
-                            <Grid container spacing={2} sx={{ mb: 1 }}>
-                              <Grid item xs={12} sm={6}>
-                                <Typography variant="subtitle2">Emulsion Est. Qty</Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                  {values.designed_emulsion_qty || nullValue}
-                                </Typography>
+                      {!hideChargingCard && (
+                        <Grid item xs={6}>
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h5">Charging</Typography>
+                              <Divider sx={{ mb: 1, borderColor: 'success.main' }} />
+                              <Grid container spacing={2} sx={{ mb: 1 }}>
+                                <Grid item xs={12} sm={6}>
+                                  <Typography variant="subtitle2">Emulsion Est. Qty</Typography>
+                                  <Typography variant="body1" color="textSecondary">
+                                    {values.designed_emulsion_qty || nullValue}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                  <Typography variant="subtitle2">Designed Detonator</Typography>
+                                  <Typography variant="body1" color="textSecondary">
+                                    {values.detonator_designed || nullValue}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Field
+                                    name="detonator_actual"
+                                    label="Detonator Used"
+                                    as={TextField}
+                                    fullWidth
+                                    disabled={!values.is_active}
+                                  />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Field name="charge_shift" label="Charge Date" as={TextField} fullWidth disabled={!values.is_active} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Field name="fireby_date" label="Fire By" as={TextField} fullWidth disabled={!values.is_active} />
+                                </Grid>
                               </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <Typography variant="subtitle2">Designed Detonator</Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                  {values.detonator_designed || nullValue}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Field
-                                  name="detonator_actual"
-                                  label="Detonator Used"
-                                  as={TextField}
-                                  fullWidth
-                                  disabled={!values.is_active}
-                                />
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Field name="charge_shift" label="Charge Date" as={TextField} fullWidth disabled={!values.is_active} />
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Field name="fireby_date" label="Fire By" as={TextField} fullWidth disabled={!values.is_active} />
-                              </Grid>
-                            </Grid>
-                            <Grid container spacing={2}></Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Card>
-                          <CardContent>
-                            <Typography variant="h5">Firing & Bogging</Typography>
-                            <Divider sx={{ mb: 1, borderColor: 'error.main' }} />
-                            <Grid container spacing={2}>
-                              <Grid item xs={12}>
-                                <Typography variant="subtitle2">Bogged Tonnes</Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                  {values.bogged_tonnes}
-                                </Typography>
-                              </Grid>
+                              <Grid container spacing={2}></Grid>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      )}
+                      {!hideFireBogCard && (
+                        <Grid item xs={6}>
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h5">Firing & Bogging</Typography>
+                              <Divider sx={{ mb: 1, borderColor: 'error.main' }} />
+                              <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                  <Typography variant="subtitle2">Bogged Tonnes</Typography>
+                                  <Typography variant="body1" color="textSecondary">
+                                    {values.bogged_tonnes}
+                                  </Typography>
+                                </Grid>
 
-                              <Grid item xs={6}>
-                                <Field name="fired_shift" label="Fired Shift" as={TextField} fullWidth disabled={!values.is_active} />
+                                <Grid item xs={6}>
+                                  <Field name="fired_shift" label="Fired Shift" as={TextField} fullWidth disabled={!values.is_active} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Field
+                                    name="draw_deviation"
+                                    label="Draw Deviation"
+                                    as={TextField}
+                                    fullWidth
+                                    disabled={!values.is_active}
+                                  />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Field
+                                    name="bog_complete_shift"
+                                    label="Bogging Complete Shift"
+                                    as={TextField}
+                                    fullWidth
+                                    disabled={!values.is_active}
+                                  />
+                                </Grid>
                               </Grid>
-                              <Grid item xs={6}>
-                                <Field name="draw_deviation" label="Draw Deviation" as={TextField} fullWidth disabled={!values.is_active} />
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Field
-                                  name="bog_complete_shift"
-                                  label="Bogging Complete Shift"
-                                  as={TextField}
-                                  fullWidth
-                                  disabled={!values.is_active}
-                                />
-                              </Grid>
-                            </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      )}
                       <Grid item xs={6}>
                         <Card>
                           <CardContent>
@@ -475,7 +485,7 @@ export default function RingEditor() {
                         </Card>
                       </Grid>
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={3} sx={{ mt: 2 }}>
                       <Button type="submit" variant="contained" disabled={isSubmitting}>
                         Save Changes
                       </Button>
