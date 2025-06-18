@@ -27,7 +27,7 @@ import MainCard from 'components/MainCard';
 import IconButton from 'components/@extended/IconButton';
 import CSVExport from 'components/third-party/react-table/CSVExport';
 import RowEditable from 'features/bdcf/BogTableRowEditable';
-import { fetcher, fetcherPut, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPut, fetcherPost } from 'utils/axiosBack';
 import { formatToShift } from 'utils/shkey';
 import DrillEditModal from 'features/bdcf/DrillEditModal';
 

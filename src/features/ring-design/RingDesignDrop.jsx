@@ -6,7 +6,7 @@ import Papa from 'papaparse';
 import { Box, Button, Typography, Table, TableBody, TableCell, TableHead, TableRow, Paper, Alert } from '@mui/material';
 import { CheckCircleOutline, CancelOutlined } from '@mui/icons-material';
 import PlaceholderContent from 'components/third-party/dropzone/PlaceholderContent';
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 const ringDataHeaders = [
@@ -169,7 +169,7 @@ export default function RingDesignDrop() {
     formData.append('hole_file', namedFiles.holeFile);
 
     try {
-      const response = await fetcherPost('/prod-actual/drill-blast/design-upload/', formData, {
+      const response = await fetcherPost('/api/prod-actual/drill-blast/design-upload/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

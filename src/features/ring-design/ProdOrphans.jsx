@@ -16,7 +16,7 @@ import CSVExport from 'components/third-party/react-table/CSVExport';
 import SelectColumnVisibility from 'components/third-party/react-table/SelectColumnVisibility';
 import LinearWithLabel from 'components/@extended/progress/LinearWithLabel';
 
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 // ==============================|| REACT TABLE ||============================== //
 

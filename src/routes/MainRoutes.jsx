@@ -14,6 +14,7 @@ const Profile = Loadable(lazy(() => import('features/profile/Profile')));
 // superuser
 const SudoSettings = Loadable(lazy(() => import('features/superuser/Settings')));
 const SudoImportExport = Loadable(lazy(() => import('features/superuser/ImportExport')));
+const SudoCms = Loadable(lazy(() => import('features/wagtail-cms/ManageCMS')));
 // dashboards
 const ProdEngDash = Loadable(lazy(() => import('pages/dashboard/ProdEngDash')));
 const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftbossDash')));
@@ -35,6 +36,8 @@ const RingEditor = Loadable(lazy(() => import('features/cave-manager/RingEditor'
 // geology
 const FiredRingsPage = Loadable(lazy(() => import('features/geology/FiredRings')));
 const OverdrawPage = Loadable(lazy(() => import('features/geology/Overdraw')));
+const ParentChecker = Loadable(lazy(() => import('features/geology/ParentChecker')));
+const ParentCheckerForm = Loadable(lazy(() => import('features/geology/ParentCheckerForm')));
 
 const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
@@ -51,6 +54,8 @@ const MainRoutes = {
         { path: 'geology/dashboard', element: <GeologyDash /> },
         { path: 'geology/fired-rings', element: <FiredRingsPage /> },
         { path: 'geology/overdraw', element: <OverdrawPage /> },
+        { path: 'geology/parent-checker', element: <ParentCheckerForm /> },
+        { path: 'geology/parent-checker/:loc', element: <ParentChecker /> },
         { path: 'geotech/dashboard', element: <GeotechDash /> },
         { path: 'prod/dashboard', element: <ProdShiftbossDash /> },
         { path: 'prod-eng/dashboard', element: <ProdEngDash /> },
@@ -66,7 +71,8 @@ const MainRoutes = {
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
         { path: 'profile/:tab', element: <Profile /> },
         { path: 'sudo/settings', element: <SudoSettings /> },
-        { path: 'sudo/import-export', element: <SudoImportExport /> }
+        { path: 'sudo/import-export', element: <SudoImportExport /> },
+        { path: 'sudo/manage-cms', element: <SudoCms /> }
       ]
     },
     {

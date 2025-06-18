@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNotifier } from 'contexts/NotifierContext';
 import {
   Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
   Menu,
   MenuItem,
   IconButton,
@@ -23,7 +20,7 @@ import {
   OutlinedInput
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpDialog from 'components/HelpDialog';
 import FormatIndentIncreaseIcon from '@mui/icons-material/FormatIndentIncrease';
 import FormatIndentDecreaseIcon from '@mui/icons-material/FormatIndentDecrease';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -36,13 +33,12 @@ import StopeSummaryPDF from 'features/ring-design/StopeSummaryPdf';
 import { exportAegisCsv } from 'features/ring-design/ExportAegisFile';
 import MainCard from 'components/MainCard';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 const WidgetStopeSummary = () => {
   const [selectedRings, setSelectedRings] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [showFullNames, setShowFullNames] = useState(true);
-  const [openHelp, setOpenHelp] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [ringData, setRingData] = useState([]);
@@ -57,7 +53,7 @@ const WidgetStopeSummary = () => {
 
   const fetchDesignedDrives = async () => {
     try {
-      const response = await fetcher('/prod-actual/drill-blast/designed-rings/');
+      const response = await fetcher('/api/prod-actual/drill-blast/designed-rings/');
       const data = response.data;
 
       setRingData(data);
@@ -103,16 +99,7 @@ const WidgetStopeSummary = () => {
 
   return (
     <>
-      <MainCard
-        title="Stope Summary Generator"
-        secondary={
-          <Tooltip title="Help">
-            <IconButton onClick={() => setOpenHelp(true)} size="small">
-              <HelpOutlineOutlinedIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        }
-      >
+      <MainCard title="Stope Summary Generator" secondary={<HelpDialog id={12} />}>
         <Formik
           initialValues={{ level: '', oredrive: '', rings: [] }}
           onSubmit={(values) => {
@@ -198,13 +185,6 @@ const WidgetStopeSummary = () => {
             );
           }}
         </Formik>
-        {/* Help Dialog */}
-        <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-          <DialogTitle>How it Works</DialogTitle>
-          <DialogContent>
-            <p>How it works goes here</p>
-          </DialogContent>
-        </Dialog>
       </MainCard>
       {selectedRings.length > 0 && (
         <>

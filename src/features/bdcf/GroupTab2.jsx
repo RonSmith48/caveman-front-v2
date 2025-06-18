@@ -27,19 +27,17 @@ import {
   TableCell,
   TableBody
 } from '@mui/material';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpDialog from 'components/HelpDialog';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import MainCard from 'components/MainCard';
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 import { Formik, Field, FieldArray, Form } from 'formik';
 import * as Yup from 'yup';
 
 const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
-  // Local UI state (for the Help and Reference dialogs)
-  const [openHelp, setOpenHelp] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
@@ -99,7 +97,7 @@ const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
     };
 
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/groups/custom-rings/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/groups/custom-rings/', payload);
       console.log('Submission successful:', response);
       enqueueSnackbar('Submission successful!', { variant: 'success' });
 
@@ -119,7 +117,7 @@ const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
       secondary={
         <Tooltip title="Help">
           <IconButton onClick={() => setOpenHelp(true)} size="small">
-            <HelpOutlineOutlinedIcon fontSize="small" />
+            <HelpDialog id={7} />
           </IconButton>
         </Tooltip>
       }
@@ -446,15 +444,6 @@ const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
           );
         }}
       </Formik>
-
-      {/* Help Dialog */}
-      <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-        <DialogTitle>How it Works</DialogTitle>
-        <DialogContent>
-          <p>How it works goes here</p>
-          <p>Dont forget to mention what happens when working with flow tonnes.</p>
-        </DialogContent>
-      </Dialog>
     </MainCard>
   );
 };

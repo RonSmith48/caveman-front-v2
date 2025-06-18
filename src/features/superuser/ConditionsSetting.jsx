@@ -29,7 +29,8 @@ import { enqueueSnackbar } from 'notistack';
 
 // Project imports
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
+import HelpDialog from 'components/HelpDialog';
 
 function RingConditionList() {
   const [states, setStates] = useState([]); // Store all ring states
@@ -42,7 +43,7 @@ function RingConditionList() {
   // Fetch states data from API
   const fetchStatesList = async () => {
     try {
-      const response = await fetcher('/prod-actual/ring-states/');
+      const response = await fetcher('/api/prod-actual/ring-states/');
       if (response) {
         setStates(response.data);
       }
@@ -82,7 +83,7 @@ function RingConditionList() {
     };
 
     try {
-      const addState = await fetcherPost('/prod-actual/ring-states/', payload);
+      const addState = await fetcherPost('/api/prod-actual/ring-states/', payload);
       setNewItem('');
       fetchStatesList(); // Refresh table after adding
       if (addState?.data?.msg) {
@@ -101,7 +102,7 @@ function RingConditionList() {
   // Remove item
   const removeItem = async (secState) => {
     try {
-      const deleteState = await fetcherPost('/prod-actual/ring-states/delete/', { pri_state: selectedPriState, sec_state: secState });
+      const deleteState = await fetcherPost('/api/prod-actual/ring-states/delete/', { pri_state: selectedPriState, sec_state: secState });
       fetchStatesList(); // Refresh table after deletion
       if (deleteState?.data?.msg) {
         enqueueSnackbar(deleteState.data.msg.body, { variant: deleteState.data.msg.type });
@@ -119,7 +120,7 @@ function RingConditionList() {
   }, []);
 
   return (
-    <MainCard title="Ring Conditions" secondary="Help">
+    <MainCard title="Ring Conditions" secondary={<HelpDialog id={13} />}>
       {!loading ? (
         <Box>
           <Grid container spacing={3}>

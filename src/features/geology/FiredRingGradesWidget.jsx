@@ -28,7 +28,7 @@ import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // project
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 
 // third party
 import dayjs from 'dayjs';
@@ -60,7 +60,7 @@ function FiredRingGradesWidget() {
     try {
       setLoading(true);
       const formattedDate = date.format('YYYY-MM-DD');
-      const response = await fetcherPost('report/geo/fired-ring-grade/', {
+      const response = await fetcherPost('api/report/geo/fired-ring-grade/', {
         date: formattedDate
       });
       setFiredRings(response.data || []);
@@ -185,7 +185,7 @@ function FiredRingGradesWidget() {
         {loading ? (
           <Typography sx={{ px: 2 }}>Loading...</Typography>
         ) : firedRings.length ? (
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>

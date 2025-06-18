@@ -11,10 +11,10 @@ function BDCFReportsTab() {
         <GenerateLSRCard />
       </Grid>
       <Grid item xs={12} sm={8} md={6} lg={5}>
-        <DCFWidget />
+        <FiredRingGradesWidget />
       </Grid>
       <Grid item xs={12} sm={8} md={6} lg={5}>
-        <FiredRingGradesWidget />
+        <DCFWidget />
       </Grid>
       <Grid item xs={12} sm={8} md={6} lg={5}>
         <BogVerifyWidget />

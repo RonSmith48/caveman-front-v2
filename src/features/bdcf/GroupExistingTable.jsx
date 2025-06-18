@@ -2,44 +2,16 @@
 
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Formik, Form, Field } from 'formik';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Collapse,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  Grid,
-  IconButton,
-  MenuItem,
-  Paper,
-  Radio,
-  RadioGroup,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
-  Typography
-} from '@mui/material';
-import { fetcher } from 'utils/axios';
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 import MainCard from 'components/MainCard';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpDialog from 'components/HelpDialog';
 import SearchIcon from '@mui/icons-material/Search';
 import ProfileAvatar from 'components/ProfileAvatar';
 import InspectionDialog from 'features/bdcf/InspectFireGroupDialog';
 
 const BDCFExistingGroups = () => {
-  const [openHelp, setOpenHelp] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [groups, setGroups] = useState([]);
@@ -49,7 +21,7 @@ const BDCFExistingGroups = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetcher('/prod-actual/bdcf/groups/existing/');
+      const response = await fetcher('/api/prod-actual/bdcf/groups/existing/');
       setGroups(response.data);
     } catch (error) {
       console.error('Error fetching designed rings list:', error);
@@ -73,7 +45,7 @@ const BDCFExistingGroups = () => {
       secondary={
         <Tooltip title="Help">
           <IconButton onClick={() => setOpenHelp(true)} size="small">
-            <HelpOutlineOutlinedIcon fontSize="small" />
+            <HelpDialog id={8} />
           </IconButton>
         </Tooltip>
       }
@@ -139,14 +111,6 @@ const BDCFExistingGroups = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
-      {/* Help Dialog */}
-      <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-        <DialogTitle>How it Works</DialogTitle>
-        <DialogContent>
-          <p>How it works goes here</p>
-        </DialogContent>
-      </Dialog>
 
       {/* Inspect Dialog */}
       {selectedRow && (

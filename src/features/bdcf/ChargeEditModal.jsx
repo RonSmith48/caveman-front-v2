@@ -27,7 +27,7 @@ import {
 import Autocomplete from '@mui/material/Autocomplete';
 import ProfileAvatar from 'components/ProfileAvatar';
 import { Formik, Form, Field } from 'formik';
-import { fetcher, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPatch } from 'utils/axiosBack';
 import RingDetailModal from 'features/bdcf/RingDetailModal';
 
 const formatDate = (isoString) => {
@@ -51,8 +51,8 @@ const ChargeEditModal = ({ open, onClose, location_id, handleSelectOredrive, od 
       const fetchAllData = async () => {
         try {
           const [ringDetail, chargeResponse, detTypes] = await Promise.all([
-            fetcher(`/prod-actual/bdcf/${location_id}`),
-            fetcher('/prod-actual/bdcf/conditions/Charged/')
+            fetcher(`/api/prod-actual/bdcf/${location_id}`),
+            fetcher('/api/prod-actual/bdcf/conditions/Charged/')
           ]);
           setRingDetails(ringDetail.data);
           setConditionOptions(chargeResponse.data);
@@ -79,7 +79,7 @@ const ChargeEditModal = ({ open, onClose, location_id, handleSelectOredrive, od 
       };
 
       // Send DELETE request to API
-      await fetcher(`/prod-actual/bdcf/status-rollback/${location_id}/`);
+      await fetcher(`/api/prod-actual/bdcf/status-rollback/${location_id}/`);
 
       onClose(); // Close main dialog
     } catch (error) {
@@ -106,7 +106,7 @@ const ChargeEditModal = ({ open, onClose, location_id, handleSelectOredrive, od 
       };
 
       // Send POST request to API
-      const response = await fetcherPatch('/prod-actual/bdcf/charge/', payload);
+      const response = await fetcherPatch('/api/prod-actual/bdcf/charge/', payload);
 
       onClose(); // Close dialog after successful submission
     } catch (error) {

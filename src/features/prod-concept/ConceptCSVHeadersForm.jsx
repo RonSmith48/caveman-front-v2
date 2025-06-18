@@ -21,7 +21,7 @@ import { enqueueSnackbar } from 'notistack';
 
 // project imports
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPost, fetcherPatch } from 'utils/axiosBack';
 
 function ConceptCSVHeadersForm() {
   const [headers, setHeaders] = useState(null); // State to store API data
@@ -29,7 +29,7 @@ function ConceptCSVHeadersForm() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher('/settings/concept_csv_headers'); // Using the fetcher function
+      const data = await fetcher('/api/settings/concept_csv_headers'); // Using the fetcher function
       if (data) {
         setHeaders(data.data.value); // Assuming the setting value is stored in `value`
       } else {
@@ -52,11 +52,11 @@ function ConceptCSVHeadersForm() {
     try {
       if (headers && Object.keys(headers).length > 0) {
         // Update setting if it exists
-        await fetcherPatch(`/settings/concept_csv_headers/`, payload);
+        await fetcherPatch(`/api/settings/concept_csv_headers/`, payload);
         enqueueSnackbar('CSV file headers updated', { variant: 'success' });
       } else {
         // Create new setting if it does not exist
-        await fetcherPost('/settings/', payload);
+        await fetcherPost('/api/settings/', payload);
         enqueueSnackbar('CSV file headers setting created', { variant: 'success' });
       }
     } catch (error) {

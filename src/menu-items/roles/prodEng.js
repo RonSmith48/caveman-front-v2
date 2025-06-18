@@ -9,7 +9,7 @@ const menuItems = {
   items: [
     {
       id: 'prod-eng-group',
-      title: 'Engineering',
+      title: 'engineering',
       type: 'group',
       children: [
         {
@@ -21,33 +21,33 @@ const menuItems = {
         },
         {
           id: 'bdcf',
-          title: 'BDCF entries',
+          title: 'bdcf-entries',
           type: 'item',
           url: '/prod-eng/bdcf',
           icon: FactoryOutlinedIcon
         },
         {
           id: 'ring-editor',
-          title: 'Ring editor',
+          title: 'ring-editor',
           type: 'item',
           url: '/prod-eng/ring-editor',
           icon: PrecisionManufacturingIcon
         },
         {
           id: 'production',
-          title: 'Cave Management',
+          title: 'cave-management',
           type: 'collapse',
           icon: ManageHistoryOutlinedIcon,
           children: [
             {
               id: 'level-status',
-              title: 'Level Status',
+              title: 'level-status',
               type: 'item',
               url: '/prod-eng/level-status'
             },
             {
               id: 'daily-plan',
-              title: 'Daily Plan',
+              title: 'daily-plan',
               type: 'item',
               url: '/prod-eng/daily-plan'
             }
@@ -55,19 +55,19 @@ const menuItems = {
         },
         {
           id: 'drill-blast',
-          title: 'Drill & Blast',
+          title: 'drill-blast',
           type: 'collapse',
           icon: SquareFootOutlinedIcon,
           children: [
             {
               id: 'ring-design',
-              title: 'Ring Design',
+              title: 'ring-design',
               type: 'item',
               url: '/prod-eng/ring-design'
             },
             {
               id: 'concept-rings',
-              title: 'Concept Rings',
+              title: 'concept-rings',
               type: 'item',
               url: '/prod-eng/prod-concept'
             }

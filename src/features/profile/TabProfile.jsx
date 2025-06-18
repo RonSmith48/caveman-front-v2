@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import {
@@ -30,8 +30,6 @@ import { Formik } from 'formik';
 import MainCard from 'components/MainCard';
 import AvatarSelectionModal from 'features/profile/AvatarSelectionModal';
 import ProfileAvatar from 'components/ProfileAvatar';
-import JWTContext from 'contexts/JWTContext';
-import { DEFAULT_AVATAR_BGCOLOUR } from 'config';
 import { enqueueSnackbar } from 'notistack';
 
 const roles = [
@@ -52,8 +50,7 @@ const roles = [
 ];
 
 export default function TabProfile() {
-  const { user } = useUser();
-  const { updateProfile } = useContext(JWTContext);
+  const { user, updateProfile } = useAuth();
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(user?.avatar || 'default.svg');
   const AVATAR_SIZE = 150;

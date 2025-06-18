@@ -18,21 +18,15 @@ import construction from 'assets/images/maintenance/under-construction.svg';
 
 export default function UnderConstruction() {
   return (
-    <Grid container spacing={4} direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: '100vh', py: 2 }}>
+    <Grid container spacing={2} direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: '75vh', py: 2 }}>
       <Grid size={12}>
         <Stack sx={{ gap: 2, alignItems: 'center', justifyContent: 'center' }}>
-          <Box sx={{ width: { xs: 300, sm: 480 }, my: 2 }}>
-            <CardMedia component="img" src={construction} alt="mantis" sx={{ height: 'auto' }} />
+          <Box sx={{ width: { xs: 300, sm: 480 }, my: 1 }}>
+            <CardMedia component="img" src={construction} alt="caveman" sx={{ height: 'auto' }} />
           </Box>
           <Typography align="center" variant="h1">
             Under Construction
           </Typography>
-          <Typography color="text.secondary" align="center" sx={{ width: '85%' }}>
-            Hey! Please check out this site later. We are doing some maintenance on it right now.
-          </Typography>
-          <Button component={Link} to={APP_DEFAULT_PATH} variant="contained">
-            Back To Home
-          </Button>
         </Stack>
       </Grid>
     </Grid>

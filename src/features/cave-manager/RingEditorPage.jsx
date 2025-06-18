@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormControlLabel, Grid2, InputLabel, MenuItem, Select, Switch, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 import MainCard from 'components/MainCard';
 
 export default function RingEditorPage() {
@@ -19,7 +19,7 @@ export default function RingEditorPage() {
   const [includeCompleted, setIncludeCompleted] = useState(false);
 
   useEffect(() => {
-    fetcherPost('/prod-actual/ring-editor/levels/', {
+    fetcherPost('/api/prod-actual/ring-editor/levels/', {
       include_inactive: includeInactive,
       include_completed: includeCompleted
     })
@@ -34,7 +34,7 @@ export default function RingEditorPage() {
   useEffect(() => {
     if (!level) return;
 
-    fetcherPost('/prod-actual/ring-editor/oredrives/', {
+    fetcherPost('/api/prod-actual/ring-editor/oredrives/', {
       level,
       include_inactive: includeInactive,
       include_completed: includeCompleted
@@ -49,7 +49,7 @@ export default function RingEditorPage() {
   useEffect(() => {
     if (!oredrive) return;
 
-    fetcherPost('/prod-actual/ring-editor/rings/', {
+    fetcherPost('/api/prod-actual/ring-editor/rings/', {
       level,
       oredrive,
       include_inactive: includeInactive,

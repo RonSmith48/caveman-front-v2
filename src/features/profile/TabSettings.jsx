@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import {
@@ -18,7 +18,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPost, fetcherPatch } from 'utils/axiosBack';
 
 // third party
 import * as Yup from 'yup';
@@ -34,14 +34,14 @@ export default function TabSettings() {
   });
   const [loading, setLoading] = useState(true);
   const [isNew, setIsNew] = useState(false);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user?.id) return;
 
     const fetchSettings = async () => {
       try {
-        const data = await fetcher(`/settings/user-${user.id}/`);
+        const data = await fetcher(`/api/settings/user-${user.id}/`);
         if (data?.data?.value) {
           setSettings(data.data.value);
         } else {
@@ -73,10 +73,10 @@ export default function TabSettings() {
 
     try {
       if (isNew) {
-        await fetcherPost('/settings/', payload);
+        await fetcherPost('/api/settings/', payload);
         enqueueSnackbar('Personal preferences created', { variant: 'success' });
       } else {
-        await fetcherPatch(`/settings/user-${user.id}/`, payload);
+        await fetcherPatch(`/api/settings/user-${user.id}/`, payload);
         enqueueSnackbar('Personal preferences updated', { variant: 'success' });
       }
       setSettings(values);

@@ -30,7 +30,7 @@ import { ReportPDF } from 'features/bdcf/pdf/BogVerifyPDF';
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import { fetcherPost } from 'utils/axios';
+import { fetcherPost } from 'utils/axiosBack';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
@@ -56,7 +56,7 @@ function BogVerifyWidget() {
     try {
       setLoading(true);
       const formattedDate = date.format('YYYY-MM-DD');
-      const response = await fetcherPost('report/prod/bog-verify/', {
+      const response = await fetcherPost('api/report/prod/bog-verify/', {
         date: formattedDate,
         shift
       });
@@ -203,7 +203,7 @@ function BogVerifyWidget() {
         {loading ? (
           <Typography sx={{ pt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</Typography>
         ) : bogTonnes.results.length ? (
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table size="small" sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>

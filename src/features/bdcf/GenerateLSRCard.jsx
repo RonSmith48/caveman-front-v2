@@ -1,19 +1,33 @@
 import { useState } from 'react';
-import { Box, Card, CardContent, Grid, Button, Typography } from '@mui/material';
-import { fetcher } from 'utils/axios';
+import { Box, Card, CardContent, Typography, Button, Checkbox, FormControlLabel } from '@mui/material';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
+
 function GenerateLSRCard() {
   const [loading, setLoading] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
-  const handleLevelStatusReport = async () => {
+  // List of items to display - replace these with actual checklist items
+  const checklistItems = [
+    'Verify data completeness',
+    'Confirm field validation',
+    'Check layout alignment',
+    'Ensure all calculations are correct'
+  ];
+
+  const handleGenerateReport = async () => {
     try {
       setLoading(true);
-      const response = await fetcher('report/prod/level-status/create/');
+      // Transmit draft status: if not confirmed, draft=true; if confirmed, draft=false
+      const draftParam = !confirmed;
+      const endpoint = `api/report/prod/level-status/create/?draft=${draftParam}`;
+      const response = await fetcher(endpoint);
 
       if (response?.data?.msg) {
         enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
       } else {
-        enqueueSnackbar('Report created successfully', { variant: 'success' });
+        const successMessage = draftParam ? 'Draft report created' : 'Final report created successfully';
+        enqueueSnackbar(successMessage, { variant: 'success' });
       }
     } catch (error) {
       console.error('Error creating Level Status Report:', error);
@@ -27,7 +41,7 @@ function GenerateLSRCard() {
     <Card
       sx={{
         position: 'relative',
-        height: 200,
+        height: 300,
         backgroundImage: 'url(/images/backgrounds/toy_loader1.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -45,18 +59,41 @@ function GenerateLSRCard() {
           position: 'absolute',
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)' // Optional dark overlay for text contrast
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
         }}
       />
-      <CardContent sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-        <Typography variant="h6" gutterBottom>
+      <CardContent sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
+        <Typography variant="h6" gutterBottom align="center">
           Generate Level Status Report
         </Typography>
-        <Button variant="contained" onClick={handleLevelStatusReport} disabled={loading}>
-          {loading ? 'Processing...' : 'Process'}
-        </Button>
+
+        <Box component="ul" sx={{ listStyleType: 'disc', pl: 4, mb: 2 }}>
+          {checklistItems.map((item, index) => (
+            <Typography component="li" key={index} sx={{ mb: 1 }}>
+              {item}
+            </Typography>
+          ))}
+        </Box>
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={confirmed}
+              onChange={(e) => setConfirmed(e.target.checked)}
+              sx={{ color: 'white', '&.Mui-checked': { color: 'lightgreen' } }}
+            />
+          }
+          label={<Typography sx={{ color: 'white' }}>I confirm all items have been checked</Typography>}
+        />
+
+        <Box sx={{ textAlign: 'center', mt: 2 }}>
+          <Button variant="contained" onClick={handleGenerateReport} disabled={loading}>
+            {loading ? 'Processing...' : confirmed ? 'Generate Final Report' : 'Generate Draft Report'}
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );
 }
+
 export default GenerateLSRCard;

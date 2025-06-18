@@ -1,65 +1,32 @@
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 
-const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:8000/api/' });
+const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_CMS_URL || 'http://localhost:8002/' });
 
-// Intercept request to inject token from localStorage
 axiosServices.interceptors.request.use(
-  async (config) => {
-    if (typeof window !== 'undefined') {
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-      }
+  (config) => {
+    // If you’re using JWTs stored in localStorage:
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Intercept response to handle 401 errors (token expiration) and token refresh
+// 3) RESPONSE INTERCEPTOR: detect “backend unreachable” (network error)
 axiosServices.interceptors.response.use(
-  (response) => response, // Return successful response
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const refreshToken = localStorage.getItem('refreshToken');
-
-        if (!refreshToken) {
-          throw new Error('No refresh token found, redirecting to login');
-        }
-
-        const { data } = await axios.post(`${import.meta.env.VITE_APP_API_URL}users/token-refresh/`, {
-          refresh: refreshToken
-        });
-
-        // Store the new access token in localStorage
-        localStorage.setItem('accessToken', data.access);
-
-        // Retry the original request with the new access token
-        originalRequest.headers['Authorization'] = `Bearer ${data.access}`;
-        return axiosServices(originalRequest);
-      } catch (refreshError) {
-        console.log('Token refresh failed, redirecting to login:', refreshError);
-        // Handle logout logic here, redirect to login
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
-        return Promise.reject(refreshError);
-      }
+  (res) => res,
+  (error) => {
+    // If there's no response at all, the backend is probably down or CORS‐blocked
+    if (!error.response) {
+      enqueueSnackbar('Backend server unreachable', { variant: 'error' });
+      // Mark as already handled so any fetcher wrapper can skip a second snackbar:
+      error._apiHandled = true;
+      return Promise.reject(error);
     }
-
+    // Otherwise forward the error (4xx/5xx) back to your calling code
     return Promise.reject(error);
   }
 );

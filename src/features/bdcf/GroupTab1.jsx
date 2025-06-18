@@ -19,8 +19,8 @@ import {
   Stack,
   Tooltip
 } from '@mui/material';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import { fetcher, fetcherPost } from 'utils/axios';
+import HelpDialog from 'components/HelpDialog';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 import MainCard from 'components/MainCard';
 import BDCFDefineGroups from 'features/bdcf/GroupTab2';
@@ -30,7 +30,6 @@ import * as Yup from 'yup';
 const BDCFGroupTab1 = () => {
   const [levels, setLevels] = useState([]);
   const [rings, setRings] = useState([]);
-  const [openHelp, setOpenHelp] = useState(false);
   const [agResponseData, setAgResponseData] = useState(null);
   const formikRef = useRef(null);
 
@@ -46,7 +45,7 @@ const BDCFGroupTab1 = () => {
     const drill_charge = event.target.value;
 
     try {
-      const response = await fetcher(`/prod-actual/bdcf/groups/levels/${drill_charge}/`);
+      const response = await fetcher(`/api/prod-actual/bdcf/groups/levels/${drill_charge}/`);
       setLevels(response.data);
       setFieldValue('createFrom', drill_charge);
     } catch (error) {
@@ -74,7 +73,7 @@ const BDCFGroupTab1 = () => {
     };
 
     try {
-      const response = await fetcherPost('/prod-actual/bdcf/groups/rings-select/', payload);
+      const response = await fetcherPost('/api/prod-actual/bdcf/groups/rings-select/', payload);
       setRings(response.data);
       setFieldValue('level', lvl);
     } catch (error) {
@@ -104,7 +103,7 @@ const BDCFGroupTab1 = () => {
           secondary={
             <Tooltip title="Help">
               <IconButton onClick={() => setOpenHelp(true)} size="small">
-                <HelpOutlineOutlinedIcon fontSize="small" />
+                <HelpDialog id={6} />
               </IconButton>
             </Tooltip>
           }
@@ -127,7 +126,7 @@ const BDCFGroupTab1 = () => {
               };
 
               try {
-                const ag_response = await fetcherPost('/prod-actual/bdcf/groups/rings-aggregate/', payload);
+                const ag_response = await fetcherPost('/api/prod-actual/bdcf/groups/rings-aggregate/', payload);
                 if (ag_response && ag_response.data.msg) {
                   enqueueSnackbar(ag_response.data.msg.body, { variant: ag_response.data.msg.type });
                 }
@@ -211,14 +210,6 @@ const BDCFGroupTab1 = () => {
               </Form>
             )}
           </Formik>
-
-          {/* Dialog */}
-          <Dialog open={openHelp} onClose={() => setOpenHelp(false)} fullWidth>
-            <DialogTitle>How it Works</DialogTitle>
-            <DialogContent>
-              <p>How it works goes here</p>
-            </DialogContent>
-          </Dialog>
         </MainCard>
       </Grid>
       <Grid item xs={12} md={8}>

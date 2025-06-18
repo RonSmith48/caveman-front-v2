@@ -4,19 +4,19 @@ import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
 const commonMenuGroup = {
   id: 'other',
-  title: 'Other',
+  title: 'other',
   type: 'group',
   children: [
     {
       id: 'maps',
-      title: 'Level Maps',
+      title: 'level-maps',
       type: 'item',
       url: '/common/maps',
       icon: LocationOnOutlinedIcon
     },
     {
       id: 'docs',
-      title: 'Documentation',
+      title: 'documentation',
       type: 'item',
       url: '/common/docs',
       icon: MenuBookOutlinedIcon

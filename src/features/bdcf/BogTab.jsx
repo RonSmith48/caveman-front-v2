@@ -31,7 +31,7 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 
 // project imports
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import BDCFBogTable from 'features/bdcf/BogTable';
 
 function BDCFBogTab() {
@@ -45,7 +45,7 @@ function BDCFBogTab() {
     const currentHour = dayjs().hour();
     const fetchBoggingRings = async () => {
       try {
-        const response = await fetcher('/prod-actual/bdcf/bog/');
+        const response = await fetcher('/api/prod-actual/bdcf/bog/');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching active rings list:', error);
@@ -111,7 +111,7 @@ function BDCFBogTab() {
 
     try {
       // Use fetcherPost to send the POST request
-      const response = await fetcherPost(`/prod-actual/bdcf/bog/${location_id}/`, payload);
+      const response = await fetcherPost(`/api/prod-actual/bdcf/bog/${location_id}/`, payload);
 
       // Log success or handle response as needed
       console.log('Record added successfully:', response);

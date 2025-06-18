@@ -9,12 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -30,7 +25,8 @@ import { enqueueSnackbar } from 'notistack';
 
 // Project imports
 import MainCard from 'components/MainCard';
-import { fetcher, fetcherPost, fetcherPatch } from 'utils/axios';
+import { fetcher, fetcherPost, fetcherPatch } from 'utils/axiosBack';
+import HelpDialog from 'components/HelpDialog';
 
 function ExplosiveTypes() {
   const [settings, setSettings] = useState([]);
@@ -40,7 +36,7 @@ function ExplosiveTypes() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher('/settings/explosive-types-list/');
+      const data = await fetcher('/api/settings/explosive-types-list/');
       if (data) {
         setSettings(data.data.value || []);
       } else {
@@ -64,10 +60,10 @@ function ExplosiveTypes() {
 
     try {
       if (isNew) {
-        await fetcherPost('/settings/', payload);
+        await fetcherPost('/api/settings/', payload);
         enqueueSnackbar('Explosives list created', { variant: 'success' });
       } else {
-        await fetcherPatch('/settings/explosive-types-list/', payload);
+        await fetcherPatch('/api/settings/explosive-types-list/', payload);
         enqueueSnackbar('Explosives list settings updated', { variant: 'success' });
       }
     } catch (error) {
@@ -92,7 +88,7 @@ function ExplosiveTypes() {
   }, []);
 
   return (
-    <MainCard title="Detonator & Explosive Types" secondary="Help">
+    <MainCard title="Detonator & Explosive Types" secondary={<HelpDialog id={14} />}>
       {!loading ? (
         <Formik
           enableReinitialize

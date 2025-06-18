@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
@@ -34,7 +34,7 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 
 // project imports
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import BDCFDrillTable from 'features/bdcf/DrillTable';
 
 function BDCFDrillTab() {
@@ -46,7 +46,7 @@ function BDCFDrillTab() {
   const [loading, setLoading] = useState(true);
   const [loadingRings, setLoadingRings] = useState(false);
 
-  const { user } = useUser();
+  const { user } = useAuth();
   const [settings, setSettings] = useState({ 'equipment-sounds': false });
   const audioRef = useRef(new Audio('/assets/sounds/hammer_drill_1.mp3'));
 
@@ -57,7 +57,7 @@ function BDCFDrillTab() {
 
   const fetchData = async () => {
     try {
-      const response = await fetcher('/prod-actual/bdcf/drill/');
+      const response = await fetcher('/api/prod-actual/bdcf/drill/');
       setData(response.data);
       setDropdownOptions(response.data.designed_list);
       setLoading(false);
@@ -70,7 +70,7 @@ function BDCFDrillTab() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher(`/settings/user-${user.id}/`);
+      const data = await fetcher(`/api/settings/user-${user.id}/`);
       if (data?.data?.value) {
         setSettings(data.data.value);
       }
@@ -127,7 +127,7 @@ function BDCFDrillTab() {
           status: 'Drilled'
         };
 
-        const response = await fetcherPost('/prod-actual/bdcf/drill/', payload);
+        const response = await fetcherPost('/api/prod-actual/bdcf/drill/', payload);
 
         enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
 
@@ -159,7 +159,7 @@ function BDCFDrillTab() {
     setLoadingRings(true);
 
     try {
-      const response = await fetcher(`/prod-actual/bdcf/drilled/${lvl_od}/`);
+      const response = await fetcher(`/api/prod-actual/bdcf/drilled/${lvl_od}/`);
       const rings = isRedrill ? response.data.drilled : response.data.designed;
 
       setDrilledRings(response.data.drilled_rings);

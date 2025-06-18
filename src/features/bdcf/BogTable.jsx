@@ -28,7 +28,7 @@ import MainCard from 'components/MainCard';
 import IconButton from 'components/@extended/IconButton';
 import CSVExport from 'components/third-party/react-table/CSVExport';
 import RowEditable from 'features/bdcf/BogTableRowEditable';
-import { fetcher, fetcherPut, fetcherDelete } from 'utils/axios';
+import { fetcher, fetcherPut, fetcherDelete } from 'utils/axiosBack';
 import ProfileAvatar from 'components/ProfileAvatar';
 
 // assets
@@ -53,7 +53,7 @@ function EditAction({ row, table, fetchBoggingEntries }) {
   const handleDelete = async () => {
     const rowId = row.original.id;
     try {
-      const response = await fetcherDelete(`/prod-actual/bdcf/bog/${rowId}/`);
+      const response = await fetcherDelete(`/api/prod-actual/bdcf/bog/${rowId}/`);
       if (response.status === 204) {
         enqueueSnackbar('Record deleted successfully', { variant: 'success' });
         fetchBoggingEntries();
@@ -70,7 +70,7 @@ function EditAction({ row, table, fetchBoggingEntries }) {
     const updatedTonnes = row.original.tonnes; // Assume tonnes is being edited
 
     try {
-      const response = await fetcherPut(`/prod-actual/bdcf/bog/${rowId}/`, { tonnes: updatedTonnes });
+      const response = await fetcherPut(`/api/prod-actual/bdcf/bog/${rowId}/`, { tonnes: updatedTonnes });
       if (response.status === 200) {
         enqueueSnackbar('Record updated successfully', { variant: 'success' });
         fetchBoggingEntries(); // Refresh table after update
@@ -219,7 +219,7 @@ export default function BDCFBogTable({ location_id, ringName, refreshKey }) {
     if (!location_id) return; // Skip fetch if location_id is not available
     setLoading(true);
     try {
-      const response = await fetcher(`/prod-actual/bdcf/bog/${location_id}`);
+      const response = await fetcher(`/api/prod-actual/bdcf/bog/${location_id}`);
       setData(response.data.data);
       setStats(response.data.stats);
     } catch (error) {

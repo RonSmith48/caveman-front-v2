@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid } from 
 import LocationTimeline from 'components/project/LocationTimeline';
 // import Stats from './Stats'; // Placeholder for stats component
 import LocationEdit from 'components/project/LocationEdit';
-import { fetcher } from 'utils/axios'; // Your API fetcher
+import { fetcher } from 'utils/axiosBack'; // Your API fetcher
 
 const RingEditModal = ({ open, onClose, location_id, handleSelectOredrive }) => {
   const [ringDetails, setRingDetails] = useState(null);
@@ -13,7 +13,7 @@ const RingEditModal = ({ open, onClose, location_id, handleSelectOredrive }) => 
     if (location_id) {
       const fetchRingDetails = async () => {
         try {
-          const response = await fetcher(`/prod-actual/history/${location_id}`);
+          const response = await fetcher(`/api/prod-actual/history/${location_id}`);
           setRingDetails(response.data);
           console.log(response);
         } catch (error) {

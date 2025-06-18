@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import LevelTables from 'features/prod-reports/ProdStatusTables';
 import LevelStatusMenu from 'features/prod-reports/LevelStatusMenu';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 import { enqueueSnackbar } from 'notistack';
 
 export default function ProdLevelStatus() {
@@ -14,7 +14,7 @@ export default function ProdLevelStatus() {
   useEffect(() => {
     const fetchLevelStatus = async () => {
       try {
-        const response = await fetcher('/report/prod/level-status/');
+        const response = await fetcher('/api/report/prod/level-status/');
         if (response?.data?.msg) {
           enqueueSnackbar(response.data.msg.body, { variant: response.data.msg.type });
         }
@@ -49,10 +49,21 @@ export default function ProdLevelStatus() {
         <Box>
           <Typography variant="subtitle1">
             Report Date: {author.report_date} For: {author.shift}
+            {author.isDraft && (
+              <Box component="span" sx={{ color: 'error.main', fontWeight: 'bold', ml: 1 }}>
+                – DRAFT
+              </Box>
+            )}
           </Typography>
           <Typography variant="subtitle2">Author: {author.author.full_name}</Typography>
         </Box>
-        <LevelStatusMenu data={data} author={author.author.full_name} date={author.report_date} shift={author.shift} />
+        <LevelStatusMenu
+          data={data}
+          author={author.author.full_name}
+          date={author.report_date}
+          shift={author.shift}
+          isDraft={author.isDraft}
+        />
       </Paper>
 
       <LevelTables data={data} />

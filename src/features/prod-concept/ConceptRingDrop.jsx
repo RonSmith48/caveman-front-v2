@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
-import axiosServices from 'utils/axios';
+import axiosServices from 'utils/axiosBack';
 import { isUTF8 } from 'utils/isUTF8';
 
 // material-ui
@@ -29,7 +29,7 @@ import RejectionFiles from 'components/third-party/dropzone/RejectionFiles';
 import PlaceholderContent from 'components/third-party/dropzone/PlaceholderContent';
 import { enqueueSnackbar } from 'notistack';
 import LinearWithLabel from 'components/@extended/progress/LinearWithLabel';
-import { fetcher } from 'utils/axios';
+import { fetcher } from 'utils/axiosBack';
 
 const DropzoneWrapper = styled('div')(({ theme }) => ({
   outline: 'none',
@@ -60,7 +60,7 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     fetchRun.current = true;
 
     try {
-      const data = await fetcher('/settings/concept_csv_headers');
+      const data = await fetcher('/api/settings/concept_csv_headers');
       if (data && data.data.value) {
         // Set the values of the headers from the JSON object
         setExpectedHeaders(data.data.value);
@@ -225,7 +225,7 @@ const ConceptRingDrop = ({ error, file, sx }) => {
     formData.append('file', file);
 
     try {
-      const response = await axiosServices.post('/prod-concept/upload/concept/', formData, {
+      const response = await axiosServices.post('/api/prod-concept/upload/concept/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },

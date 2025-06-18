@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useUser from 'hooks/useUser';
+import useAuth from 'hooks/useAuth';
 
 // material-ui
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
@@ -39,7 +39,7 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 
 // project imports
-import { fetcher, fetcherPost } from 'utils/axios';
+import { fetcher, fetcherPost } from 'utils/axiosBack';
 import BDCFFireTable from 'features/bdcf/FireTable';
 
 function BDCFFireTab() {
@@ -51,7 +51,7 @@ function BDCFFireTab() {
   const [loadingRings, setLoadingRings] = useState(false);
   const [isFiring, setIsFiring] = useState(false);
 
-  const { user } = useUser();
+  const { user } = useAuth();
   const [settings, setSettings] = useState({ 'equipment-sounds': false });
   const audioRef = useRef(new Audio('/sounds/explosion_1.mp3'));
 
@@ -72,7 +72,7 @@ function BDCFFireTab() {
 
   const fetchData = async () => {
     try {
-      const fireResponse = await fetcher('/prod-actual/bdcf/fire/');
+      const fireResponse = await fetcher('/api/prod-actual/bdcf/fire/');
       setLevelOptions(fireResponse.data);
     } catch (error) {
       console.error('Error fetching charged rings list:', error);
@@ -84,7 +84,7 @@ function BDCFFireTab() {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetcher(`/settings/user-${user.id}/`);
+      const data = await fetcher(`/api/settings/user-${user.id}/`);
       if (data?.data?.value) {
         setSettings(data.data.value);
       }
@@ -118,7 +118,7 @@ function BDCFFireTab() {
           oredrive: selectedRingData ? selectedRingData.oredrive : null
         };
 
-        const response = await fetcherPost('/prod-actual/bdcf/fire/', payload);
+        const response = await fetcherPost('/api/prod-actual/bdcf/fire/', payload);
         if (settings['equipment-sounds'] == true) {
           audioRef.current.currentTime = 0;
           audioRef.current.play();
@@ -151,7 +151,7 @@ function BDCFFireTab() {
     setLoadingRings(true);
 
     try {
-      const response = await fetcher(`/prod-actual/bdcf/fire/${lvl}/`);
+      const response = await fetcher(`/api/prod-actual/bdcf/fire/${lvl}/`);
       const boggingRings = response.data.fired_rings || [];
       const chargedRings = response.data.charged_rings || [];
 
