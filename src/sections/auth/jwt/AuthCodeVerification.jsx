@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { fetcherPost } from 'utils/axiosBack';
+import { fetcherPost } from 'utils/axiosAuth';
 import { useEffect, useState } from 'react';
 
 // material-ui
@@ -41,7 +41,7 @@ export default function AuthCodeVerification({ user }) {
         try {
           const email = user?.email;
 
-          const res = await fetcherPost('/api/users/activate/', {
+          const res = await fetcherPost('/users/activate/', {
             email,
             otp: values.otp
           });

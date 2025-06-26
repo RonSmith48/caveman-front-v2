@@ -3,7 +3,7 @@ import { Stack, FormControl, InputLabel, Select, MenuItem, Button, Box, IconButt
 import MainCard from 'components/MainCard';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import HelpDialog from 'components/HelpDialog';
-import fetcher from 'utils/axios';
+import fetcher from 'utils/axiosBack';
 
 const ImportExportPage = () => {
   const [tables, setTables] = useState([]);
