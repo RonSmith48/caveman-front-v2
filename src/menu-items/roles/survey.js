@@ -6,7 +6,7 @@ const menuItems = {
   items: [
     {
       id: 'survey-group',
-      title: 'Geotechnical',
+      title: 'survey',
       type: 'group',
       children: [
         {
