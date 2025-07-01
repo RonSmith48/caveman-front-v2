@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 
-const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_AUTH_URL || 'http://localhost:8000/' });
+const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_AUTH_URL || 'http://10.0.0.133:8010/' });
 
 axiosServices.interceptors.response.use(
   (response) => response, // Return successful response

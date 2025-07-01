@@ -5,6 +5,7 @@ import prodEngMenu from 'menu-items/roles/prodEng';
 import prodShiftbossMenu from 'menu-items/roles/prodShiftboss';
 import geologyMenu from 'menu-items/roles/geology';
 import geotechMenu from 'menu-items/roles/geotech';
+import surveyMenu from 'menu-items/roles/survey';
 import mtpMenu from 'menu-items/roles/medTermPlan';
 import defaultMenu from 'menu-items/roles/default';
 
@@ -29,6 +30,9 @@ export default function getMenuForUser(user) {
         break;
       case 'Production Shiftboss':
         menu = [...prodShiftbossMenu.items];
+        break;
+      case 'Surveyor':
+        menu = [...surveyMenu.items];
         break;
 
       default:

@@ -25,7 +25,7 @@ import ParentChooser from 'components/third-party/konva/ParentChooser';
 import HelpDialog from 'components/HelpDialog';
 import MainCard from 'components/MainCard';
 
-export default function ParentChooserModal({ orphanLocationId, onPair, disabled = false }) {
+export default function ParentChooserModal({ isEditable, orphanLocationId, onPair, disabled = false }) {
   const [open, setOpen] = useState(false);
   const [showCandidates, setShowCandidates] = useState(true);
   const [showNearby, setShowNearby] = useState(true);
@@ -37,8 +37,8 @@ export default function ParentChooserModal({ orphanLocationId, onPair, disabled 
 
   return (
     <>
-      <Tooltip title="Choose Parent" arrow>
-        <IconButton aria-label="Choose Parent" color="primary" disabled={disabled} onClick={handleOpen}>
+      <Tooltip title={isEditable ? 'Choose Parent' : 'Show Parent'} arrow>
+        <IconButton aria-label={isEditable ? 'Choose Parent' : 'Show Parent'} color="primary" disabled={disabled} onClick={handleOpen}>
           <DeviceHubOutlinedIcon />
         </IconButton>
       </Tooltip>
@@ -47,7 +47,7 @@ export default function ParentChooserModal({ orphanLocationId, onPair, disabled 
         <AppBar position="relative">
           <Toolbar>
             <Typography variant="h6" sx={{ flex: 1 }}>
-              Choosing Conceptual Parent
+              {isEditable ? 'Choose Conceptual Parent' : 'Show Conceptual Parent'}
             </Typography>
             <IconButton edge="end" color="inherit" onClick={handleClose}>
               <CloseIcon />
@@ -65,7 +65,8 @@ export default function ParentChooserModal({ orphanLocationId, onPair, disabled 
                 displayMode={displayMode}
                 onHover={(data) => setHoveredData(data)}
                 onSelect={(ring) => {
-                  if (onPair) onPair(ring);
+                  if (!isEditable) return;
+                  onPair?.(ring);
                   handleClose();
                 }}
               />

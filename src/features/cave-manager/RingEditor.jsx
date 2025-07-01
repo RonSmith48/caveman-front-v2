@@ -14,6 +14,7 @@ import {
   Card,
   CardContent,
   FormControlLabel,
+  Slider,
   Stack,
   Switch,
   Tooltip
@@ -21,14 +22,18 @@ import {
 import * as Yup from 'yup';
 
 import { fetcher, fetcherPut } from 'utils/axiosBack';
-import RingPlot from './RingPlot';
+import RingPlot from './ring-editor/components/RingPlot';
 import MainCard from 'components/MainCard';
+import { enqueueSnackbar } from 'notistack';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import EditStatusModal from 'features/cave-manager/EditStatusModal';
 import ParentChooserModal from 'features/konva/ParentChooserModal';
 
 const validationSchema = Yup.object().shape({});
+
+const statuses = ['Designed', 'Drilled', 'Charged', 'Bogging', 'Complete'];
+const marks = statuses.map((label, idx) => ({ value: idx, label }));
 
 export default function RingEditor() {
   const { loc: location_id } = useParams();
@@ -58,6 +63,7 @@ export default function RingEditor() {
     try {
       await fetcherPut(`/api/prod-actual/prod-rings/${location_id}/`, values);
       setSubmitting(false);
+      enqueueSnackbar('Ring successfully updated', { variant: 'success' });
     } catch (err) {
       console.error('Submission failed:', err);
       setSubmitting(false);
@@ -69,9 +75,9 @@ export default function RingEditor() {
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize>
-      {({ isSubmitting, values, setFieldValue }) => (
-        console.log('formik values:', values),
-        (
+      {({ isSubmitting, values, setFieldValue }) => {
+        const statusIndex = statuses.indexOf(values.status);
+        return (
           <>
             <MainCard
               title={
@@ -100,15 +106,33 @@ export default function RingEditor() {
                           <CardContent>
                             <Typography variant="h5">Activity</Typography>
                             <Divider sx={{ mb: 1, borderColor: 'primary.main' }} />
-                            <Grid container spacing={1}>
-                              <Grid item xs={4}>
-                                <Typography variant="subtitle2">Status</Typography>
-                                <Typography variant="body1" color="primary">
-                                  {values.status}
-                                </Typography>
+                            <Grid container spacing={1} alignItems="center">
+                              {/* subtitle + current status on one line */}
+                              <Grid item xs={12} container alignItems="center" wrap="nowrap" spacing={1}>
+                                <Grid item>
+                                  <Typography variant="subtitle2">Status</Typography>
+                                </Grid>
+                                <Grid item>
+                                  <Typography variant="body1" color="primary">
+                                    {values.status}
+                                  </Typography>
+                                </Grid>
                               </Grid>
-                              <Grid item xs={8}>
-                                <EditStatusModal values={values} />
+
+                              {/* full-width slider */}
+                              <Grid item xs={12}>
+                                <Box sx={{ width: '100%', px: 1 }}>
+                                  <Slider
+                                    value={values}
+                                    min={0}
+                                    max={statuses.length - 1}
+                                    step={1}
+                                    marks={marks}
+                                    valueLabelDisplay="off"
+                                    valueLabelFormat={(val) => statuses[val]}
+                                    onChange={(_, newVal) => setValue(newVal)}
+                                  />
+                                </Box>
                               </Grid>
                             </Grid>
                             <Typography variant="h6" sx={{ mt: 1 }}>
@@ -499,8 +523,8 @@ export default function RingEditor() {
               </Grid>
             </MainCard>
           </>
-        )
-      )}
+        );
+      }}
     </Formik>
   );
 }

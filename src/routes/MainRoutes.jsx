@@ -8,6 +8,7 @@ import PagesLayout from 'layout/Pages';
 import SimpleLayout from 'layout/Simple';
 
 import { SimpleLayoutType } from 'config';
+import path from 'path';
 
 // profile
 const Profile = Loadable(lazy(() => import('features/profile/Profile')));
@@ -21,6 +22,7 @@ const ProdShiftbossDash = Loadable(lazy(() => import('pages/dashboard/ProdShiftb
 const GeologyDash = Loadable(lazy(() => import('pages/dashboard/GeologyDash')));
 const GeotechDash = Loadable(lazy(() => import('pages/dashboard/GeotechDash')));
 const DefaultDash = Loadable(lazy(() => import('pages/extra-pages/default-dashboard')));
+const SurveyDash = Loadable(lazy(() => import('pages/dashboard/SurveyDash')));
 // BDCF
 const BDCFEntries = Loadable(lazy(() => import('features/bdcf/EntriesPage')));
 const ProdLevelStatus = Loadable(lazy(() => import('features/prod-reports/LevelStatusPage')));
@@ -30,8 +32,8 @@ const ProdOrphans = Loadable(lazy(() => import('features/ring-design/ProdOrphans
 // prod rings
 const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
 const DailyPlanPage = Loadable(lazy(() => import('features/cave-manager/DailyPlanPage')));
-const RingEditorPage = Loadable(lazy(() => import('features/cave-manager/RingEditorPage')));
-const RingEditor = Loadable(lazy(() => import('features/cave-manager/RingEditor')));
+const RingInspectPage = Loadable(lazy(() => import('features/cave-manager/ring-inspector/RingInspectPage')));
+const RingInspectContainer = Loadable(lazy(() => import('features/cave-manager/ring-inspector/RingInspectContainer')));
 
 // geology
 const FiredRingsPage = Loadable(lazy(() => import('features/geology/FiredRings')));
@@ -66,13 +68,14 @@ const MainRoutes = {
         { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
         { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
         { path: 'prod-eng/ring-design', element: <RingDesign /> },
-        { path: 'prod-eng/ring-editor', element: <RingEditorPage /> },
-        { path: 'prod-eng/ring-editor/:loc', element: <RingEditor /> },
+        { path: 'prod-eng/ring-inspector', element: <RingInspectPage /> },
+        { path: 'prod-eng/ring-inspector/:loc', element: <RingInspectContainer /> },
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
         { path: 'profile/:tab', element: <Profile /> },
         { path: 'sudo/settings', element: <SudoSettings /> },
         { path: 'sudo/import-export', element: <SudoImportExport /> },
-        { path: 'sudo/manage-cms', element: <SudoCms /> }
+        { path: 'sudo/manage-cms', element: <SudoCms /> },
+        { path: 'survey/dashboard', element: <SurveyDash /> }
       ]
     },
     {

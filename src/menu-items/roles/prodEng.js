@@ -27,10 +27,10 @@ const menuItems = {
           icon: FactoryOutlinedIcon
         },
         {
-          id: 'ring-editor',
-          title: 'ring-editor',
+          id: 'ring-inspector',
+          title: 'ring-inspector',
           type: 'item',
-          url: '/prod-eng/ring-editor',
+          url: '/prod-eng/ring-inspector',
           icon: PrecisionManufacturingIcon
         },
         {

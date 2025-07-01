@@ -1,4 +1,5 @@
 import { DashboardOutlined, ToolOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import FactoryOutlinedIcon from '@mui/icons-material/FactoryOutlined';
 import commonMenuGroup from './common';
 
 const menuItems = {
@@ -16,22 +17,16 @@ const menuItems = {
           url: '/geotech/dashboard'
         },
         {
-          id: 'tools',
-          title: 'Tools',
+          id: 'prod-geotech',
+          title: 'production',
           type: 'collapse',
-          icon: ToolOutlined,
+          icon: FactoryOutlinedIcon,
           children: [
             {
-              id: 'blast-designer',
-              title: 'Blast Designer',
+              id: 'ring-inspector',
+              title: 'ring-inspector',
               type: 'item',
-              url: '/prod-eng/tools/blast'
-            },
-            {
-              id: 'charge-calculator',
-              title: 'Charge Calculator',
-              type: 'item',
-              url: '/prod-eng/tools/charge'
+              url: '/prod-eng/ring-inspector'
             }
           ]
         },

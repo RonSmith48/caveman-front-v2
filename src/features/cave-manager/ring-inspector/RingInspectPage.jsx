@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetcherPost } from 'utils/axiosBack';
 import MainCard from 'components/MainCard';
 
-export default function RingEditorPage() {
+export default function RingInspectPage() {
   const navigate = useNavigate();
 
   const [level, setLevel] = useState('');
@@ -66,13 +66,13 @@ export default function RingEditorPage() {
   const handleSubmit = () => {
     const selectedRing = rings.find((r) => r.ring_number_txt === ring);
     if (!selectedRing) return;
-    navigate(`/prod-eng/ring-editor/${selectedRing.location_id}`);
+    navigate(`/prod-eng/ring-inspector/${selectedRing.location_id}`);
   };
 
   return (
     <Grid2 container key={location.pathname}>
       <Grid2 size={{ xs: 12, lg: 3 }}>
-        <MainCard title="Edit Ring">
+        <MainCard title="Inspect Ring">
           <Box display="flex" flexDirection="column" gap={2}>
             <FormControlLabel
               control={<Switch checked={includeInactive} onChange={(e) => setIncludeInactive(e.target.checked)} />}
@@ -118,7 +118,7 @@ export default function RingEditorPage() {
             </FormControl>
 
             <Button variant="contained" disabled={!canSubmit} onClick={handleSubmit}>
-              Edit Ring
+              Inspect Ring
             </Button>
           </Box>
         </MainCard>
