@@ -20,18 +20,18 @@ const menuItems = {
           icon: DashboardOutlined
         },
         {
-          id: 'bdcf',
-          title: 'bdcf-entries',
-          type: 'item',
-          url: '/prod-eng/bdcf',
-          icon: FactoryOutlinedIcon
-        },
-        {
           id: 'ring-inspector',
           title: 'ring-inspector',
           type: 'item',
           url: '/prod-eng/ring-inspector',
           icon: PrecisionManufacturingIcon
+        },
+        {
+          id: 'bdcf',
+          title: 'bdcf-entries',
+          type: 'item',
+          url: '/prod-eng/bdcf',
+          icon: FactoryOutlinedIcon
         },
         {
           id: 'production',

@@ -18,7 +18,7 @@ export const roleEdit = {
   'Mine Captain': ['conditions'],
   'Production Shiftboss': ['conditions'],
   'Operations Shiftboss': ['drilling'],
-  'Production Engineer': ['activity', 'design', 'drilling', 'charging', 'geology', 'geotechnical', 'conditions'],
+  'Production Engineer': ['activity', 'design', 'drilling', 'charging', 'bogging', 'geology', 'geotechnical', 'conditions'],
   'Geotechnical Engineer': ['geotechnical', 'conditions'],
   Geologist: ['geology', 'conditions'],
   Surveyor: ['drilling']

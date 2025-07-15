@@ -75,18 +75,30 @@ const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, tota
 
           <Text style={pdfStyles.cell}>
             {(() => {
-              const charged = od.charged || [];
-              if (charged.length === 0) {
+              const charges = [...(od.charged || [])];
+              // sort by ring + detonator initial lowercase
+              charges.sort((a, b) => {
+                const aKey = `${a.ring}${a.detonator ? a.detonator[0].toLowerCase() : ''}`;
+                const bKey = `${b.ring}${b.detonator ? b.detonator[0].toLowerCase() : ''}`;
+                return aKey.localeCompare(bKey);
+              });
+              if (charges.length === 0) {
                 return '—';
               }
-
-              return charged.map((c, i) => {
-                const ring = `${c.ring}${c.detonator ? c.detonator[0] : ''}`;
-                const isLast = i === charged.length - 1;
-
+              return charges.map((c, i) => {
+                const initial = c.detonator ? c.detonator[0].toLowerCase() : '';
+                const key = `${c.ring}${initial}`;
+                const isLast = i === charges.length - 1;
+                let text = key;
+                if (c.is_overslept && c.fireby_date) {
+                  const d = new Date(c.fireby_date);
+                  const day = String(d.getDate()).padStart(2, '0');
+                  const month = String(d.getMonth() + 1).padStart(2, '0');
+                  text = `${key} (${day}/${month})`;
+                }
                 return (
-                  <React.Fragment key={i}>
-                    <Text style={c.is_overslept ? pdfStyles.overslept : null}>{ring}</Text>
+                  <React.Fragment key={key}>
+                    <Text style={c.is_overslept ? pdfStyles.overslept : null}>{text}</Text>
                     {!isLast && <Text style={pdfStyles.comma}>, </Text>}
                   </React.Fragment>
                 );

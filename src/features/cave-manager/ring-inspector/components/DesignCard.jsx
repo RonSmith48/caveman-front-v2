@@ -1,10 +1,10 @@
 import React from 'react';
 import { useFormikContext, Field } from 'formik';
 import { Box, Card, CardContent, FormControlLabel, TextField, Typography, Divider, Grid2, Stack, Switch } from '@mui/material';
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
-import IconButton from '@mui/material/IconButton';
-import StatusSection from './StatusSection';
 import ParentChooserModal from 'features/konva/ParentChooserModal';
+import dayjs from 'dayjs';
+import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function DesignCard({ isEditable }) {
   // grab whatever you need from Formik
@@ -124,7 +124,19 @@ export default function DesignCard({ isEditable }) {
           <Grid2 container spacing={1} sx={{ mt: 1 }}>
             {isEditable ? (
               <Grid2 size={{ xs: 6 }}>
-                <Field name="design_date" label="Design Date" as={TextField} fullWidth disabled={!values.is_active} />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    label="Design Date"
+                    format="DD/MM/YYYY"
+                    disableFuture
+                    value={values.design_date ? dayjs(values.design_date) : null}
+                    onChange={(newValue) => {
+                      setFieldValue('design_date', newValue ? newValue.format('YYYY-MM-DD') : '');
+                    }}
+                    disabled={!values.is_active}
+                    renderInput={(params) => <TextField {...params} fullWidth />}
+                  />
+                </LocalizationProvider>
               </Grid2>
             ) : (
               <Grid2 size={{ xs: 6 }}>
@@ -134,7 +146,6 @@ export default function DesignCard({ isEditable }) {
                 </Typography>
               </Grid2>
             )}
-
             {isEditable ? (
               <Grid2 size={{ xs: 6 }}>
                 <Field name="draw_percentage" label="Draw %" as={TextField} fullWidth disabled={!values.is_active} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // material-ui
 import Chip from '@mui/material/Chip';
 import Table from '@mui/material/Table';
@@ -12,11 +12,19 @@ import Typography from '@mui/material/Typography';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 // project imports
 import MainCard from 'components/MainCard';
 import CSVExport from 'components/third-party/react-table/CSVExport';
 import { fetcher } from 'utils/axiosBack';
+import RingInspectModal from 'features/cave-manager/ring-inspector/RingInspectModalVersion';
 
 export const header = [
   { label: 'Ore Drive', key: 'name' },
@@ -28,10 +36,46 @@ export const header = [
 ];
 
 // ==============================|| MUI TABLE - CUSTOMIZED FOR LEVELS ||============================== //
-
 export default function LevelTables({ data }) {
+  const [open, setOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleOpen = (locationId) => {
+    setSelectedLocation(locationId);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedLocation(null);
+  };
+
+  const formatDate = (isoDate) => {
+    try {
+      return new Date(isoDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+    } catch {
+      return isoDate;
+    }
+  };
+
   return (
     <>
+      <Dialog fullScreen scroll="paper" open={open} onClose={handleClose}>
+        <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6">
+              Ring Inspector
+            </Typography>
+            <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <DialogContent dividers sx={{ p: 0 }}>
+          {selectedLocation && <RingInspectModal location_id={selectedLocation} />}
+        </DialogContent>
+      </Dialog>
+
       {data.map((levelData) => (
         <Box key={levelData.level} mb={2}>
           <MainCard key={levelData.level} content={false} title={`Level ${levelData.level}`}>
@@ -55,12 +99,24 @@ export default function LevelTables({ data }) {
                         {oredrive.name}
                       </TableCell>
                       <TableCell></TableCell>
-                      <TableCell align="right">{oredrive.bogging.ring_txt}</TableCell>
+                      <TableCell align="right">
+                        <Link component="button" underline="hover" onClick={() => handleOpen(oredrive.bogging.location_id)}>
+                          {oredrive.bogging.ring_txt}
+                        </Link>
+                      </TableCell>
                       <TableCell align="right" sx={oredrive.bogging.is_overbogged ? { fontWeight: 'bold', color: 'error.main' } : {}}>
                         {parseInt(oredrive.bogging.avail_tonnes, 10)}
                       </TableCell>
                       <TableCell align="left">
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'center', gap: 0.5 }}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                            gap: 0.5
+                          }}
+                        >
                           {(oredrive.bogging.conditions || []).map((condition, index) => (
                             <Chip key={index} label={condition} variant="outlined" color="primary" size="small" />
                           ))}
@@ -78,7 +134,6 @@ export default function LevelTables({ data }) {
                           const last = drilled.last_drilled;
                           const problemRings = drilled.problem_rings || [];
 
-                          // Nothing to display
                           if (!last && problemRings.length === 0) {
                             return (
                               <Typography component="span" sx={{ color: 'grey.500', fontStyle: 'italic' }}>
@@ -86,66 +141,75 @@ export default function LevelTables({ data }) {
                               </Typography>
                             );
                           }
-                          // Build a lookup for conditions
-                          const conditionLookup = {};
+
+                          // Build list of items with text, problem flag, location, and condition
+                          const items = [];
                           for (const p of problemRings) {
-                            conditionLookup[p.ring_number_txt] = p.condition;
+                            items.push({
+                              text: p.ring_number_txt,
+                              isProblem: true,
+                              locationId: p.location_id,
+                              condition: p.condition
+                            });
+                          }
+                          if (last && !problemRings.some((p) => p.ring_number_txt === last)) {
+                            items.push({ text: last, isProblem: false });
                           }
 
-                          const problemSet = new Set(Object.keys(conditionLookup));
-                          // Create a unique list of ring numbers to show (avoid duplicates)
-                          const ringSet = new Set(problemRings.map((p) => p.ring_number_txt));
-                          if (last) ringSet.add(last);
-
-                          const ringList = Array.from(ringSet);
-
-                          return ringList.map((ring, index) => {
-                            const isProblem = problemSet.has(ring);
-                            const content = isProblem ? (
-                              <Tooltip title={conditionLookup[ring]} arrow>
-                                <Badge badgeContent={ring} overlap="circular" sx={{ mx: 0.8 }} color="#000">
+                          return items.map((item, index) => {
+                            const content = item.isProblem ? (
+                              <Tooltip key={item.text} title={item.condition} arrow>
+                                <Badge
+                                  badgeContent={
+                                    <Link component="button" underline="hover" onClick={() => handleOpen(item.locationId)}>
+                                      {item.text}
+                                    </Link>
+                                  }
+                                  max={999}
+                                  overlap="circular"
+                                  sx={{ mx: 0.8 }}
+                                  color="#000"
+                                >
                                   <WarningAmberIcon fontSize="small" color="warning" />
                                 </Badge>
                               </Tooltip>
                             ) : (
-                              <Typography component="span">{ring}</Typography>
+                              <Typography key={item.text} component="span">
+                                {item.text}
+                              </Typography>
                             );
 
                             return (
-                              <React.Fragment key={ring}>
+                              <React.Fragment key={item.text}>
                                 {content}
-                                {index < ringList.length - 1 && ', '}
+                                {index < items.length - 1 && ', '}
                               </React.Fragment>
                             );
                           });
                         })()}
                       </TableCell>
                       <TableCell align="right">
-                        {(oredrive.charged || []).length > 0 ? (
-                          oredrive.charged.map((charge, index) => {
-                            const detonatorInitial = charge.detonator ? charge.detonator.charAt(0).toLowerCase() : '';
-                            const ringWithDetonator = `${charge.ring}${detonatorInitial}`;
-
-                            const styles = charge.is_overslept ? { fontWeight: 'bold', color: 'error.main' } : {};
-
+                        {/* Charged rings A-Z, overslept with date */}
+                        {(() => {
+                          const charges = [...(oredrive.charged || [])];
+                          charges.sort((a, b) =>
+                            `${a.ring}${a.detonator ? a.detonator.charAt(0).toLowerCase() : ''}`.localeCompare(
+                              `${b.ring}${b.detonator ? b.detonator.charAt(0).toLowerCase() : ''}`
+                            )
+                          );
+                          if (charges.length === 0) return <Typography sx={{ color: 'grey.500', fontStyle: 'italic' }}>—</Typography>;
+                          return charges.map((c, i) => {
+                            const key = `${c.ring}${c.detonator ? c.detonator.charAt(0).toLowerCase() : ''}`;
+                            const overslept = c.is_overslept;
+                            const text = overslept && c.fireby_date ? `${key} (${formatDate(c.fireby_date)})` : key;
                             return (
-                              <React.Fragment key={index}>
-                                <Typography component="span" sx={styles}>
-                                  {ringWithDetonator}
-                                </Typography>
-                                {index < oredrive.charged.length - 1 && (
-                                  <Typography component="span" sx={{ color: 'black', fontWeight: 'normal' }}>
-                                    {', '}
-                                  </Typography>
-                                )}
+                              <React.Fragment key={key}>
+                                <Typography sx={overslept ? { fontWeight: 'bold', color: 'error.main' } : {}}>{text}</Typography>
+                                {i < charges.length - 1 && ', '}
                               </React.Fragment>
                             );
-                          })
-                        ) : (
-                          <Typography component="span" sx={{ color: 'grey.500', fontStyle: 'italic' }}>
-                            —
-                          </Typography>
-                        )}
+                          });
+                        })()}
                       </TableCell>
                     </TableRow>
                   ))}

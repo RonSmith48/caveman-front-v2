@@ -8,12 +8,16 @@ import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import { ReportPDF } from 'features/prod-reports/pdf/LevelStatusPDF';
 import { fetcher } from 'utils/axiosBack';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 export default function LevelStatusMenu({ data, author, date, shift, isDraft }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  dayjs.extend(customParseFormat);
+  const parsed = dayjs(date, 'DD/MM/YYYY hh:mm A');
 
   const handlePrint = async () => {
     const blob = await pdf(<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />).toBlob();
@@ -78,7 +82,7 @@ export default function LevelStatusMenu({ data, author, date, shift, isDraft }) 
           <Box component="span" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
             <PDFDownloadLink
               document={<ReportPDF data={data} author={author} date={date} shift={shift} isDraft={isDraft} />}
-              fileName={`Level Status Report ${dayjs(date).format('YYYYMMDD')}${shift[0].toUpperCase()}.pdf`}
+              fileName={`Level Status Report ${parsed.format('YYYYMMDD')}${shift[0].toUpperCase()}S.pdf`}
               style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
             >
               {({ loading }) =>

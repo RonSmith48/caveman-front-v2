@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 /**
  * Converts an SHKEY string to a readable date and shift format.
  * @param {string} shkey - The 10-character SHKEY string.
@@ -73,4 +75,24 @@ export function formatToShift(input) {
     console.error('Error formatting input:', input, error.message);
     return input; // Return original input if formatting fails
   }
+}
+
+/**
+ * @param {string|undefined|null} shkey  a string like "20250715P1" or nullish
+ * @returns {{ date: dayjs.Dayjs|null, shift: "Day"|"Night"|null }}
+ */
+export function parseShkey(shkey) {
+  if (!shkey || shkey.length < 8) {
+    return { date: null, shift: null };
+  }
+
+  // first 8 chars are YYYYMMDD
+  const datePart = shkey.substring(0, 8);
+  // last character is the shift digit ("1" or "2")
+  const shiftDigit = shkey.slice(-1);
+
+  return {
+    date: dayjs(datePart, 'YYYYMMDD'),
+    shift: shiftDigit === '2' ? 'Night' : shiftDigit === '1' ? 'Day' : null
+  };
 }
