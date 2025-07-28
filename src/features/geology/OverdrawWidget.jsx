@@ -13,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  Tooltip,
   Select,
   TextField,
   CircularProgress
@@ -48,6 +49,7 @@ export default function OverdrawWidget() {
   useEffect(() => {
     const ring = rings.find((r) => r.location_id === selectedRingId);
     setSelectedRing(ring || null);
+    console.log('Selected Ring:', ring);
   }, [selectedRingId, rings]);
 
   const handleSubmit = async () => {
@@ -94,20 +96,58 @@ export default function OverdrawWidget() {
 
           {selectedRing && (
             <Box sx={{ mt: 2 }}>
-              <Typography variant="body2">
-                Designed: {selectedRing.designed_tonnes}t | Bogged: {selectedRing.bogged_tonnes}t
-              </Typography>
+              <Box>
+                <Typography variant="body">
+                  <Tooltip title="Designed tonnes">
+                    <Box component="span">({selectedRing.designed_tonnes}</Box>
+                  </Tooltip>
+
+                  {' × '}
+
+                  <Tooltip title="Draw ratio">
+                    <Box component="span">{selectedRing.draw_percentage / 100})</Box>
+                  </Tooltip>
+
+                  {' + '}
+
+                  <Tooltip title="Draw deviation">
+                    <Box component="span">{parseInt(selectedRing.draw_deviation ?? 0)}</Box>
+                  </Tooltip>
+
+                  {' + '}
+
+                  <Tooltip title="Overdraw amount">
+                    <Box component="span">{parseInt(selectedRing.overdraw_amount ?? 0)}</Box>
+                  </Tooltip>
+
+                  {' − '}
+
+                  <Tooltip title="Bogged">
+                    <Box component="span">{parseInt(selectedRing.bogged_tonnes ?? 0)}</Box>
+                  </Tooltip>
+
+                  {' = '}
+
+                  <Tooltip title="Remaining">
+                    <Box component="span">
+                      {Math.round(
+                        (selectedRing.designed_tonnes * selectedRing.draw_percentage) / 100 +
+                          parseInt(selectedRing.draw_deviation ?? 0) +
+                          parseInt(selectedRing.overdraw_amount ?? 0) -
+                          parseInt(selectedRing.bogged_tonnes ?? 0)
+                      )}
+                    </Box>
+                  </Tooltip>
+                </Typography>
+              </Box>
               <Typography variant="body2">Previously Allocated: {selectedRing.overdraw_total}t</Typography>
-
               <Divider sx={{ my: 2 }} />
-
               <Typography variant="subtitle1">New Entry</Typography>
               <FormLabel sx={{ mt: 2 }}>Declare Drawpoint:</FormLabel>
               <RadioGroup row value={status} onChange={(e) => setStatus(e.target.value)}>
                 <FormControlLabel value="approved" control={<Radio />} label="Ore" />
                 <FormControlLabel value="rejected" control={<Radio />} label="Waste" />
               </RadioGroup>
-
               {status === 'approved' && (
                 <TextField
                   type="number"
@@ -120,7 +160,7 @@ export default function OverdrawWidget() {
                 />
               )}
               <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
-                This comment will appear on the Level Status Report seen by the Production Shiftboss. Please keep it clear and concise.
+                Add a comment to assist co-workers in managing this ring.
               </Typography>
               <TextField
                 label="Comment"
@@ -131,7 +171,6 @@ export default function OverdrawWidget() {
                 onChange={(e) => setReason(e.target.value)}
                 sx={{ mt: 2 }}
               />
-
               <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
                 Submit Overdraw
               </Button>
