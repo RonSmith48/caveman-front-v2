@@ -339,7 +339,7 @@ export default function BDCFBogTable({ location_id, ringName, refreshKey }) {
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="h6">Draw</Typography>
               <Typography variant="h6">Ratio</Typography>
-              <Typography variant="body1">{stats.draw_percentage})</Typography>
+              <Typography variant="body1">{stats.draw_percentage / 100})</Typography>
             </Box>
             <Box sx={{ textAlign: 'center', alignSelf: 'flex-end' }}>
               <Typography variant="body1">+</Typography>
