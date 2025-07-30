@@ -6,6 +6,7 @@ import {
   CardContent,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Radio,
   RadioGroup,
   TextField,
@@ -26,8 +27,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function ChargingCard({ isEditable }) {
   // grab whatever you need from Formik
-  const { values } = useFormikContext();
-  const nullValue = 'No Value';
+  const { values, setFieldValue, errors, touched, setFieldTouched } = useFormikContext();
+  const nullValue = 'Not specified';
   const { date: chargeDate, shift: chargeShift } = parseShkey(values.charge_shift);
   const firebyDate = values.fireby_date ? dayjs(values.fireby_date, 'YYYY-MM-DD') : null;
 
@@ -80,71 +81,92 @@ export default function ChargingCard({ isEditable }) {
               <DesktopDatePicker
                 label="Fireby Date"
                 format="DD/MM/YYYY"
-                disableFuture
                 value={firebyDate}
-                onChange={handleFirebyDateChange}
+                onChange={(newVal) => {
+                  handleFirebyDateChange(newVal);
+                  setFieldTouched('fireby_date', true);
+                }}
                 disabled={!values.is_active}
-                renderInput={(params) => <TextField {...params} fullWidth />}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    error={touched.fireby_date && Boolean(errors.fireby_date)}
+                    helperText={touched.fireby_date && errors.fireby_date}
+                  />
+                )}
               />
             </LocalizationProvider>
           </Grid2>
-          <Grid2 size={{ xs: 12 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                gap: 2,
-                alignItems: 'center'
-              }}
-            >
-              {/* Drilling Date column */}
-              <Grid2 size={{ xs: 8 }}>
-                {isEditable ? (
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
-                      label="Charge Date"
-                      format="DD/MM/YYYY"
-                      disableFuture
-                      value={chargeDate}
-                      onChange={handleChargeDateChange}
-                      disabled={!values.is_active}
-                      renderInput={(params) => <TextField {...params} fullWidth />}
-                    />
-                  </LocalizationProvider>
-                ) : (
-                  <>
-                    <Typography variant="subtitle2">Charge Date</Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      {datePart ? dayjs(datePart, 'YYYYMMDD').format('DD/MM/YYYY') : 'Uncharged'}
-                    </Typography>
-                  </>
-                )}
-              </Grid2>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              alignItems: 'center'
+            }}
+          >
+            {/* Drilling Date column */}
+            <Grid2 size={{ xs: 8 }}>
+              {isEditable ? (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DesktopDatePicker
+                    label="Charge Date"
+                    format="DD/MM/YYYY"
+                    disableFuture
+                    value={chargeDate}
+                    onChange={(newVal) => {
+                      handleChargeDateChange(newVal);
+                      setFieldTouched('charge_shift', true);
+                    }}
+                    disabled={!values.is_active}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        error={touched.charge_shift && Boolean(errors.charge_shift)}
+                        helperText={touched.charge_shift && errors.charge_shift}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              ) : (
+                <>
+                  <Typography variant="subtitle2">Charge Date</Typography>
+                  <Typography variant="body1" color="textSecondary">
+                    {datePart ? dayjs(datePart, 'YYYYMMDD').format('DD/MM/YYYY') : 'Uncharged'}
+                  </Typography>
+                </>
+              )}
+            </Grid2>
 
-              {/* Shift column */}
-              <Grid2 size={{ xs: 4 }}>
-                {isEditable ? (
-                  <FormControl component="fieldset" fullWidth>
-                    <RadioGroup
-                      name="chargeShift"
-                      value={chargeShift}
-                      onChange={handleChargeShiftChange}
-                      sx={{ display: 'flex', flexDirection: 'column', mt: 1 }}
-                    >
-                      <FormControlLabel value="Day" control={<Radio />} label="Day" disabled={!values.is_active} />
-                      <FormControlLabel value="Night" control={<Radio />} label="Night" disabled={!values.is_active} />
-                    </RadioGroup>
-                  </FormControl>
-                ) : (
-                  <>
-                    <Typography variant="subtitle2">Shift</Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      {chargeShift}
-                    </Typography>
-                  </>
-                )}
-              </Grid2>
-            </Box>
-          </Grid2>
+            {/* Shift column */}
+            <Grid2 size={{ xs: 4 }}>
+              {isEditable ? (
+                <FormControl component="fieldset" fullWidth error={touched.charge_shift && Boolean(errors.charge_shift)}>
+                  <RadioGroup
+                    name="chargeShift"
+                    value={chargeShift}
+                    onChange={(e) => {
+                      handleChargeShiftChange(e);
+                      setFieldTouched('charge_shift', true);
+                    }}
+                    sx={{ display: 'flex', flexDirection: 'column', mt: 1 }}
+                  >
+                    <FormControlLabel value="Day" control={<Radio />} label="Day" disabled={!values.is_active} />
+                    <FormControlLabel value="Night" control={<Radio />} label="Night" disabled={!values.is_active} />
+                  </RadioGroup>
+                  <FormHelperText>{touched.charge_shift && errors.charge_shift}</FormHelperText>
+                </FormControl>
+              ) : (
+                <>
+                  <Typography variant="subtitle2">Shift</Typography>
+                  <Typography variant="body1" color="textSecondary">
+                    {chargeShift}
+                  </Typography>
+                </>
+              )}
+            </Grid2>
+          </Box>
         </Grid2>
         <Grid2 container spacing={2}></Grid2>
       </CardContent>

@@ -47,7 +47,7 @@ export default function RingInspectForm({ initialValues }) {
   };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize>
+    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} enableReinitialize validateOnMount>
       {({ isSubmitting, isValid, values, setFieldValue }) => (
         <MainCard
           title={
@@ -70,7 +70,7 @@ export default function RingInspectForm({ initialValues }) {
             <Grid2 size={{ xs: 12, md: 8 }}>
               <Form>
                 <Grid2 container spacing={1}>
-                  {/* Loop through your ordered card keys */}
+                  {/* Loop through ordered card keys */}
                   {cardOrder.map((cardKey) => {
                     // 1) should this card show for the current status?
                     if (!cardVisibility[values.status]?.includes(cardKey)) {

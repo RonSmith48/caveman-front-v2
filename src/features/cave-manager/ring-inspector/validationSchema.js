@@ -1,25 +1,22 @@
-// File: validationSchema.js
 import * as Yup from 'yup';
-import { statuses } from './cardConfig';
+import { requiredFieldsByStatus } from './cardConfig';
 
-const validationSchema = Yup.object().shape({
-  status: Yup.string().oneOf(statuses, 'Invalid status').required('Status is required'),
+// flatten all possible fields so we can declare them up‐front
+const allFields = Array.from(new Set(Object.values(requiredFieldsByStatus).flat()));
 
-  // Only require chargingDate when status === 'Charged'
-  chargingDate: Yup.date().when('status', {
-    is: 'Charged',
-    then: (schema) => schema.required('Charge date is required'),
+const baseShape = {
+  status: Yup.string().oneOf(Object.keys(requiredFieldsByStatus), 'Invalid status').required('Status is required')
+};
+
+// for each field, build a .when that looks up the current status
+allFields.forEach((fieldName) => {
+  baseShape[fieldName] = Yup.mixed().when('status', {
+    is: (status) => (requiredFieldsByStatus[status] || []).includes(fieldName),
+    then: (schema) =>
+      // choose a more specific schema if you like:
+      fieldName.includes('date') ? Yup.date().required('This date is required') : Yup.string().required('This field is required'),
     otherwise: (schema) => schema.notRequired()
-  }),
-
-  // Only require boggedTonnes when status === 'Bogging'
-  boggedTonnes: Yup.number().when('status', {
-    is: 'Bogging',
-    then: (schema) => schema.typeError('Tonnes must be a number').required('Bogged tonnes are required'),
-    otherwise: (schema) => schema.notRequired()
-  })
-
-  // ... add other conditional fields as needed ...
+  });
 });
 
-export default validationSchema;
+export default Yup.object().shape(baseShape);

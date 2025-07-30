@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormikContext, Field } from 'formik';
+import { useFormikContext, Field, useField } from 'formik';
 import {
   Box,
   Card,
@@ -12,6 +12,7 @@ import {
   Radio,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel
 } from '@mui/material';
 
@@ -21,21 +22,22 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { parseShkey } from 'utils/shkey';
 
 export default function DrillingCard({ isEditable }) {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, errors, touched, setFieldTouched } = useFormikContext();
+  const [drillField, drillMeta, drillHelpers] = useField('drill_complete_shift');
 
-  const { date: drillDate, shift: drillShift } = parseShkey(values.drill_complete_shift);
+  const { date: drillDate, shift: drillShift } = parseShkey(drillField.value || '');
   const markupDate = values.markup_date ? dayjs(values.markup_date, 'YYYY-MM-DD') : null;
 
   const handleDrillDateChange = (newValue) => {
     const dateStr = newValue ? newValue.format('YYYYMMDD') : '';
-    const shiftNum = shiftPart || '1';
+    const shiftNum = drillShift || '1';
     const newKey = dateStr ? `${dateStr}P${shiftNum}` : '';
     setFieldValue('drill_complete_shift', newKey);
   };
 
   const handleDrillShiftChange = (e) => {
     const shiftValue = e.target.value;
-    const dateStr = datePart || dayjs().format('YYYYMMDD');
+    const dateStr = drillDate || dayjs().format('YYYYMMDD');
     const shiftNum = shiftValue === 'Night' ? '2' : '1';
     const newKey = `${dateStr}P${shiftNum}`;
     setFieldValue('drill_complete_shift', newKey);
@@ -58,37 +60,37 @@ export default function DrillingCard({ isEditable }) {
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Azimuth</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.azimuth}
+              {values.azimuth ? values.azimuth : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Drill Look Direction</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.drill_look_direction}
+              {values.drill_look_direction ? values.drill_look_direction : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Drill Meters</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.drill_meters}
+              {values.drill_meters ? values.drill_meters : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Dump</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.dump}
+              {values.dump ? values.dump : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Holes</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.holes}
+              {values.holes ? values.holes : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12, sm: 6, lg: 4 }}>
             <Typography variant="subtitle2">Diameters</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.diameters}
+              {values.diameters ? values.diameters : 'Not specified'}
             </Typography>
           </Grid2>
           {isEditable ? (
@@ -121,7 +123,7 @@ export default function DrillingCard({ isEditable }) {
             <Grid2 size={{ xs: 6 }}>
               <Typography variant="subtitle2">Markup Date</Typography>
               <Typography variant="body1" color="textSecondary">
-                {values.markup_date ? values.markup_date : 'TBA'}
+                {values.markup_date ? values.markup_date : 'Not specified'}
               </Typography>
             </Grid2>
           )}
@@ -145,22 +147,32 @@ export default function DrillingCard({ isEditable }) {
             }}
           >
             {/* Drilling Date column */}
-            <Grid2 xs={6}>
+            <Grid2 xs={8}>
               {isEditable ? (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDatePicker
-                    label="Drilling Date"
+                    label="Drilling Complete Date"
                     format="DD/MM/YYYY"
                     disableFuture
                     value={drillDate}
-                    onChange={handleDrillDateChange}
+                    onChange={(newVal) => {
+                      handleDrillDateChange(newVal);
+                      setFieldTouched('drill_complete_shift', true);
+                    }}
                     disabled={!values.is_active || values.status === 'Designed'}
-                    renderInput={(params) => <TextField {...params} fullWidth />}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        error={drillMeta.touched && Boolean(drillMeta.error)}
+                        helperText={drillMeta.touched && drillMeta.error}
+                      />
+                    )}
                   />
                 </LocalizationProvider>
               ) : (
                 <>
-                  <Typography variant="subtitle2">Drilling Date</Typography>
+                  <Typography variant="subtitle2">Drilling Complete Date</Typography>
                   <Typography variant="body1" color="textSecondary">
                     {datePart ? dayjs(datePart, 'YYYYMMDD').format('DD/MM/YYYY') : 'Undrilled'}
                   </Typography>
@@ -169,13 +181,16 @@ export default function DrillingCard({ isEditable }) {
             </Grid2>
 
             {/* Shift column */}
-            <Grid2 xs={6}>
+            <Grid2 xs={4}>
               {isEditable ? (
-                <FormControl component="fieldset" fullWidth>
+                <FormControl component="fieldset" error={touched.drill_complete_shift && Boolean(errors.drill_complete_shift)} fullWidth>
                   <RadioGroup
                     name="drillShift"
                     value={drillShift}
-                    onChange={handleDrillShiftChange}
+                    onChange={(e) => {
+                      handleDrillShiftChange(e);
+                      setFieldTouched('drill_complete_shift', true);
+                    }}
                     sx={{ display: 'flex', flexDirection: 'column', mt: 1 }}
                   >
                     <FormControlLabel
@@ -191,6 +206,7 @@ export default function DrillingCard({ isEditable }) {
                       disabled={!values.is_active || values.status === 'Designed'}
                     />
                   </RadioGroup>
+                  <FormHelperText>{drillMeta.touched && drillMeta.error}</FormHelperText>
                 </FormControl>
               ) : (
                 <>

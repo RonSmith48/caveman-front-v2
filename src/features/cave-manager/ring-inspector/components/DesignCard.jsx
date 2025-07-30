@@ -19,20 +19,20 @@ export default function DesignCard({ isEditable }) {
           <Grid2 size={{ xs: 4 }}>
             <Typography variant="subtitle2">Location ID</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.location_id}
+              {values.location_id ? values.location_id : 'Not specified'}
             </Typography>
           </Grid2>
 
           <Grid2 size={{ xs: 4 }}>
             <Typography variant="subtitle2">Blastsolids Volume</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.blastsolids_volume}
+              {values.blastsolids_volume ? values.blastsolids_volume : 'Not specified'}
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 4 }}>
             <Typography variant="subtitle2">Burden</Typography>
             <Typography variant="body1" color="textSecondary">
-              {values.burden}
+              {values.burden ? values.burden : 'Not specified'}
             </Typography>
           </Grid2>
           {isEditable ? (
@@ -43,7 +43,7 @@ export default function DesignCard({ isEditable }) {
             <Grid2 size={{ xs: 4, xl: 3 }}>
               <Typography variant="subtitle2">Designed Tonnes</Typography>
               <Typography variant="body1" color="textSecondary">
-                {values.designed_tonnes}
+                {values.designed_tonnes ? values.designed_tonnes : 'Not specified'}
               </Typography>
             </Grid2>
           )}
@@ -55,7 +55,7 @@ export default function DesignCard({ isEditable }) {
             <Grid2 size={{ xs: 4, xl: 3 }}>
               <Typography variant="subtitle2">Prod/Dev Code</Typography>
               <Typography variant="body1" color="textSecondary">
-                {values.prod_dev_code}
+                {values.prod_dev_code ? values.prod_dev_code : 'Not specified'}
               </Typography>
             </Grid2>
           )}
@@ -142,7 +142,7 @@ export default function DesignCard({ isEditable }) {
               <Grid2 size={{ xs: 6 }}>
                 <Typography variant="subtitle2">Design Date</Typography>
                 <Typography variant="body1" color="textSecondary">
-                  {values.design_date}
+                  {values.design_date ? dayjs(values.design_date).format('DD/MM/YYYY') : 'Not specified'}
                 </Typography>
               </Grid2>
             )}
@@ -154,7 +154,7 @@ export default function DesignCard({ isEditable }) {
               <Grid2 size={{ xs: 6 }}>
                 <Typography variant="subtitle2">Draw %</Typography>
                 <Typography variant="body1" color="textSecondary">
-                  {values.draw_percentage}
+                  {values.draw_percentage ? values.draw_percentage : 'Not specified'}
                 </Typography>
               </Grid2>
             )}

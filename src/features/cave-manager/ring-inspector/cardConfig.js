@@ -23,3 +23,10 @@ export const roleEdit = {
   Geologist: ['geology', 'conditions'],
   Surveyor: ['drilling']
 };
+
+export const requiredFieldsByStatus = {
+  Drilled: ['drill_complete_shift'],
+  Charged: ['drill_complete_shift', 'charge_shift', 'fireby_date'],
+  Bogging: ['drill_complete_shift', 'charge_shift', 'fireby_date', 'fired_shift'],
+  Complete: ['drill_complete_shift', 'charge_shift', 'fireby_date', 'fired_shift', 'bog_complete_shift']
+};

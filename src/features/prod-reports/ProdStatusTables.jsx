@@ -198,17 +198,32 @@ export default function LevelTables({ data }) {
                             )
                           );
                           if (charges.length === 0) return <Typography sx={{ color: 'grey.500', fontStyle: 'italic' }}>—</Typography>;
-                          return charges.map((c, i) => {
-                            const key = `${c.ring}${c.detonator ? c.detonator.charAt(0).toLowerCase() : ''}`;
-                            const overslept = c.is_overslept;
-                            const text = overslept && c.fireby_date ? `${key} (${formatDate(c.fireby_date)})` : key;
-                            return (
-                              <React.Fragment key={key}>
-                                <Typography sx={overslept ? { fontWeight: 'bold', color: 'error.main' } : {}}>{text}</Typography>
-                                {i < charges.length - 1 && ', '}
-                              </React.Fragment>
-                            );
-                          });
+
+                          return (
+                            <Typography component="span" sx={{ display: 'inline', whiteSpace: 'normal' }}>
+                              {charges.map((c, i) => {
+                                const key = `${c.ring}${c.detonator ? c.detonator.charAt(0).toLowerCase() : ''}`;
+                                const overslept = c.is_overslept;
+                                const text = overslept && c.fireby_date ? `${key} (${formatDate(c.fireby_date)})` : key;
+
+                                return (
+                                  <React.Fragment key={key}>
+                                    <Box
+                                      component="span"
+                                      sx={{
+                                        fontWeight: overslept ? 'bold' : 'normal',
+                                        color: overslept ? 'error.main' : 'inherit',
+                                        whiteSpace: 'nowrap'
+                                      }}
+                                    >
+                                      {text}
+                                    </Box>
+                                    {i < charges.length - 1 && ', '}
+                                  </React.Fragment>
+                                );
+                              })}
+                            </Typography>
+                          );
                         })()}
                       </TableCell>
                     </TableRow>
