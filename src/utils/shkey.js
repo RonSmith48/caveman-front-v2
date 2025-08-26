@@ -96,3 +96,11 @@ export function parseShkey(shkey) {
     shift: shiftDigit === '2' ? 'Night' : shiftDigit === '1' ? 'Day' : null
   };
 }
+
+// Build "YYYYMMDDP#" from a date (dayjs|string) and a shift ('Day'|'Night'|'1'|'2')
+export function buildShkey(dateLike, shiftLike) {
+  const d = dayjs.isDayjs(dateLike) ? dateLike : dayjs(dateLike, ['YYYYMMDD', 'YYYY-MM-DD', 'DD/MM/YYYY']);
+  if (!d.isValid()) return '';
+  const code = shiftLike === 'Night' || shiftLike === '2' ? '2' : shiftLike === 'Day' || shiftLike === '1' ? '1' : '';
+  return code ? `${d.format('YYYYMMDD')}P${code}` : '';
+}

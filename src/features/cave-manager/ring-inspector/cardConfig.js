@@ -25,8 +25,26 @@ export const roleEdit = {
 };
 
 export const requiredFieldsByStatus = {
-  Drilled: ['drill_complete_shift'],
-  Charged: ['drill_complete_shift', 'charge_shift', 'fireby_date'],
-  Bogging: ['drill_complete_shift', 'charge_shift', 'fireby_date', 'fired_shift'],
-  Complete: ['drill_complete_shift', 'charge_shift', 'fireby_date', 'fired_shift', 'bog_complete_shift']
+  Drilled: ['drill_complete_date', 'drill_complete_shift_label'],
+  Charged: ['drill_complete_date', 'drill_complete_shift_label', 'charge_date', 'charge_shift_label', 'fireby_date'],
+  Bogging: [
+    'drill_complete_date',
+    'drill_complete_shift_label',
+    'charge_date',
+    'charge_shift_label',
+    'fireby_date',
+    'fired_date',
+    'fired_shift_label'
+  ],
+  Complete: [
+    'drill_complete_date',
+    'drill_complete_shift_label',
+    'charge_date',
+    'charge_shift_label',
+    'fireby_date',
+    'fired_date',
+    'fired_shift_label',
+    'bog_complete_date',
+    'bog_complete_shift_label'
+  ]
 };
