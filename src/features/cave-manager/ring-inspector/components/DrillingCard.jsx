@@ -131,8 +131,8 @@ export default function DrillingCard({ isEditable }) {
                     slotProps={{
                       textField: {
                         fullWidth: true,
-                        error: Boolean(errors.dateMeta),
-                        helperText: errors.dateMeta || ''
+                        error: Boolean(dateMeta.error),
+                        helperText: dateMeta.error || ''
                       }
                     }}
                   />
@@ -150,7 +150,7 @@ export default function DrillingCard({ isEditable }) {
             {/* Shift */}
             <Grid2 xs={4}>
               {isEditable ? (
-                <FormControl component="fieldset" error={shiftMeta.touched && Boolean(shiftMeta.error)} fullWidth>
+                <FormControl component="fieldset" error={Boolean(shiftMeta.error)} fullWidth>
                   <RadioGroup
                     name="drillShift"
                     value={radioValue}
@@ -170,7 +170,7 @@ export default function DrillingCard({ isEditable }) {
                       disabled={!values.is_active || values.status === 'Designed'}
                     />
                   </RadioGroup>
-                  <FormHelperText>{shiftMeta.touched && shiftMeta.error}</FormHelperText>
+                  <FormHelperText>{shiftMeta.error}</FormHelperText>
                 </FormControl>
               ) : (
                 <>

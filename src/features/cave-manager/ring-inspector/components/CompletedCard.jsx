@@ -19,7 +19,7 @@ import dayjs from 'dayjs';
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-export default function BoggingCard({ isEditable }) {
+export default function CompletedCard({ isEditable }) {
   const { values, setFieldValue, touched, errors } = useFormikContext();
   const nullValue = 'Not specified';
 
@@ -30,77 +30,73 @@ export default function BoggingCard({ isEditable }) {
   const firedDateObj = firedDateField.value || null;
   const firedShiftVal = firedShiftField.value || '';
 
+  // --- Split fields for BOG COMPLETE ---
+  const [compDateField, compDateMeta, compDateHelpers] = useField('bog_complete_date'); // dayjs|null
+  const [compShiftField, compShiftMeta, compShiftHelpers] = useField('bog_complete_shift_label'); // 'Day'|'Night'|''
+
+  const compDateObj = compDateField.value || null;
+  const compShiftVal = compShiftField.value || '';
+
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
-        <Typography variant="h5">Firing & Bogging</Typography>
-        <Divider sx={{ mb: 1, borderColor: 'error.main' }} />
+        <Typography variant="h5">Ring Completion</Typography>
+        <Divider sx={{ mb: 1, borderColor: 'primary.main' }} />
 
         <Grid2 container spacing={2}>
-          <Grid2 size={{ xs: 6 }}>
-            <Typography variant="subtitle2">Bogged Tonnes</Typography>
-            <Typography variant="body1" color="textSecondary">
-              {values.bogged_tonnes ?? nullValue}
-            </Typography>
-          </Grid2>
-
-          <Grid2 size={{ xs: 6 }}>
-            <Field name="draw_deviation" label="Draw Deviation" as={TextField} fullWidth disabled={!values.is_active} />
-          </Grid2>
-
-          {/* ----- Fired (date + shift) ----- */}
+          {/* ----- Bog Complete (date + shift) ----- */}
           <Grid2 size={{ xs: 12 }}>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-              {/* Fired Date */}
+              {/* Completion Date */}
               <Grid2 size={{ xs: 8 }}>
                 {isEditable ? (
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
-                      label="Fired Date"
+                      label="Completion Date"
                       format="DD/MM/YYYY"
                       disableFuture
-                      value={firedDateObj}
-                      onChange={(newVal) => firedDateHelpers.setValue(newVal)}
+                      value={compDateObj}
+                      onChange={(newVal) => compDateHelpers.setValue(newVal)}
                       disabled={!values.is_active}
                       slotProps={{
                         textField: {
                           fullWidth: true,
-                          error: Boolean(firedDateMeta.error),
-                          helperText: firedDateMeta.error || ''
+                          error: Boolean(compDateMeta.error),
+                          helperText: compDateMeta.error || ''
                         }
                       }}
                     />
                   </LocalizationProvider>
                 ) : (
                   <>
-                    <Typography variant="subtitle2">Fired Date</Typography>
+                    <Typography variant="subtitle2">Completion Date</Typography>
                     <Typography variant="body1" color="textSecondary">
-                      {firedDateObj ? firedDateObj.format('DD/MM/YYYY') : '—'}
+                      {compDateObj ? compDateObj.format('DD/MM/YYYY') : '—'}
                     </Typography>
                   </>
                 )}
               </Grid2>
 
-              {/* Fired Shift */}
+              {/* Completion Shift */}
               <Grid2 size={{ xs: 4 }}>
                 {isEditable ? (
-                  <FormControl component="fieldset" fullWidth error={Boolean(firedShiftMeta.error)}>
+                  <FormControl component="fieldset" fullWidth error={Boolean(compShiftMeta.error)}>
                     <RadioGroup
-                      name="firedShift"
-                      value={firedShiftVal}
-                      onChange={(e) => firedShiftHelpers.setValue(e.target.value)}
+                      name="completeShift"
+                      value={compShiftVal}
+                      onChange={(e) => compShiftHelpers.setValue(e.target.value)}
                       sx={{ display: 'flex', flexDirection: 'column', mt: 1 }}
                     >
                       <FormControlLabel value="Day" control={<Radio />} label="Day" disabled={!values.is_active} />
                       <FormControlLabel value="Night" control={<Radio />} label="Night" disabled={!values.is_active} />
                     </RadioGroup>
-                    <FormHelperText>{firedShiftMeta.error}</FormHelperText>
+                    <FormHelperText>{compShiftMeta.error}</FormHelperText>
                   </FormControl>
                 ) : (
                   <>
                     <Typography variant="subtitle2">Shift</Typography>
                     <Typography variant="body1" color="textSecondary">
-                      {firedShiftVal || '—'}
+                      {compShiftVal || '—'}
                     </Typography>
                   </>
                 )}

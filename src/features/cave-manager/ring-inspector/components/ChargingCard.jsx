@@ -96,8 +96,8 @@ export default function ChargingCard({ isEditable }) {
                     slotProps={{
                       textField: {
                         fullWidth: true,
-                        error: Boolean(errors.dateMeta),
-                        helperText: errors.dateMeta || ''
+                        error: Boolean(dateMeta.error),
+                        helperText: dateMeta.error || ''
                       }
                     }}
                   />
@@ -115,7 +115,7 @@ export default function ChargingCard({ isEditable }) {
             {/* Shift */}
             <Grid2 size={{ xs: 4 }}>
               {isEditable ? (
-                <FormControl component="fieldset" fullWidth error={shiftMeta.touched && Boolean(shiftMeta.error)}>
+                <FormControl component="fieldset" fullWidth error={Boolean(shiftMeta.error)}>
                   <RadioGroup
                     name="chargeShift"
                     value={chargeShift}
@@ -125,7 +125,7 @@ export default function ChargingCard({ isEditable }) {
                     <FormControlLabel value="Day" control={<Radio />} label="Day" disabled={!values.is_active} />
                     <FormControlLabel value="Night" control={<Radio />} label="Night" disabled={!values.is_active} />
                   </RadioGroup>
-                  <FormHelperText>{shiftMeta.touched && shiftMeta.error}</FormHelperText>
+                  <FormHelperText>{shiftMeta.error}</FormHelperText>
                 </FormControl>
               ) : (
                 <>

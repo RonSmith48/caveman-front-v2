@@ -10,6 +10,7 @@ import DesignCard from './components/DesignCard';
 import DrillingCard from './components/DrillingCard';
 import ChargingCard from './components/ChargingCard';
 import BoggingCard from './components/BoggingCard';
+import CompletedCard from './components/CompletedCard';
 import GeologyCard from './components/GeologyCard';
 import GeotechCard from './components/GeotechCard';
 import ConditionsCard from './components/ConditionsCard';
@@ -49,6 +50,7 @@ export default function RingInspectForm({ initialValues }) {
     drilling: DrillingCard,
     charging: ChargingCard,
     bogging: BoggingCard,
+    completed: CompletedCard,
     geology: GeologyCard,
     geotechnical: GeotechCard,
     conditions: ConditionsCard
