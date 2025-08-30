@@ -17,11 +17,10 @@ const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, tota
         <Text style={pdfStyles.title}>
           Level {levelData.level} - {shift.toUpperCase()} {date}
         </Text>
-        <Image style={pdfStyles.logo} src="/public/images/branding/evn-logo-grey.png" />
+        <Image style={pdfStyles.logo} src="/images/branding/evn-logo-grey.png" />
       </View>
       <View style={pdfStyles.tableHeader}>
         <Text style={pdfStyles.cell}>Ore Drive</Text>
-        <Text style={pdfStyles.cellNarrow}>P</Text>
         <Text style={pdfStyles.cell}>Bogging</Text>
         <Text style={pdfStyles.cellNarrow}>Avail Tonnes</Text>
         <Text style={pdfStyles.cellWide}>Bogging Comments</Text>
@@ -31,7 +30,6 @@ const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, tota
       {levelData.ore_drives.map((od) => (
         <View key={od.name} style={pdfStyles.row}>
           <Text style={pdfStyles.cell}>{od.name}</Text>
-          <Text style={pdfStyles.cellNarrow}></Text>
           <Text style={pdfStyles.cell}>{od.bogging.ring_txt}</Text>
           <Text style={[pdfStyles.cellNarrow, parseFloat(od.bogging.avail_tonnes) < 0 ? pdfStyles.negative : null]}>
             {parseInt(od.bogging.avail_tonnes, 10)}
@@ -109,10 +107,9 @@ const LevelPage = ({ levelData, reportDate, date, shift, author, pageIndex, tota
       ))}
       <View style={[pdfStyles.totalsRow]}>
         <Text style={pdfStyles.cell}>Totals</Text>
-        <Text style={pdfStyles.cellNarrow}></Text>
         <Text style={pdfStyles.cell}></Text>
-        <Text style={pdfStyles.cellNarrow}></Text>
-        <Text style={pdfStyles.cellWide} />
+        <Text style={pdfStyles.cellNarrow}>{parseInt(levelData.broken_stock ?? 0, 10)}</Text>
+        <Text style={pdfStyles.cellWide}></Text>
         <Text style={pdfStyles.cellNarrow}></Text>
         <Text style={pdfStyles.cell}></Text>
       </View>

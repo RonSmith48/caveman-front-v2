@@ -42,6 +42,7 @@ export default function LevelTables({ data }) {
 
   const handleOpen = (locationId) => {
     setSelectedLocation(locationId);
+    console.log('Opening Ring Inspector for location:', locationId);
     setOpen(true);
   };
 
@@ -84,7 +85,6 @@ export default function LevelTables({ data }) {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ pl: 3 }}>Ore Drive</TableCell>
-                    <TableCell align="right">P</TableCell>
                     <TableCell align="right">Bogging</TableCell>
                     <TableCell align="right">Avail Tonnes</TableCell>
                     <TableCell align="center">Bogging Comments</TableCell>
@@ -98,7 +98,6 @@ export default function LevelTables({ data }) {
                       <TableCell sx={{ pl: 3 }} component="th" scope="row">
                         {oredrive.name}
                       </TableCell>
-                      <TableCell></TableCell>
                       <TableCell align="right">
                         <Link component="button" underline="hover" onClick={() => handleOpen(oredrive.bogging.location_id)}>
                           {oredrive.bogging.ring_txt}
