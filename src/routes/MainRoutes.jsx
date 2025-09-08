@@ -31,6 +31,8 @@ const ProdConcept = Loadable(lazy(() => import('features/prod-concept/ConceptUpl
 const ProdOrphans = Loadable(lazy(() => import('features/ring-design/ProdOrphans')));
 // prod rings
 const RingDesign = Loadable(lazy(() => import('features/ring-design/RingDesign')));
+const DnBToolbox = Loadable(lazy(() => import('features/ring-design/DnBToolbox')));
+const RightTriangleToolStandalone = Loadable(lazy(() => import('features/ring-design/triangle-calc/RightTriangleToolStandalone')));
 const DailyPlanPage = Loadable(lazy(() => import('features/cave-manager/DailyPlanPage')));
 const RingInspectPage = Loadable(lazy(() => import('features/cave-manager/ring-inspector/RingInspectPage')));
 const RingInspectContainer = Loadable(lazy(() => import('features/cave-manager/ring-inspector/RingInspectContainer')));
@@ -68,6 +70,7 @@ const MainRoutes = {
         { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
         { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
         { path: 'prod-eng/ring-design', element: <RingDesign /> },
+        { path: 'prod-eng/ring-design/toolbox', element: <DnBToolbox /> },
         { path: 'prod-eng/ring-inspector', element: <RingInspectPage /> },
         { path: 'prod-eng/ring-inspector/:loc', element: <RingInspectContainer /> },
         { path: 'profile', element: <Navigate to="/profile/profile" /> },
@@ -76,6 +79,15 @@ const MainRoutes = {
         { path: 'sudo/import-export', element: <SudoImportExport /> },
         { path: 'sudo/manage-cms', element: <SudoCms /> },
         { path: 'survey/dashboard', element: <SurveyDash /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <PagesLayout />,
+      children: [
+        { path: '404', element: <Navigate to="/404" /> },
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: 'prod-eng/ring-design/triangle-calc', element: <RightTriangleToolStandalone /> }
       ]
     },
     {
