@@ -60,7 +60,7 @@ const BDCFGroupTab2 = ({ resetForm, agData, setAgData }) => {
           name: Yup.string()
             .required('Name is required')
             .matches(/^[a-zA-Z0-9\s\-\_+&()/]*$/, 'Invalid name'),
-          draw_percentage: Yup.number().typeError('Must be a number').required('Draw is required').min(0.1, 'Min is 0.1').max(2, 'Max is 2')
+          draw_percentage: Yup.number().typeError('Must be a number').required('Draw is required').min(2, 'Min is 2').max(200, 'Max is 200')
         })
       )
     });
