@@ -84,11 +84,7 @@ const MainRoutes = {
     {
       path: '/',
       element: <PagesLayout />,
-      children: [
-        { path: '404', element: <Navigate to="/404" /> },
-        { path: '*', element: <Navigate to="/404" /> },
-        { path: 'prod-eng/ring-design/triangle-calc', element: <RightTriangleToolStandalone /> }
-      ]
+      children: [{ path: 'prod-eng/ring-design/triangle-calc', element: <RightTriangleToolStandalone /> }]
     },
     {
       path: '/',
