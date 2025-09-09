@@ -63,7 +63,7 @@ const menuItems = {
               id: 'ring-design',
               title: 'ring-design',
               type: 'item',
-              url: '/prod-eng/ring-design'
+              url: '/prod-eng/ring-design/dropbox'
             },
             {
               id: 'db-toolbox',

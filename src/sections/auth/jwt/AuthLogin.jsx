@@ -184,7 +184,7 @@ export default function AuthLogin() {
                     }
                     label={<Typography variant="h6">Keep me sign in</Typography>}
                   />
-                  <Link component={RouterLink} to="/forget-pass" variant="h6" color="text.primary">
+                  <Link component={RouterLink} to="/forgot-password" variant="h6" color="text.primary">
                     Forgot Password?
                   </Link>
                 </Stack>

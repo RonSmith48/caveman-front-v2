@@ -69,7 +69,7 @@ const MainRoutes = {
         { path: 'prod-eng/prod-concept', element: <ProdConcept /> },
         { path: 'prod-eng/level-status', element: <ProdLevelStatus /> },
         { path: 'prod-eng/prod-orphans', element: <ProdOrphans /> },
-        { path: 'prod-eng/ring-design', element: <RingDesign /> },
+        { path: 'prod-eng/ring-design/dropbox', element: <RingDesign /> },
         { path: 'prod-eng/ring-design/toolbox', element: <DnBToolbox /> },
         { path: 'prod-eng/ring-inspector', element: <RingInspectPage /> },
         { path: 'prod-eng/ring-inspector/:loc', element: <RingInspectContainer /> },
