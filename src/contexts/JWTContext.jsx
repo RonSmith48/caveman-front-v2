@@ -214,6 +214,9 @@ export const JWTProvider = ({ children }) => {
     }
   };
 
+  const resetPassword = async (email) => {};
+  const confirmResetPassword = async (token, newPassword) => {};
+
   return !state.isInitialized ? (
     <Loader />
   ) : (
