@@ -25,6 +25,8 @@ export const roleEdit = {
 };
 
 export const requiredFieldsByStatus = {
+  Abandoned: [],
+  Designed: [],
   Drilled: ['drill_complete_date', 'drill_complete_shift_label'],
   Charged: ['drill_complete_date', 'drill_complete_shift_label', 'charge_date', 'charge_shift_label', 'fireby_date'],
   Bogging: [
